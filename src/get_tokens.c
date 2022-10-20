@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bcorrea->                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:32:24 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/10/19 22:02:50 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2022/10/19 22:05:43 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static void	check_quotes(char c, int *single_quote, int *double_quote);
 static int	get_token_type(char *value);
 static int	check_alloc_errors(t_token *token, char *value);
 
+// WARNING: Needs refactoring
 t_token	*get_tokens(char *cmdline)
 {
 	int		start;

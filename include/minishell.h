@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bcorrea->                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:33:19 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/10/19 21:41:17 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2022/10/19 22:09:13 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ t_token	*add_token(t_token *token, int type, char *value);
 **/
 t_token	*free_tokens(t_token *token);
 
+// NOTE: Needs documentation
 t_token	*get_tokens(char *cmdline);
 
 #endif
