@@ -3,67 +3,78 @@
 /*                                                        :::      ::::::::   */
 /*   get_tokens.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcorrea- <bcorrea->                        +#+  +:+       +#+        */
+/*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/18 21:32:24 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/10/20 19:15:30 by bcorrea-         ###   ########.fr       */
+/*   Created: 2022/10/25 16:27:45 by bcorrea-          #+#    #+#             */
+/*   Updated: 2022/10/27 20:40:54 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "minishell.h"
 
-static int	skip_spaces(char *cmdline, int start);
-static void	check_quotes(char c, int *single_quote, int *double_quote);
-static int	get_token_type(char *value);
-static int	check_alloc_errors(t_token *token, char *value);
+static t_token	*add_new_token(const char *cmdline, size_t length,
+					t_token *token_head);
+static int		get_next_split(char *cmdline, int start);
+static int		skip_spaces(char *cmdline, int start);
+static void		check_quotes(char c, int *single_quote, int *double_quote);
 
-// WARNING: Needs refactoring
 t_token	*get_tokens(char *cmdline)
 {
 	int		start;
 	int		i;
-	t_token	*token;
-	int		single_quote;
-	int		double_quote;
-	char	*value;
-	int		type;
+	t_token	*token_head;
 
 	start = skip_spaces(cmdline, 0);
 	i = start;
-	token = NULL;
-	single_quote = FALSE;
-	double_quote = FALSE;
-	while (cmdline[start] != '\0')
+	token_head = NULL;
+	while (cmdline[i] != '\0')
 	{
-		if (cmdline[i] == '\0')
-		{
-			value = ft_substr(cmdline, start, i - start);
-			type = get_token_type(value);
-			token = add_token(token, type, value);
-			if (check_alloc_errors(token, value) == TRUE)
-				return (NULL);
+		i = get_next_split(cmdline, start);
+		token_head = add_new_token(&cmdline[start], i - start, token_head);
+		if (token_head == NULL)
+			return (NULL);
+		if (cmdline[i] != '\0')
 			start = skip_spaces(cmdline, i);
-			i = start;
-		}
-		check_quotes(cmdline[i], &single_quote, &double_quote);
-		if (cmdline[i] == ' ' && single_quote == FALSE && double_quote == FALSE)
-		{
-			value = ft_substr(cmdline, start, i - start);
-			type = get_token_type(value);
-			token = add_token(token, type, value);
-			if (check_alloc_errors(token, value) == TRUE)
-				return (NULL);
-			start = skip_spaces(cmdline, i);
-			i = start;
-		}
-		else
-			i++;
 	}
-	return (token);
+	return (token_head);
 }
 
-// Return the first non space char or the end of the string
+// Return the index of the next delimiter
+static int	get_next_split(char *cmdline, int start)
+{
+	int	single_quote;
+	int	double_quote;
+	int	i;
+	int	delimiter;
+
+	single_quote = FALSE;
+	double_quote = FALSE;
+	i = start;
+	while (cmdline[i] != '\0')
+	{
+		check_quotes(cmdline[i], &single_quote, &double_quote);
+		if (single_quote == FALSE && double_quote == FALSE)
+		{
+			delimiter = get_delimiter_index(cmdline, i, start);
+			if (delimiter != -1)
+				return (delimiter);
+		}
+		i++;
+	}
+	return (i);
+}
+
+static t_token	*add_new_token(const char *cmdline, size_t length,
+		t_token *token_head)
+{
+	char	*value;
+
+	value = ft_substr(cmdline, 0, length);
+	token_head = append_token(token_head, 0, value);
+	return (token_head);
+}
+
 static int	skip_spaces(char *cmdline, int start)
 {
 	int	i;
@@ -74,7 +85,6 @@ static int	skip_spaces(char *cmdline, int start)
 	return (i);
 }
 
-// Toggle single and double quote mode if it finds '\'' or '"' respectively
 static void	check_quotes(char c, int *single_quote, int *double_quote)
 {
 	if (c == '\'')
@@ -91,36 +101,4 @@ static void	check_quotes(char c, int *single_quote, int *double_quote)
 		else
 			*double_quote = FALSE;
 	}
-}
-
-static int	get_token_type(char *value)
-{
-	if (ft_strncmp(value, "|", 2) == 0)
-		return (TK_PIPE);
-	else if (ft_strncmp(value, "<", 2))
-		return (TK_INPUT);
-	else if (ft_strncmp(value, ">", 2))
-		return (TK_OUTPUT);
-	else if (ft_strncmp(value, "<<", 3))
-		return (TK_HEREDOC);
-	else if (ft_strncmp(value, ">>", 3))
-		return (TK_APPEND);
-	else
-		return (TK_WORD);
-}
-
-static int	check_alloc_errors(t_token *token, char *value)
-{
-	if (token == NULL)
-	{
-		free(value);
-		return (TRUE);
-	}
-	else if (value == NULL)
-	{
-		free_tokens(token);
-		return (TRUE);
-	}
-	else
-		return (FALSE);
 }

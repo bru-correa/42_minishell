@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcorrea- <bcorrea->                        +#+  +:+       +#+        */
+/*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/18 23:36:04 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/10/19 21:54:41 by bcorrea-         ###   ########.fr       */
+/*   Created: 2022/10/27 20:32:55 by bcorrea-          #+#    #+#             */
+/*   Updated: 2022/10/27 20:32:56 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,32 +25,32 @@ t_token	*create_token(int type, char *value)
 	return (token);
 }
 
-t_token	*add_token(t_token *token, int type, char *value)
+t_token	*append_token(t_token *token_head, int type, char *value)
 {
-	t_token	*new_token;
 	t_token	*current_token;
+	t_token	*new_token;
 
 	new_token = create_token(type, value);
-	current_token = token;
 	if (new_token == NULL)
 	{
-		free_tokens(token);
+		free_tokens(token_head);
 		return (NULL);
 	}
-	if (current_token == NULL)
+	if (token_head == NULL)
 		return (new_token);
+	current_token = token_head;
 	while (current_token->next != NULL)
 		current_token = current_token->next;
 	current_token->next = new_token;
-	return (token);
+	return (token_head);
 }
 
-t_token	*free_tokens(t_token *token)
+t_token	*free_tokens(t_token *token_head)
 {
 	t_token	*current_token;
 	t_token	*previous_token;
 
-	current_token = token;
+	current_token = token_head;
 	while (current_token != NULL)
 	{
 		previous_token = current_token;

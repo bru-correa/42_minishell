@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcorrea- <bcorrea->                        +#+  +:+       +#+        */
+/*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/18 16:24:27 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/10/19 22:08:30 by bcorrea-         ###   ########.fr       */
+/*   Created: 2022/10/27 20:12:39 by bcorrea-          #+#    #+#             */
+/*   Updated: 2022/10/27 20:45:21 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ static void	print_tokens(t_token *token);
 int	main(void)
 {
 	char	*input;
-	char	*cwd;
 	t_token	*token;
 
 	while (1)
@@ -28,25 +27,15 @@ int	main(void)
 			free(input);
 			exit(0);
 		}
-		else if (strncmp(input, "cd", 2) == 0)
-		{
-			cwd = NULL;
-			chdir(getenv("HOME"));
-			cwd = getcwd(cwd, 0);
-			printf("%s\n", cwd);
-			free(cwd);
-		}
-		else
-		{
-			token = get_tokens(input);
-			print_tokens(token);
-			free_tokens(token);
-		}
+		token = get_tokens(input);
+		print_tokens(token);
+		free_tokens(token);
 		free(input);
 	}
 	return (0);
 }
 
+// NOTE: Just for debugging
 static void	print_tokens(t_token *token)
 {
 	t_token	*current_token;

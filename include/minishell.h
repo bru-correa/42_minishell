@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bcorrea->                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:33:19 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/10/19 22:09:13 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2022/10/27 20:38:36 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@
 
 # include <stdlib.h>
 # include <unistd.h>
-# include <string.h>
-# include <stdio.h>
+# include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft.h"
@@ -33,12 +32,17 @@
 #  define FALSE 0
 # endif
 
-# define TK_PIPE 0
-# define TK_INPUT 1
-# define TK_OUTPUT 2
-# define TK_APPEND 3
-# define TK_HEREDOC 4
-# define TK_WORD 5
+# define TK_PIPE 1
+# define TK_INPUT 2
+# define TK_OUTPUT 3
+# define TK_APPEND 4
+# define TK_HEREDOC 5
+# define TK_CMD 6
+# define TK_ARG 7
+
+// Used for error checking
+# define SUCCESS 0
+# define FAILURE 1
 
 /********** STRUCTS **********/
 
@@ -48,6 +52,14 @@ typedef struct s_token
 	char			*value;
 	struct s_token	*next;
 }	t_token;
+
+typedef struct s_cmd
+{
+	char	*path;
+	char	**args;
+	char	*input_file;
+	char	*output_file;
+}	t_cmd;
 
 /********** PROTOTYPES **********/
 
@@ -59,17 +71,24 @@ t_token	*create_token(int type, char *value);
 
 /**
   Add a new token to the end of the list.
-  If `token` is NULL, `token` will be the newly created token.
-  In case of error, free all the tokens and return NULL
+  If `token_head` is NULL, `token_head` will point to `token_new`.
+  In case of error, return NULL
 **/
-t_token	*add_token(t_token *token, int type, char *value);
+t_token	*append_token(t_token *token_head, int type, char *value);
 
 /**
   Free the token list and return NULL
 **/
-t_token	*free_tokens(t_token *token);
+t_token	*free_tokens(t_token *token_head);
 
 // NOTE: Needs documentation
+
 t_token	*get_tokens(char *cmdline);
+
+/**
+ * Check for delimiters in `index`.
+ * If found, return the index of the delimiter, otherwise return -1
+**/
+int		get_delimiter_index(const char *cmdline, int current, int start);
 
 #endif
