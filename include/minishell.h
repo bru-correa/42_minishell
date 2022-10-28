@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bcorrea->                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:33:19 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/10/27 20:38:36 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2022/10/28 19:41:45 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,7 @@ t_token	*append_token(t_token *token_head, int type, char *value);
 **/
 t_token	*free_tokens(t_token *token_head);
 
-// NOTE: Needs documentation
-
+// TODO: Document
 t_token	*get_tokens(char *cmdline);
 
 /**
@@ -90,5 +89,8 @@ t_token	*get_tokens(char *cmdline);
  * If found, return the index of the delimiter, otherwise return -1
 **/
 int		get_delimiter_index(const char *cmdline, int current, int start);
+
+// TODO: Document
+int		check_syntax_errors(t_token *token_head);
 
 #endif

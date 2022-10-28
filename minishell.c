@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 20:12:39 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/10/27 20:45:21 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2022/10/28 20:04:24 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	print_tokens(t_token *token);
 int	main(void)
 {
 	char	*input;
-	t_token	*token;
+	t_token	*token_head;
 
 	while (1)
 	{
@@ -27,9 +27,10 @@ int	main(void)
 			free(input);
 			exit(0);
 		}
-		token = get_tokens(input);
-		print_tokens(token);
-		free_tokens(token);
+		token_head = get_tokens(input);
+		if (check_syntax_errors(token_head) == SUCCESS)
+			print_tokens(token_head);
+		free_tokens(token_head);
 		free(input);
 	}
 	return (0);
