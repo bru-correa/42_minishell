@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bcorrea->                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:33:19 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/10/28 19:41:45 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2022/10/28 22:15:00 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@
 # define TK_ARG 7
 
 // Used for error checking
-# define SUCCESS 0
-# define FAILURE 1
+# define SUCCESS 1
+# define FAILURE 0
 
 /********** STRUCTS **********/
 
@@ -81,7 +81,10 @@ t_token	*append_token(t_token *token_head, int type, char *value);
 **/
 t_token	*free_tokens(t_token *token_head);
 
-// TODO: Document
+/**
+ * Split the command line in a list of tokens.
+ * Return NULL in case of error.
+**/
 t_token	*get_tokens(char *cmdline);
 
 /**
@@ -90,7 +93,10 @@ t_token	*get_tokens(char *cmdline);
 **/
 int		get_delimiter_index(const char *cmdline, int current, int start);
 
-// TODO: Document
+/**
+ * Return 0 if any errors were found, 1 if no errors were found.
+ * Print in stderr the error message, in case of error.
+**/
 int		check_syntax_errors(t_token *token_head);
 
 #endif
