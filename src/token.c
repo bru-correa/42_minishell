@@ -6,31 +6,30 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 20:32:55 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/10/27 20:32:56 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2022/10/31 14:51:34 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token	*create_token(int type, char *value)
+t_token	*create_token(char *value)
 {
 	t_token	*token;
 
 	token = malloc(sizeof(t_token));
 	if (token == NULL)
 		return (NULL);
-	token->type = type;
 	token->value = value;
 	token->next = NULL;
 	return (token);
 }
 
-t_token	*append_token(t_token *token_head, int type, char *value)
+t_token	*append_token(t_token *token_head, char *value)
 {
 	t_token	*current_token;
 	t_token	*new_token;
 
-	new_token = create_token(type, value);
+	new_token = create_token(value);
 	if (new_token == NULL)
 	{
 		free_tokens(token_head);

@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 16:27:45 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/10/27 20:40:54 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2022/10/31 14:51:58 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static t_token	*add_new_token(const char *cmdline, size_t length,
 	char	*value;
 
 	value = ft_substr(cmdline, 0, length);
-	token_head = append_token(token_head, 0, value);
+	token_head = append_token(token_head, value);
 	return (token_head);
 }
 

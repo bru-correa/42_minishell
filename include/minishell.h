@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bcorrea->                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:33:19 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/10/28 22:15:00 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2022/10/31 14:53:04 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,33 +32,27 @@
 #  define FALSE 0
 # endif
 
-# define TK_PIPE 1
-# define TK_INPUT 2
-# define TK_OUTPUT 3
-# define TK_APPEND 4
-# define TK_HEREDOC 5
-# define TK_CMD 6
-# define TK_ARG 7
-
 // Used for error checking
 # define SUCCESS 1
 # define FAILURE 0
 
 /********** STRUCTS **********/
 
+/**
+ * List of tokens split from the commandline
+**/
 typedef struct s_token
 {
-	int				type;
 	char			*value;
 	struct s_token	*next;
 }	t_token;
 
 typedef struct s_cmd
 {
-	char	*path;
-	char	**args;
-	char	*input_file;
-	char	*output_file;
+	char			**args;
+	char			**input_files;
+	char			**output_files;
+	struct s_cmd	*next;
 }	t_cmd;
 
 /********** PROTOTYPES **********/
@@ -67,14 +61,14 @@ typedef struct s_cmd
   Create a new token and set next to NULL.
   In case of error, returns NULL
 **/
-t_token	*create_token(int type, char *value);
+t_token	*create_token(char *value);
 
 /**
   Add a new token to the end of the list.
   If `token_head` is NULL, `token_head` will point to `token_new`.
   In case of error, return NULL
 **/
-t_token	*append_token(t_token *token_head, int type, char *value);
+t_token	*append_token(t_token *token_head, char *value);
 
 /**
   Free the token list and return NULL
