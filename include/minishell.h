@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bcorrea->                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:33:19 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/10/31 14:53:04 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2022/11/10 00:44:01 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@
 # define SUCCESS 1
 # define FAILURE 0
 
+# define HT_SIZE 10000
+
 /********** STRUCTS **********/
 
 /**
@@ -49,11 +51,26 @@ typedef struct s_token
 
 typedef struct s_cmd
 {
-	char			**args;
-	char			**input_files;
-	char			**output_files;
-	struct s_cmd	*next;
+	int		args_count;
+	int		input_count;
+	int		output_cout;
+	char	**args;
+	char	**input_files;
+	char	**output_files;
 }	t_cmd;
+
+typedef struct s_ht_item
+{
+	char	*key;
+	char	*value;
+}	t_ht_item;
+
+typedef struct s_hashtable
+{
+	t_ht_item	**items;
+	int			size;
+	int			count;
+}	t_hashtable;
 
 /********** PROTOTYPES **********/
 
@@ -92,5 +109,8 @@ int		get_delimiter_index(const char *cmdline, int current, int start);
  * Print in stderr the error message, in case of error.
 **/
 int		check_syntax_errors(t_token *token_head);
+
+//TODO: Needs documentations
+void	exit_error_token(t_token *token_head);
 
 #endif
