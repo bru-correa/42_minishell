@@ -6,13 +6,11 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 22:11:57 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/11/07 22:18:22 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2022/11/10 17:35:43 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "minishell.h"
-#include <stdlib.h>
 
 void	exit_error_token(t_token *token_head)
 {

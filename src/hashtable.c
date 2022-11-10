@@ -6,11 +6,10 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 21:16:37 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/11/10 01:31:48 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2022/11/10 17:57:24 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "minishell.h"
 
 t_ht_item	*create_ht_item(char *key, char *value)
@@ -27,6 +26,7 @@ t_ht_item	*create_ht_item(char *key, char *value)
 		return (NULL);
 	}
 	item->value = ft_strdup(value);
+	if (item->value == NULL)
 	{
 		free(item);
 		free(key);
@@ -69,13 +69,15 @@ void	free_ht_item(t_ht_item *item)
 
 void	free_hashtable(t_hashtable *table)
 {
-	int	i;
+	int			i;
+	t_ht_item	*item;
 
 	i = 0;
 	while (i < table->size)
 	{
-		if (table->items[i] != NULL)
-			free(table->items[i]);
+		item = table->items[i];
+		if (item != NULL)
+			free_ht_item(item);
 		i++;
 	}
 	free(table->items);
@@ -91,7 +93,10 @@ int	hash(char *str)
 	hashval = 0;
 	i = 0;
 	while (str[i])
+	{
 		hashval += str[i];
+		i++;
+	}
 	return (hashval % HT_SIZE);
 }
 
@@ -129,7 +134,7 @@ char	*ht_search(t_hashtable *table, char *key)
 	item = table->items[index];
 	if (item != NULL)
 	{
-		if (ft_strncmp(key, item->value, ft_strlen(key)) == 0)
+		if (ft_strncmp(key, item->key, ft_strlen(key)) == 0)
 			return (item->value);
 	}
 	return (NULL);

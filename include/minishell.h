@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bcorrea->                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:33:19 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/11/10 00:44:01 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2022/11/10 17:29:22 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@
 # define SUCCESS 1
 # define FAILURE 0
 
-# define HT_SIZE 10000
+// Hashtable size
+# define HT_SIZE 10
 
 /********** STRUCTS **********/
 
@@ -113,4 +114,13 @@ int		check_syntax_errors(t_token *token_head);
 //TODO: Needs documentations
 void	exit_error_token(t_token *token_head);
 
+/********** HASHTABLE **********/
+
+t_ht_item	*create_ht_item(char *key, char *value);
+t_hashtable	*create_hashtable(int size);
+void		free_ht_item(t_ht_item *item);
+void		free_hashtable(t_hashtable *table);
+int			hash(char *str);
+void		ht_insert(t_hashtable *table, char *key, char *value);
+char		*ht_search(t_hashtable *table, char *key);
 #endif
