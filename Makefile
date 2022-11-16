@@ -23,7 +23,7 @@ OBJ_DIR				= obj
 LIB_DIR				= lib
 LIBFT_DIR			= lib/libft
 
-SRC_FILES			= $(wildcard $(SRC_DIR)/*.c)
+SRC_FILES			= $(wildcard $(SRC_DIR)/*.c) $(wildcard $(SRC_DIR)/*/*.c)
 OBJ_FILES			= $(patsubst %, $(OBJ_DIR)/%.o, \
 						$(basename $(notdir $(SRC_FILES))))
 

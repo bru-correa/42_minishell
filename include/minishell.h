@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bcorrea->                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:33:19 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/11/10 17:29:22 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2022/11/16 13:15:44 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,15 @@ typedef struct s_cmd
 	char	**output_files;
 }	t_cmd;
 
+typedef struct s_env_var
+{
+	char				*key;
+	char				*value;
+	struct s_env_var	*next;
+}	t_env_var;
+
+/********** Hashtable **********/
+
 typedef struct s_ht_item
 {
 	char	*key;
@@ -72,6 +81,12 @@ typedef struct s_hashtable
 	int			size;
 	int			count;
 }	t_hashtable;
+
+typedef struct s_ht_list
+{
+	t_ht_item		*item;
+	struct s_node	*next;
+}	t_ht_list;
 
 /********** PROTOTYPES **********/
 
@@ -112,15 +127,24 @@ int		get_delimiter_index(const char *cmdline, int current, int start);
 int		check_syntax_errors(t_token *token_head);
 
 //TODO: Needs documentations
+
 void	exit_error_token(t_token *token_head);
+
+/********** LIST **********/
+t_list	*create_list(void);
 
 /********** HASHTABLE **********/
 
-t_ht_item	*create_ht_item(char *key, char *value);
-t_hashtable	*create_hashtable(int size);
-void		free_ht_item(t_ht_item *item);
-void		free_hashtable(t_hashtable *table);
-int			hash(char *str);
-void		ht_insert(t_hashtable *table, char *key, char *value);
-char		*ht_search(t_hashtable *table, char *key);
+// TODO: Needs documention
+
+// t_ht_item	*create_ht_item(char *key, char *value);
+// t_hashtable	*create_hashtable(int size);
+// void		free_ht_item(t_ht_item *item);
+// void		free_hashtable(t_hashtable *table);
+// int			hash(char *str);
+// void		ht_insert(t_hashtable *table, char *key, char *value);
+// char		*ht_search(t_hashtable *table, char *key);
+
+/********** ENVIRONMENT VARIABLES **********/
+
 #endif
