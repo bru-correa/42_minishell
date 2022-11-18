@@ -23,9 +23,8 @@ OBJ_DIR				= obj
 LIB_DIR				= lib
 LIBFT_DIR			= lib/libft
 
-SRC_FILES			= $(wildcard $(SRC_DIR)/*.c) $(wildcard $(SRC_DIR)/*/*.c)
-OBJ_FILES			= $(patsubst %, $(OBJ_DIR)/%.o, \
-						$(basename $(notdir $(SRC_FILES))))
+SRC_FILES			= $(shell find src/ -type f -name '*.c')
+OBJ_FILES			= $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC_FILES))
 
 MAIN				= minishell.c
 
@@ -52,6 +51,7 @@ $(OBJ_DIR):
 					mkdir -p $@
 
 $(OBJ_DIR)/%.o:		$(SRC_DIR)/%.c
+					mkdir -p "$(@D)"
 					$(CC) -c $< $(CFLAGS) -o $@
 
 clean:

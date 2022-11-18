@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bcorrea->                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:33:19 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/11/16 13:15:44 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2022/11/18 17:31:18 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,7 @@
 
 /********** STRUCTS **********/
 
-/**
- * List of tokens split from the commandline
-**/
+// List of tokens split from the commandline
 typedef struct s_token
 {
 	char			*value;
@@ -60,6 +58,7 @@ typedef struct s_cmd
 	char	**output_files;
 }	t_cmd;
 
+// Store the environment variables in (k,v) pairs
 typedef struct s_env_var
 {
 	char				*key;
@@ -126,16 +125,13 @@ int		get_delimiter_index(const char *cmdline, int current, int start);
 **/
 int		check_syntax_errors(t_token *token_head);
 
-//TODO: Needs documentations
+//TODO: Needs documentation
 
 void	exit_error_token(t_token *token_head);
 
-/********** LIST **********/
-t_list	*create_list(void);
-
 /********** HASHTABLE **********/
 
-// TODO: Needs documention
+// TODO: Needs documentation
 
 // t_ht_item	*create_ht_item(char *key, char *value);
 // t_hashtable	*create_hashtable(int size);
@@ -146,5 +142,40 @@ t_list	*create_list(void);
 // char		*ht_search(t_hashtable *table, char *key);
 
 /********** ENVIRONMENT VARIABLES **********/
+
+/**
+ * Create env_list and set the first element to NULL
+ * Return NULL in case of error
+**/
+t_env_var	**create_env_list(void);
+
+/**
+ * Create env_var and assign next to NULL
+ * Return NULL in case of error
+**/
+t_env_var	*create_env_var(char *key, char *value);
+
+
+/**
+ * Create an ev_var and append it to the end of list
+ * Is the variable already existis, update its value with the new one
+**/
+t_env_var	**add_var_to_env(t_env_var **env_list, char *key, char *value);
+
+/**
+ * Free all the elements from list and free the list
+**/
+void		clear_env_list(t_env_var **env_list);
+
+/**
+ * Remove and free an env_var from the list
+**/
+t_env_var	**delete_env_var(t_env_var **env_list, char *key);
+
+/**
+ * Create an env_list from the `envp` array
+ * Return NULL in case of error
+**/
+t_env_var	**create_env_with_envp(char **envp);
 
 #endif
