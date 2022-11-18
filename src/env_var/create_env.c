@@ -1,27 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_tokens2.c                                   :+:      :+:    :+:   */
+/*   create_env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/09 16:51:56 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/11/10 01:31:56 by bcorrea-         ###   ########.fr       */
+/*   Created: 2022/11/18 18:16:44 by bcorrea-          #+#    #+#             */
+/*   Updated: 2022/11/18 18:22:23 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// TODO: Change token to genetic list
-// TODO: Change env_vars to a hashtable
-// void	expand_tokens(t_token token_head, t_list env_vars)
-// {
-// 	
-// }
+t_env_var	**create_env_list(void)
+{
+	t_env_var	**env_list;
 
-/* NOTE:
- * Get each individual token
- * Create a sublist with that token, with the string and the expanded vars
- * Join the whole list to a single str and assign it to that token
- * Need to expand the ~ too
-*/
+	env_list = malloc(sizeof(t_env_var *));
+	if (env_list == NULL)
+		return (NULL);
+	*env_list = NULL;
+	return (env_list);
+}
+
+t_env_var	*create_env_var(char *key, char *value)
+{
+	t_env_var	*env_var;
+
+	env_var = malloc(sizeof(t_env_var));
+	if (env_var == NULL)
+		return (NULL);
+	env_var->key = key;
+	env_var->value = value;
+	env_var->next = NULL;
+	return (env_var);
+}

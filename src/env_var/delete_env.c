@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_var_utils.c                                    :+:      :+:    :+:   */
+/*   delete_env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 12:50:05 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/11/18 17:24:33 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2022/11/18 18:18:24 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static t_env_var	**delete_first_var(t_env_var **env_list);
 static t_env_var	**delete_var(t_env_var **env_list, t_env_var *prev_var,
-								t_env_var *del_var);
+						t_env_var *del_var);
 
 void	clear_env_list(t_env_var **env_list)
 {
