@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bcorrea->                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:33:19 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/11/18 18:25:20 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2022/11/23 16:47:08 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,17 @@ t_token		*create_token(char *value);
 **/
 t_token		*append_token(t_token *token_head, char *value);
 
+// NOTE: Change free_tokens to clear_tokens
 /**
   Free the token list and return NULL
 **/
 t_token		*free_tokens(t_token *token_head);
+
+/**
+ * Remove `del_token` from the `token_head` list and free it.
+ * Return `token_head`
+**/
+t_token		*delete_token(t_token *token_head, t_token *del_token);
 
 /**
  * Split the command line in a list of tokens.
@@ -137,9 +144,28 @@ void		clear_env_list(t_env_var **env_list);
 t_env_var	**delete_env_var(t_env_var **env_list, char *key);
 
 /**
+ * Search for the variable `key` and return its value
+ * Return "" if `key` is not on the list
+**/
+char		*search_env_var(t_env_var **env_list, char *key);
+
+/**
  * Create an env_list from the `envp` array
  * Return NULL in case of error
 **/
 t_env_var	**create_env_with_envp(char **envp);
+
+/**
+ * Expand all tokens that contain environment variables,
+ * replacing $VAR_NAME with its value.
+ * If the var doesn't exists, replace with an empty string
+**/
+void		expand_tokens(t_token *token_head, t_env_var **envl);
+
+/**
+ * Remove all tokens that contain value == ""
+ * Return `token_head`
+**/
+t_token		*clear_empty_tokens(t_token *token_head);
 
 #endif

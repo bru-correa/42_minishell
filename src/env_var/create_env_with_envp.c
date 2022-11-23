@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 14:03:48 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/11/18 17:17:34 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2022/11/23 16:32:40 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static char	*get_key(char *env);
 static int	get_key_size(char *env);
 static char	*get_value(char *env);
+static int	get_value_start_index(char *env);
 
 t_env_var	**create_env_with_envp(char **envp)
 {
@@ -62,8 +63,22 @@ static int	get_key_size(char *env)
 static char	*get_value(char *env)
 {
 	char	*value;
+	int		start;
+	int		length;
 
-	value = ft_strchr(env, '=') + 1;
-	value = ft_substr(env, 0, ft_strlen(value));
+	// value = ft_strchr(env, '=') + 1;
+	start = get_value_start_index(env);
+	length = ft_strlen(&env[start]);
+	value = ft_substr(env, start, length);
 	return (value);
+}
+
+static int	get_value_start_index(char *env)
+{
+	int	i;
+
+	i = 0;
+	while (env[i] != '=')
+		i++;
+	return (i + 1);
 }

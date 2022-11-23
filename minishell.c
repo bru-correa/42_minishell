@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 20:12:39 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/11/18 17:31:43 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2022/11/23 16:47:59 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	check_invalid_args(int argc, char **argv);
 static void	print_tokens(t_token *token);
-static void	print_env_vars(t_env_var **env_vars);
+static void	print_env_list(t_env_var **env_list);
 
 int	main(int argc, char *argv[], char *envp[])
 {
@@ -35,8 +35,10 @@ int	main(int argc, char *argv[], char *envp[])
 			exit(0);
 		}
 		else if (strcmp(input, "env") == 0)
-			print_env_vars(env_list);
+			print_env_list(env_list);
 		token_head = get_tokens(input);
+		expand_tokens(token_head, env_list);
+		token_head = clear_empty_tokens(token_head);
 		if (check_syntax_errors(token_head) == SUCCESS)
 			print_tokens(token_head);
 		free_tokens(token_head);
@@ -72,13 +74,13 @@ static void	print_tokens(t_token *token)
 	}
 }
 
-static void	print_env_vars(t_env_var **env_vars)
+static void	print_env_list(t_env_var **env_list)
 {
 	t_env_var	*current_var;
 
-	if (env_vars == NULL)
+	if (env_list == NULL)
 		return ;
-	current_var = *env_vars;
+	current_var = *env_list;
 	while (current_var != NULL)
 	{
 		ft_printf("%s=", current_var->key);
