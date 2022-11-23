@@ -6,30 +6,30 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 16:36:36 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/11/23 17:09:49 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2022/11/23 20:15:25 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token	*clear_empty_tokens(t_token *token_head)
+t_slist	**clear_empty_tokens(t_slist **tokens)
 {
-	t_token	*current_token;
-	t_token	*empty_token;
+	t_slist	*current_token;
+	t_slist	*empty_token;
 
-	if (token_head == NULL)
+	if (tokens == NULL)
 		return (NULL);
-	current_token = token_head;
+	current_token = *tokens;
 	while (current_token != NULL)
 	{
-		if (ft_strncmp(current_token->value, "", 1) == 0)
+		if (ft_strncmp(current_token->data, "", 1) == 0)
 		{
 			empty_token = current_token;
 			current_token = current_token->next;
-			token_head = delete_token(token_head, empty_token);
+			tokens = delete_from_slist(tokens, empty_token);
 		}
 		else
 			current_token = current_token->next;
 	}
-	return (token_head);
+	return (tokens);
 }

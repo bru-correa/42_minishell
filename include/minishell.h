@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bcorrea->                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:33:19 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/11/23 16:47:08 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2022/11/23 20:38:43 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,12 @@
 
 /********** STRUCTS **********/
 
-// List of tokens split from the commandline
-typedef struct s_token
+// Singly linked list
+typedef struct s_slist
 {
-	char			*value;
-	struct s_token	*next;
-}	t_token;
+	char			*data;
+	struct s_slist	*next;
+}	t_slist;
 
 typedef struct s_cmd
 {
@@ -65,36 +65,47 @@ typedef struct s_env_var
 
 /********** PROTOTYPES **********/
 
-/**
-  Create a new token and set next to NULL.
-  In case of error, returns NULL
-**/
-t_token		*create_token(char *value);
+/********** SINGLY LINKED LIST **********/
 
 /**
-  Add a new token to the end of the list.
-  If `token_head` is NULL, `token_head` will point to `token_new`.
-  In case of error, return NULL
+ * Create a new singly linked list and set the first element to NULL
+ * In case of error, return NULL
 **/
-t_token		*append_token(t_token *token_head, char *value);
-
-// NOTE: Change free_tokens to clear_tokens
-/**
-  Free the token list and return NULL
-**/
-t_token		*free_tokens(t_token *token_head);
+t_slist		**create_slist(void);
 
 /**
- * Remove `del_token` from the `token_head` list and free it.
- * Return `token_head`
+ * Create a node for 't_slist' with `data`.
+ * In case of error, return NULL
 **/
-t_token		*delete_token(t_token *token_head, t_token *del_token);
+t_slist		*create_slist_node(char *data);
+
+/**
+ * Add a new node at the end of `list`
+**/
+t_slist		**append_to_slist(t_slist **list, char *data);
+
+/**
+ * Free `node` and return NULL
+**/
+t_slist		*free_slist_node(t_slist *node);
+
+/**
+ * Free all the nodes from `list`, free `list` and return NULL
+**/
+t_slist		**clear_slist(t_slist **list);
+
+/**
+ * Remove `node` from the list and free it
+**/
+t_slist		**delete_from_slist(t_slist **list, t_slist *node);
+
+/********** TOKENIZER **********/
 
 /**
  * Split the command line in a list of tokens.
  * Return NULL in case of error.
 **/
-t_token		*get_tokens(char *cmdline);
+t_slist		**get_tokens(char *cmdline);
 
 /**
  * Check for delimiters in `index`.
@@ -106,12 +117,12 @@ int			get_delimiter_index(const char *cmdline, int current, int start);
  * Return 0 if any errors were found, 1 if no errors were found.
  * Print in stderr the error message, in case of error.
 **/
-int			check_syntax_errors(t_token *token_head);
+int			check_syntax_errors(t_slist **tokens);
 
 /**
  * Free the token list and exit the program
 **/
-void		exit_error_token(t_token *token_head);
+void		exit_error_token(t_slist **tokens);
 
 /********** ENVIRONMENT VARIABLES **********/
 
@@ -160,12 +171,12 @@ t_env_var	**create_env_with_envp(char **envp);
  * replacing $VAR_NAME with its value.
  * If the var doesn't exists, replace with an empty string
 **/
-void		expand_tokens(t_token *token_head, t_env_var **envl);
+t_slist		**expand_tokens(t_slist **tokens, t_env_var **envl);
 
 /**
- * Remove all tokens that contain value == ""
+ * Remove all tokens that contain data == "".
  * Return `token_head`
 **/
-t_token		*clear_empty_tokens(t_token *token_head);
+t_slist		**clear_empty_tokens(t_slist **tokens);
 
 #endif

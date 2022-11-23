@@ -6,38 +6,39 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 16:27:45 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/10/31 14:51:58 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2022/11/23 20:20:02 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "minishell.h"
 
-static t_token	*add_new_token(const char *cmdline, size_t length,
-					t_token *token_head);
+static t_slist	**add_new_token(const char *cmdline, size_t length,
+					t_slist **tokens);
 static int		get_next_split(char *cmdline, int start);
 static int		skip_spaces(char *cmdline, int start);
 static void		check_quotes(char c, int *single_quote, int *double_quote);
 
-t_token	*get_tokens(char *cmdline)
+t_slist	**get_tokens(char *cmdline)
 {
 	int		start;
 	int		i;
-	t_token	*token_head;
+	t_slist	**tokens;
 
 	start = skip_spaces(cmdline, 0);
 	i = start;
-	token_head = NULL;
+	tokens = create_slist();
+	if (tokens == NULL)
+		return (NULL);
 	while (cmdline[i] != '\0')
 	{
 		i = get_next_split(cmdline, start);
-		token_head = add_new_token(&cmdline[start], i - start, token_head);
-		if (token_head == NULL)
+		tokens = add_new_token(&cmdline[start], i - start, tokens);
+		if (tokens == NULL)
 			return (NULL);
 		if (cmdline[i] != '\0')
 			start = skip_spaces(cmdline, i);
 	}
-	return (token_head);
+	return (tokens);
 }
 
 // Return the index of the next delimiter
@@ -65,14 +66,14 @@ static int	get_next_split(char *cmdline, int start)
 	return (i);
 }
 
-static t_token	*add_new_token(const char *cmdline, size_t length,
-		t_token *token_head)
+t_slist	**add_new_token(const char *cmdline, size_t length,
+		t_slist **tokens)
 {
-	char	*value;
+	char	*data;
 
-	value = ft_substr(cmdline, 0, length);
-	token_head = append_token(token_head, value);
-	return (token_head);
+	data = ft_substr(cmdline, 0, length);
+	tokens = append_to_slist(tokens, data);
+	return (tokens);
 }
 
 static int	skip_spaces(char *cmdline, int start)

@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit_error.c                                       :+:      :+:    :+:   */
+/*   slist_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/07 22:11:57 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/11/23 19:45:14 by bcorrea-         ###   ########.fr       */
+/*   Created: 2022/11/23 19:18:28 by bcorrea-          #+#    #+#             */
+/*   Updated: 2022/11/23 19:18:44 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exit_error_token(t_slist **tokens)
+t_slist	*free_slist_node(t_slist *node)
 {
-	clear_slist(tokens);
-	ft_putstr_fd("Error: Could not create tokens!\n", STDERR_FILENO);
-	exit(1);
+	free(node->data);
+	free(node);
+	return (NULL);
 }

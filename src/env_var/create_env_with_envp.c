@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 14:03:48 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/11/23 16:32:40 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2022/11/23 20:39:02 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ static char	*get_value(char *env)
 	int		start;
 	int		length;
 
-	// value = ft_strchr(env, '=') + 1;
 	start = get_value_start_index(env);
 	length = ft_strlen(&env[start]);
 	value = ft_substr(env, start, length);
