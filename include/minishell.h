@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bcorrea->                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:33:19 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/11/24 18:54:33 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2022/11/24 19:01:09 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,7 +182,7 @@ t_slist		**clear_empty_tokens(t_slist **tokens);
  * Return var name length
 **/
 int			expand_var_data(char *data, int length, t_slist **data_list,
-		t_env_var **envl);
+				t_env_var **envl);
 
 /**
  * Split `data` up to `length` bytes and add to data_list

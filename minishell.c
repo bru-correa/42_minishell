@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 20:12:39 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/11/23 20:37:34 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2022/11/24 19:05:36 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static int	check_invalid_args(int argc, char **argv);
 static void	print_tokens(t_slist **tokens);
 static void	print_env_list(t_env_var **env_list);
+static void	simple_exit(char *input, t_env_var **env_list);
 
 int	main(int argc, char *argv[], char *envp[])
 {
@@ -29,11 +30,7 @@ int	main(int argc, char *argv[], char *envp[])
 	{
 		input = readline(">$ ");
 		if (strcmp(input, "exit") == 0)
-		{
-			free(input);
-			clear_env_list(env_list);
-			exit(0);
-		}
+			simple_exit(input, env_list);
 		else if (strcmp(input, "env") == 0)
 			print_env_list(env_list);
 		tokens = get_tokens(input);
@@ -45,6 +42,13 @@ int	main(int argc, char *argv[], char *envp[])
 		free(input);
 	}
 	return (0);
+}
+
+static void	simple_exit(char *input, t_env_var **env_list)
+{
+	free(input);
+	clear_env_list(env_list);
+	exit(0);
 }
 
 static int	check_invalid_args(int argc, char **argv)

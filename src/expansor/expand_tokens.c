@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 12:52:19 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/11/24 18:56:54 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2022/11/24 19:01:59 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static char		*get_expanded_data(char *data, t_env_var **envl);
 static t_slist	**get_split_data(char *data, t_slist **data_list,
-		t_env_var **envl);
+					t_env_var **envl);
 static char		*join_data_list(t_slist **data_list);
 
 t_slist	**expand_tokens(t_slist **tokens, t_env_var **envl)
@@ -65,7 +65,7 @@ static t_slist	**get_split_data(char *data, t_slist **data_list,
 			data_list = split_token_data(&data[start], i - start, data_list);
 			start = i;
 		}
-		else if (data[i]  == '$' && squote == FALSE)
+		else if (data[i] == '$' && squote == FALSE)
 		{
 			i += expand_var_data(&data[start], i - start, data_list, envl);
 			start = i;
