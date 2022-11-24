@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bcorrea->                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:33:19 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/11/23 20:38:43 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2022/11/24 18:54:33 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ t_slist		**create_slist(void);
 t_slist		*create_slist_node(char *data);
 
 /**
- * Add a new node at the end of `list`
+ * Create a new node at the end of `list` with `data`
 **/
 t_slist		**append_to_slist(t_slist **list, char *data);
 
@@ -118,11 +118,6 @@ int			get_delimiter_index(const char *cmdline, int current, int start);
  * Print in stderr the error message, in case of error.
 **/
 int			check_syntax_errors(t_slist **tokens);
-
-/**
- * Free the token list and exit the program
-**/
-void		exit_error_token(t_slist **tokens);
 
 /********** ENVIRONMENT VARIABLES **********/
 
@@ -178,5 +173,30 @@ t_slist		**expand_tokens(t_slist **tokens, t_env_var **envl);
  * Return `token_head`
 **/
 t_slist		**clear_empty_tokens(t_slist **tokens);
+
+/********** EXPANSOR **********/
+
+/**
+ * Split `data` up to `length` bytes and expand the var.
+ * Add both to `data_list`.
+ * Return var name length
+**/
+int			expand_var_data(char *data, int length, t_slist **data_list,
+		t_env_var **envl);
+
+/**
+ * Split `data` up to `length` bytes and add to data_list
+ * Return `data_list`
+**/
+t_slist		**split_token_data(char *data, int length, t_slist **data_list);
+
+/********** UTILS **********/
+
+/**
+ * Free the token list and exit the program
+**/
+void		exit_error_token(t_slist **tokens);
+
+int			toggle_quote_state(int quote_state, char c, char quote_char);
 
 #endif
