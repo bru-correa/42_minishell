@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bcorrea->                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:33:19 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/11/24 19:01:09 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2022/11/29 13:07:51 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,26 @@ int			get_delimiter_index(const char *cmdline, int current, int start);
  * Print in stderr the error message, in case of error.
 **/
 int			check_syntax_errors(t_slist **tokens);
+
+/**
+ * Print the invalid token to STDERR
+**/
+void		print_syntax_error(char *invalid_data);
+
+/**
+ * Print the error to STDERR
+**/
+void		print_quote_error(void);
+
+/**
+ * Print the error with the invalid char `c` to STDERR
+**/
+void		print_special_char_error(char c);
+
+/**
+ * Return 1 if it finds unclosed quotes or 0 if not
+**/
+int			check_unclosed_quotes(char *data);
 
 /********** ENVIRONMENT VARIABLES **********/
 
