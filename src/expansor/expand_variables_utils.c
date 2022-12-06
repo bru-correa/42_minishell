@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_tokens_utils.c                              :+:      :+:    :+:   */
+/*   expand_variables_utils.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 18:40:00 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/11/24 18:54:32 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2022/12/06 17:51:49 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int		get_var_length(char *data);
-static char		*get_var_data(char *data, int length, t_env_var **envl);
+static int	get_var_length(char *data);
+static char	*get_var_data(char *data, int length, t_env_var **envl);
 
 int	expand_var_data(char *data, int length, t_slist **data_list,
 		t_env_var **envl)

@@ -6,21 +6,19 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 20:12:39 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/11/24 19:05:36 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2022/12/06 18:22:41 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static int	check_invalid_args(int argc, char **argv);
-static void	print_tokens(t_slist **tokens);
 static void	print_env_list(t_env_var **env_list);
 static void	simple_exit(char *input, t_env_var **env_list);
 
 int	main(int argc, char *argv[], char *envp[])
 {
 	char		*input;
-	t_slist		**tokens;
 	t_env_var	**env_list;
 
 	if (check_invalid_args(argc, argv) == FAILURE)
@@ -33,12 +31,7 @@ int	main(int argc, char *argv[], char *envp[])
 			simple_exit(input, env_list);
 		else if (strcmp(input, "env") == 0)
 			print_env_list(env_list);
-		tokens = get_tokens(input);
-		expand_tokens(tokens, env_list);
-		tokens = clear_empty_tokens(tokens);
-		if (check_syntax_errors(tokens) == SUCCESS)
-			print_tokens(tokens);
-		clear_slist(tokens);
+		parse_input(input, env_list);
 		free(input);
 	}
 	return (0);
@@ -61,21 +54,6 @@ static int	check_invalid_args(int argc, char **argv)
 		return (FAILURE);
 	}
 	return (SUCCESS);
-}
-
-// NOTE: Just for debugging
-
-static void	print_tokens(t_slist **tokens)
-{
-	t_slist	*current_token;
-
-	ft_printf("Tokens:\n");
-	current_token = *tokens;
-	while (current_token != NULL)
-	{
-		ft_printf("%s\n", current_token->data);
-		current_token = current_token->next;
-	}
 }
 
 static void	print_env_list(t_env_var **env_list)

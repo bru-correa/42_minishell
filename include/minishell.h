@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bcorrea->                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:33:19 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/11/29 13:07:51 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2022/12/06 18:19:34 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,13 @@ typedef struct s_env_var
 	struct s_env_var	*next;
 }	t_env_var;
 
+// Single and double quotes state, 1 if TRUE, 0 if FALSE
+typedef struct s_quotes
+{
+	int	s;
+	int	d;
+}	t_quotes;
+
 /********** PROTOTYPES **********/
 
 /********** SINGLY LINKED LIST **********/
@@ -98,6 +105,12 @@ t_slist		**clear_slist(t_slist **list);
  * Remove `node` from the list and free it
 **/
 t_slist		**delete_from_slist(t_slist **list, t_slist *node);
+
+/**
+ * Join all the strings from `list` and free `list` memory.
+ * If the list empty, return an empty string
+**/
+char		*join_list(t_slist **list);
 
 /********** TOKENIZER **********/
 
@@ -186,13 +199,15 @@ t_env_var	**create_env_with_envp(char **envp);
  * replacing $VAR_NAME with its value.
  * If the var doesn't exists, replace with an empty string
 **/
-t_slist		**expand_tokens(t_slist **tokens, t_env_var **envl);
+t_slist		**expand_variables(t_slist **tokens, t_env_var **envl);
 
 /**
  * Remove all tokens that contain data == "".
  * Return `token_head`
 **/
 t_slist		**clear_empty_tokens(t_slist **tokens);
+
+t_slist		**expand_tokens(t_slist **tokens, t_env_var **env_list);
 
 /********** EXPANSOR **********/
 
@@ -210,6 +225,30 @@ int			expand_var_data(char *data, int length, t_slist **data_list,
 **/
 t_slist		**split_token_data(char *data, int length, t_slist **data_list);
 
+/**
+ * Remove quoted strings from `tokens`.
+ * Return `tokens`
+**/
+t_slist		**remove_quotes(t_slist **tokens);
+
+/**
+ * Return the length of `data` until the first occurrence of quotes or '\0'
+**/
+int			get_next_quote(char *data);
+
+/**
+ * Return the length of the data inside quotes from `data`
+**/
+int			get_quote_length(char *data);
+
+/********** PARSER **********/
+
+/**
+ * Parse `input` to create a command list.
+ * Return NULL in case of error
+**/
+t_cmd		**parse_input(char *input, t_env_var **env_list);
+
 /********** UTILS **********/
 
 /**
@@ -218,5 +257,9 @@ t_slist		**split_token_data(char *data, int length, t_slist **data_list);
 void		exit_error_token(t_slist **tokens);
 
 int			toggle_quote_state(int quote_state, char c, char quote_char);
+
+void		update_quote_state(char c, int *squote, int *dquote);
+
+t_quotes	*create_quotes(void);
 
 #endif

@@ -5,93 +5,44 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/24 12:52:19 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/11/24 19:01:59 by bcorrea-         ###   ########.fr       */
+/*   Created: 2022/12/06 17:52:50 by bcorrea-          #+#    #+#             */
+/*   Updated: 2022/12/06 18:06:46 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char		*get_expanded_data(char *data, t_env_var **envl);
-static t_slist	**get_split_data(char *data, t_slist **data_list,
-					t_env_var **envl);
-static char		*join_data_list(t_slist **data_list);
+static void	print_tokens(t_slist **tokens);
 
-t_slist	**expand_tokens(t_slist **tokens, t_env_var **envl)
+t_slist	**expand_tokens(t_slist **tokens, t_env_var **env_list)
 {
-	t_slist	*current_token;
-	char	*expanded_data;
-
-	current_token = *tokens;
-	while (current_token != NULL)
+	if (check_syntax_errors(tokens) == FAILURE)
 	{
-		expanded_data = get_expanded_data(current_token->data, envl);
-		free(current_token->data);
-		current_token->data = expanded_data;
-		current_token = current_token->next;
+		clear_slist(tokens);
+		return (NULL);
 	}
+	expand_variables(tokens, env_list);
+	remove_quotes(tokens);
 	tokens = clear_empty_tokens(tokens);
+	if (*tokens == NULL)
+	{
+		clear_slist(tokens);
+		return (NULL);
+	}
+	print_tokens(tokens);
 	return (tokens);
 }
 
-static char	*get_expanded_data(char *data, t_env_var **envl)
+// NOTE: Just for debugging
+static void	print_tokens(t_slist **tokens)
 {
-	t_slist	**data_list;
-	char	*expanded_data;
+	t_slist	*current_token;
 
-	data_list = create_slist();
-	if (data_list == NULL)
-		return (NULL);
-	data_list = get_split_data(data, data_list, envl);
-	expanded_data = join_data_list(data_list);
-	return (expanded_data);
-}
-
-static t_slist	**get_split_data(char *data, t_slist **data_list,
-		t_env_var **envl)
-{
-	int		start;
-	int		i;
-	int		squote;
-
-	start = 0;
-	i = start;
-	squote = FALSE;
-	while (data[start] != '\0')
+	ft_printf("Tokens:\n");
+	current_token = *tokens;
+	while (current_token != NULL)
 	{
-		squote = toggle_quote_state(squote, data[i], '\'');
-		if (data[i] == '\0')
-		{
-			data_list = split_token_data(&data[start], i - start, data_list);
-			start = i;
-		}
-		else if (data[i] == '$' && squote == FALSE)
-		{
-			i += expand_var_data(&data[start], i - start, data_list, envl);
-			start = i;
-		}
-		else
-			i++;
+		ft_printf("%s\n", current_token->data);
+		current_token = current_token->next;
 	}
-	return (data_list);
-}
-
-// Return "" if data_list is empty
-static char	*join_data_list(t_slist **data_list)
-{
-	t_slist	*current_data;
-	char	*joined_data;
-	char	*temp;
-
-	current_data = *data_list;
-	joined_data = ft_strdup("");
-	while (current_data != NULL)
-	{
-		temp = joined_data;
-		joined_data = ft_strjoin(temp, current_data->data);
-		free(temp);
-		current_data = current_data->next;
-	}
-	clear_slist(data_list);
-	return (joined_data);
 }

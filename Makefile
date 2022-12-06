@@ -82,14 +82,4 @@ debug:				clean setup_debug all compile_message
 run:				all
 					$(VALGRIND) ./$(NAME)
 
-# WARNING: Just to test hashtable
-
-hash:				hash_setup all
-					$(VALGRIND) ./$(NAME)
-
-hash_setup:
-					$(eval NAME=hash)
-					$(eval CFLAGS+=-g)
-					$(eval MAIN=test_hash.c)
-
-.PHONY:	all run clean fclean re re_bonus libft debug setup_debug hash
+.PHONY:	all run clean fclean re re_bonus libft debug setup_debug
