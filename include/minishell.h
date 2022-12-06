@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bcorrea->                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:33:19 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/12/06 18:19:34 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2022/12/06 18:27:12 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,6 @@ typedef struct s_env_var
 	char				*value;
 	struct s_env_var	*next;
 }	t_env_var;
-
-// Single and double quotes state, 1 if TRUE, 0 if FALSE
-typedef struct s_quotes
-{
-	int	s;
-	int	d;
-}	t_quotes;
 
 /********** PROTOTYPES **********/
 
@@ -259,7 +252,5 @@ void		exit_error_token(t_slist **tokens);
 int			toggle_quote_state(int quote_state, char c, char quote_char);
 
 void		update_quote_state(char c, int *squote, int *dquote);
-
-t_quotes	*create_quotes(void);
 
 #endif
