@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bcorrea->                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:33:19 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/12/06 18:27:12 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2022/12/08 14:25:25 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,10 +120,18 @@ t_slist		**get_tokens(char *cmdline);
 int			get_delimiter_index(const char *cmdline, int current, int start);
 
 /**
+ * Check for syntax errors in `tokens`.
  * Return 0 if any errors were found, 1 if no errors were found.
  * Print in stderr the error message, in case of error.
 **/
 int			check_syntax_errors(t_slist **tokens);
+
+/**
+ * Check for invalid special chars in `data`.
+ * Return 0 if any errors were found, 1 if no errors were found.
+ * Print in stderr the error message
+**/
+int			check_special_chars(char *data);
 
 /**
  * Print the invalid token to STDERR

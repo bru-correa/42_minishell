@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 16:27:59 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/11/29 12:55:50 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2022/12/08 14:25:52 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int	check_syntax_errors(t_slist **tokens)
 		else if (check_pipe(current_token) == FAILURE)
 			return (FAILURE);
 		else if (check_unclosed_quotes(current_token->data) == FAILURE)
+			return (FAILURE);
+		else if (check_special_chars(current_token->data) == FAILURE)
 			return (FAILURE);
 		current_token = current_token->next;
 	}
