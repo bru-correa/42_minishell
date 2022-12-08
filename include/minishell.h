@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bcorrea->                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:33:19 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/12/08 14:25:25 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2022/12/08 19:53:03 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,9 @@ t_slist		**get_tokens(char *cmdline);
 **/
 int			get_delimiter_index(const char *cmdline, int current, int start);
 
+
+/********** LEXICAL ANALYZER **********/
+
 /**
  * Check for syntax errors in `tokens`.
  * Return 0 if any errors were found, 1 if no errors were found.
@@ -195,6 +198,8 @@ char		*search_env_var(t_env_var **env_list, char *key);
 **/
 t_env_var	**create_env_with_envp(char **envp);
 
+/********** EXPANSOR **********/
+
 /**
  * Expand all tokens that contain environment variables,
  * replacing $VAR_NAME with its value.
@@ -208,9 +213,12 @@ t_slist		**expand_variables(t_slist **tokens, t_env_var **envl);
 **/
 t_slist		**clear_empty_tokens(t_slist **tokens);
 
+/**
+ * Expand all tokens that contain environment variables,
+ * remove the quotes from the tokens and remove empty tokens.
+ * Return NULL in case of error.
+**/
 t_slist		**expand_tokens(t_slist **tokens, t_env_var **env_list);
-
-/********** EXPANSOR **********/
 
 /**
  * Split `data` up to `length` bytes and expand the var.
@@ -259,6 +267,9 @@ void		exit_error_token(t_slist **tokens);
 
 int			toggle_quote_state(int quote_state, char c, char quote_char);
 
+/**
+ * Toggle `squote` if `c` is '\'' or toggle `dquote` if `c` is '"'
+**/
 void		update_quote_state(char c, int *squote, int *dquote);
 
 #endif
