@@ -1,20 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit_error.c                                       :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/07 22:11:57 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/11/23 19:45:14 by bcorrea-         ###   ########.fr       */
+/*   Created: 2022/12/19 12:17:32 by bcorrea-          #+#    #+#             */
+/*   Updated: 2022/12/19 12:20:11 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exit_error_token(t_slist **tokens)
+// WARNING: Provisory function
+void	env(t_env_var **env_list)
 {
-	clear_slist(tokens);
-	ft_putstr_fd("Error: Could not create tokens!\n", STDERR_FILENO);
-	exit(1);
+	t_env_var	*current_var;
+
+	if (env_list == NULL)
+		return ;
+	current_var = *env_list;
+	while (current_var != NULL)
+	{
+		ft_printf("%s=", current_var->key);
+		ft_printf("%s\n", current_var->value);
+		current_var = current_var->next;
+	}
 }

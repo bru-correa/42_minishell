@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_tokens.c                                    :+:      :+:    :+:   */
+/*   exit_error.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/06 17:52:50 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/12/15 15:53:59 by bcorrea-         ###   ########.fr       */
+/*   Created: 2022/12/15 14:35:52 by bcorrea-          #+#    #+#             */
+/*   Updated: 2022/12/21 12:54:26 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_slist	**expand_tokens(t_slist **tokens, t_env_var **env_list)
+void	exit_error_token(t_slist **tokens)
 {
-	expand_variables(tokens, env_list);
-	remove_quotes(tokens);
-	tokens = clear_empty_tokens(tokens);
-	if (*tokens == NULL)
-	{
-		clear_slist(tokens);
-		return (NULL);
-	}
-	return (tokens);
+	clear_slist(tokens);
+	ft_putstr_fd("Error: Could not create tokens!\n", STDERR_FILENO);
+	exit(1);
+}
+
+void	exit_perror(char *msg, int error_code)
+{
+	perror(msg);
+	exit(error_code);
 }

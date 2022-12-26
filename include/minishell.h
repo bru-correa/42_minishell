@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bcorrea->                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:33:19 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/12/08 19:53:03 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2022/12/26 12:16:01 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,24 @@
 #  define FALSE 0
 # endif
 
-// Used for error checking
+// Use for error checking
 # define SUCCESS 1
 # define FAILURE 0
+
+// Use for exec and redirect functions
+# define CHILD_ID 0
+# define READ_END 0
+# define WRITE_END 1
+# define ERROR -1
+
+// Token types
+# define T_UNDEFINED 0
+# define T_RDIR_IN 1
+# define T_RDIR_OUT 2
+# define T_RDIR_APPEND 3
+# define T_RDIR_HERE 4
+# define T_PIPE 5
+# define T_ARG 6
 
 /********** STRUCTS **********/
 
@@ -42,18 +57,22 @@
 typedef struct s_slist
 {
 	char			*data;
+	int				type;
 	struct s_slist	*next;
 }	t_slist;
 
 typedef struct s_cmd
 {
-	int		args_count;
-	int		input_count;
-	int		output_cout;
 	char	**args;
-	char	**input_files;
-	char	**output_files;
+	t_slist	**rdir_list;
 }	t_cmd;
+
+typedef struct s_pipeline
+{
+	int		cmd_count;
+	int		cmd_index;
+	t_cmd	**cmds;
+}	t_pipeline;
 
 // Store the environment variables in (k,v) pairs
 typedef struct s_env_var
@@ -64,6 +83,9 @@ typedef struct s_env_var
 }	t_env_var;
 
 /********** PROTOTYPES **********/
+
+// TODO: Document
+void		repl(t_env_var **env_list);
 
 /********** SINGLY LINKED LIST **********/
 
@@ -105,6 +127,24 @@ t_slist		**delete_from_slist(t_slist **list, t_slist *node);
 **/
 char		*join_list(t_slist **list);
 
+/**
+ * Remove `node` from `list`, set next to NULL and return it
+**/
+t_slist		*pop_slist_node(t_slist **list, t_slist *node);
+
+/**
+ * Append `node` to `list`. Return `node`
+**/
+t_slist		**append_node_to_slist(t_slist **list, t_slist *node);
+
+/**
+ * Get all data from `list` and create an string array.
+ * The last element of the array will be NULL.
+ * Clear `list` after creating the array.
+ * In case of error, return NULL
+**/
+char		**slist_to_str_array(t_slist **list);
+
 /********** TOKENIZER **********/
 
 /**
@@ -118,7 +158,6 @@ t_slist		**get_tokens(char *cmdline);
  * If found, return the index of the delimiter, otherwise return -1
 **/
 int			get_delimiter_index(const char *cmdline, int current, int start);
-
 
 /********** LEXICAL ANALYZER **********/
 
@@ -253,10 +292,66 @@ int			get_quote_length(char *data);
 /********** PARSER **********/
 
 /**
+ * Create the the token list from `input` and expand them.
+ * Return the token list, or NULL in case of error.
+**/
+t_slist		**create_token_list(char *input, t_env_var **env_list);
+
+/**
  * Parse `input` to create a command list.
  * Return NULL in case of error
 **/
-t_cmd		**parse_input(char *input, t_env_var **env_list);
+t_pipeline	*parse_input(char *input, t_env_var **env_list);
+
+/**
+ * Create the cmd array and set the last element to NULL.
+ * It extract all the elements from `token` to create the cmds.
+ * Return the cmd array.
+ * In case of error, return NULL.
+**/
+t_cmd		**create_cmds(t_slist **tokens, int cmd_count);
+
+/**
+ * Split the tokens in sub tokens until it finds NULL or '|',
+ * then set `start_token` to the token after the split.
+ * Return the sub tokens
+**/
+t_slist		**split_tokens(t_slist *start_token);
+
+/**
+ * Assign the type of each token in `tokens`.
+ * It also deletes redirect operators from `tokens`.
+**/
+t_slist		**set_tokens_types(t_slist **tokens);
+
+/********** PIPELINE **********/
+
+/**
+ * Create the command array from `tokens` and return the pipeline
+ * In case of error, return NULL.
+**/
+t_pipeline	*create_pipeline(t_slist **tokens);
+
+/**
+ * Create a cmd by extracting the tokens from `tokens`,
+ * until it reaches a T_PIPE token or NULL.
+**/
+t_cmd		*extract_next_cmd(t_slist **tokens);
+
+/**
+ * Free `pipeline` and all it's elements
+**/
+void		clear_pipeline(t_pipeline *pipeline);
+
+/********** BUILTINS **********/
+
+/**
+ * free `pipeline`, `env_list` and exit with code 0
+**/
+void		repl_exit(t_pipeline *pipeline, t_env_var **env_list);
+
+// TODO: Document
+void		env(t_env_var **env_list);
 
 /********** UTILS **********/
 
@@ -271,5 +366,8 @@ int			toggle_quote_state(int quote_state, char c, char quote_char);
  * Toggle `squote` if `c` is '\'' or toggle `dquote` if `c` is '"'
 **/
 void		update_quote_state(char c, int *squote, int *dquote);
+
+// TODO: Document
+void		exit_perror(char *msg, int error_code);
 
 #endif

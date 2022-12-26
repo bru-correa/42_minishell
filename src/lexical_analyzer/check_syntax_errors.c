@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 16:27:59 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/12/08 14:25:52 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2022/12/26 11:59:52 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static int	check_pipe(t_slist *token)
 	if (ft_strncmp(token->data, "|", 1) == 0)
 	{
 		if (token->next == NULL)
-			return (SUCCESS);
+			return (FAILURE);
 		else if (check_next_token(token) == FAILURE)
 		{
 			print_syntax_error(token->next->data);

@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 20:32:55 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/11/23 20:35:18 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2022/12/26 10:58:53 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ t_slist	*create_slist_node(char *data)
 		return (NULL);
 	node->data = data;
 	node->next = NULL;
+	node->type = 0;
 	return (node);
 }
 
@@ -62,6 +63,8 @@ t_slist	**clear_slist(t_slist **list)
 	t_slist	*current_node;
 	t_slist	*prev_node;
 
+	if (list == NULL)
+		return (NULL);
 	current_node = *list;
 	while (current_node != NULL)
 	{
@@ -75,7 +78,7 @@ t_slist	**clear_slist(t_slist **list)
 
 t_slist	**delete_from_slist(t_slist **list, t_slist *node)
 {
-	t_slist	*prev_node;
+	t_slist	*current;
 
 	if (*list == node)
 	{
@@ -83,15 +86,15 @@ t_slist	**delete_from_slist(t_slist **list, t_slist *node)
 		free_slist_node(node);
 		return (list);
 	}
-	prev_node = *list;
-	while (prev_node != NULL)
+	current = *list;
+	while (current != NULL)
 	{
-		if (prev_node->next == node)
+		if (current->next == node)
 		{
-			prev_node->next = node->next;
+			current->next = node->next;
 			break ;
 		}
-		prev_node = prev_node->next;
+		current = current->next;
 	}
 	free_slist_node(node);
 	return (list);
