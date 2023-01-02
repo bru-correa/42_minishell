@@ -82,4 +82,7 @@ debug:				clean setup_debug all compile_message
 run:				all
 					$(VALGRIND) ./$(NAME)
 
+test:				all
+					./tests.sh
+
 .PHONY:	all run clean fclean re re_bonus libft debug setup_debug

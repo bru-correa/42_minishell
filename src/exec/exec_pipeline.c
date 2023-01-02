@@ -1,28 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_input.c                                      :+:      :+:    :+:   */
+/*   exec_pipeline.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/31 13:58:26 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/01/02 11:15:04 by bcorrea-         ###   ########.fr       */
+/*   Created: 2022/12/27 10:02:22 by bcorrea-          #+#    #+#             */
+/*   Updated: 2023/01/02 11:11:41 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_pipeline	*parse_input(char *input, t_env_var **env_list)
-{
-	t_slist		**tokens;
-	t_pipeline	*pipeline;
-
-	if (input == NULL)
-		return (NULL);
-	tokens = create_token_list(input, env_list);
-	if (tokens == NULL)
-		return (NULL);
-	pipeline = create_pipeline(tokens);
-	clear_slist(tokens);
-	return (pipeline);
-}
+// void	exec_pipeline(t_pipeline *pipeline, t_env_var **env_list)
+// {
+// 	
+// }
