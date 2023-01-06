@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 11:48:09 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/12/26 12:17:28 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/01/05 10:23:48 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ static int		check_rdir(int type);
 static t_cmd	*create_cmd(t_slist **arg_list, t_slist **rdir_list);
 
 t_cmd	*extract_next_cmd(t_slist **tokens)
-
 {
 	t_slist	**arg_list;
 	t_slist	**rdir_list;

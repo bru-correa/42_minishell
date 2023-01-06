@@ -7,3 +7,4 @@ libft.a
 hash
 todo.md
 core
+tests/ltests.sh

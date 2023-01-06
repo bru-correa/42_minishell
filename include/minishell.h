@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bcorrea->                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:33:19 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/12/26 12:16:01 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/01/05 21:20:56 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <signal.h>
 # include "libft.h"
 
 /********** MACROS **********/
@@ -82,10 +83,20 @@ typedef struct s_env_var
 	struct s_env_var	*next;
 }	t_env_var;
 
+typedef struct s_minish
+{
+	t_env_var	**env_list;
+	int			status_code;
+}	t_minish;
+
+/********** GLOBAL VAR **********/
+
+extern t_minish	g_minish;
+
 /********** PROTOTYPES **********/
 
 // TODO: Document
-void		repl(t_env_var **env_list);
+void		repl(void);
 
 /********** SINGLY LINKED LIST **********/
 
@@ -226,16 +237,22 @@ void		clear_env_list(t_env_var **env_list);
 t_env_var	**delete_env_var(t_env_var **env_list, char *key);
 
 /**
- * Search for the variable `key` and return its value
+ * Search for the variable `key` and return its value.
  * Return "" if `key` is not on the list
 **/
 char		*search_env_var(t_env_var **env_list, char *key);
 
 /**
- * Create an env_list from the `envp` array
+ * Create an env_list from the `envp` array.
  * Return NULL in case of error
 **/
 t_env_var	**create_env_with_envp(char **envp);
+
+/**
+ * Convert `env_list` into an array of strings.
+ * Return NULL in case of error
+**/
+char	**get_env_array(t_env_var **env_list);
 
 /********** EXPANSOR **********/
 
@@ -342,6 +359,14 @@ t_cmd		*extract_next_cmd(t_slist **tokens);
  * Free `pipeline` and all it's elements
 **/
 void		clear_pipeline(t_pipeline *pipeline);
+
+/********** EXECUTE **********/
+
+// TODO: Document
+void	exec_pipeline(t_pipeline *pipeline, t_env_var **env_list);
+
+// TODO: Document
+char	*get_cmd_path(char *cmd, char **envp);
 
 /********** BUILTINS **********/
 
