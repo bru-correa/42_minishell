@@ -8,3 +8,4 @@ hash
 todo.md
 core
 tests/ltests.sh
+.heredoc

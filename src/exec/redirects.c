@@ -6,14 +6,51 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 12:40:06 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/12/15 13:40:10 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/01/23 21:22:48 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "minishell.h"
+#include <fcntl.h>
+#include <readline/readline.h>
 #include <unistd.h>
 
-void	redir_file_to_fd(char *filename, int o_flag, int fd)
+static void	rdir_file_to_fd(char *filename, int o_flag, int fd);
+
+void	redirect_list(t_slist **rdirs)
+{
+	t_slist	*rdir;
+
+	// WARNING: Provisory measure just for testing!!!
+	return ;
+	if (rdirs == NULL)
+		return ;
+	rdir = *rdirs;
+	while (rdir != NULL)
+	{
+		redirect(rdir);
+		rdir = rdir->next;
+	}
+}
+
+void	redirect(t_slist *rdir)
+{
+	if (rdir == NULL)
+		return ;
+	else if (rdir->type == T_RDIR_IN)
+		rdir_file_to_fd(rdir->data, O_RDONLY, STDIN_FILENO);
+	else if (rdir->type == T_RDIR_OUT)
+		rdir_file_to_fd(rdir->data,
+				O_WRONLY | O_TRUNC | O_CREAT, STDOUT_FILENO);
+	else if (rdir->type == T_RDIR_APPEND)
+		rdir_file_to_fd(rdir->data,
+				O_WRONLY | O_APPEND | O_CREAT, STDOUT_FILENO);
+	else if (rdir->type == T_RDIR_HERE)
+		do_heredoc(rdir->data);
+}
+
+static void	rdir_file_to_fd(char *filename, int o_flag, int fd)
 {
 	int	file;
 
@@ -22,27 +59,4 @@ void	redir_file_to_fd(char *filename, int o_flag, int fd)
 		exit_perror(filename, 1);
 	dup2(file, fd);
 	close(file);
-}
-
-void	redir_pipe_to_stdin(int *pipe_fd)
-{
-	dup2(pipe_fd[READ_END], STDIN_FILENO);
-	close(pipe_fd[WRITE_END]);
-	close(pipe_fd[READ_END]);
-}
-
-void	redir_pipe_to_stdout(int *pipe_fd)
-{
-	dup2(pipe_fd[WRITE_END], STDOUT_FILENO);
-	close(pipe_fd[READ_END]);
-	close(pipe_fd[WRITE_END]);
-}
-
-void	create_pipe_and_fork(int *pipe_fd, pid_t *pid)
-{
-	if (pipe(pipe_fd) == ERROR)
-		exit_perror("ERROR: Could not open pipe\n", 1);
-	*pid = fork();
-	if (*pid == ERROR)
-		exit_perror("ERROR: Failed to handle fork\n", 1);
 }

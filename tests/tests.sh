@@ -56,7 +56,10 @@ runTest "cat file" "cat ./minishell.c"
 runTest "empty line" ""
 runTest "invalid cmd" "ekko hello world"
 runTest "full path cat" "/bin/cat ./minishell.c"
+# runTest "test pipe" "ls | wc -l"
+# runTest "open file without cmd" "> file.txt"
 # runTest "mini paradox" "$minishell"
+
 
 # TODO: IDEAS:
 # * Put all tests in a list, so you can target a test by passing it's index

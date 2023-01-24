@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 20:12:39 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/01/05 21:27:34 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/01/23 21:19:18 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,17 @@
 
 static int	check_invalid_args(int argc, char **argv);
 
-t_minish	g_minish;
+int	g_exit_status;
 
 int	main(int argc, char *argv[], char *envp[])
 {
+	t_env_var	**env_list;
+
 	if (check_invalid_args(argc, argv) == FAILURE)
-		return (1);
-	g_minish.env_list = create_env_with_envp(envp);
-	g_minish.status_code = 0;
-	repl();
+		return (EXIT_FAILURE);
+	env_list = create_env_with_envp(envp);
+	g_exit_status = 0;
+	repl(env_list);
 	return (0);
 }
 

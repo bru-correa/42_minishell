@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bcorrea->                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:33:19 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/01/05 21:20:56 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/01/23 21:17:28 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
+# include <wait.h>
 # include "libft.h"
 
 /********** MACROS **********/
@@ -39,8 +40,8 @@
 
 // Use for exec and redirect functions
 # define CHILD_ID 0
-# define READ_END 0
-# define WRITE_END 1
+# define IN 0
+# define OUT 1
 # define ERROR -1
 
 // Token types
@@ -83,20 +84,14 @@ typedef struct s_env_var
 	struct s_env_var	*next;
 }	t_env_var;
 
-typedef struct s_minish
-{
-	t_env_var	**env_list;
-	int			status_code;
-}	t_minish;
-
 /********** GLOBAL VAR **********/
 
-extern t_minish	g_minish;
+extern int	g_exit_status;
 
 /********** PROTOTYPES **********/
 
 // TODO: Document
-void		repl(void);
+void		repl(t_env_var **env_list);
 
 /********** SINGLY LINKED LIST **********/
 
@@ -368,14 +363,66 @@ void	exec_pipeline(t_pipeline *pipeline, t_env_var **env_list);
 // TODO: Document
 char	*get_cmd_path(char *cmd, char **envp);
 
+// TODO: Document
+void	exec_cmd(t_cmd *cmd, t_env_var **env_list, t_pipeline *pipeline);
+
+// TODO: Document
+void	print_invalid_cmd(t_cmd *cmd);
+
+/**
+ * Get the `rdir` type and do the proper redirect based on that type.
+ * All the redirects replace the standard input/output file number
+ * with the new file, except for heredoc,
+ * that creates a .heredoc file in the current folder.
+**/
+void	redirect(t_slist *rdir);
+
+/**
+ * Apply the 'redirect' function to all elements of `rdirs`
+**/
+void	redirect_list(t_slist **rdirs);
+
+// TODO: Document
+void	do_heredoc(char *delimiter);
+
+// TODO: Document
+void	execute(t_pipeline *pipeline, t_env_var **env_list);
+
+// TODO: Document
+void	exec_single_cmd(t_cmd *cmd, t_env_var **env_list, t_pipeline *pipeline);
+
+/**
+ * Check if the `cmd` is a valid builtin, if it is,
+ * execute builtin and return 1, else return 0
+**/
+void	exec_builtin(t_cmd *cmd, t_env_var **env_list, t_pipeline *pipeline);
+
+/**
+ * Save STDIN and STDOUT in `std_fd`
+**/
+void	backup_std_fd(int *std_fd);
+
+/**
+ * Replace STDIN and STDOUT with `std_fd`
+**/
+void	restore_std_fd(int *std_fd);
+
 /********** BUILTINS **********/
 
 /**
- * free `pipeline`, `env_list` and exit with code 0
+ * Check if the `cmd_name` is one of the builtin functions.
+ * Return 1 if true, 0 if false
+**/
+int	is_builtin(char *cmd_name);
+
+/**
+ * Free `pipeline`, `env_list` and exit with code 0
 **/
 void		repl_exit(t_pipeline *pipeline, t_env_var **env_list);
 
-// TODO: Document
+/**
+ * Print all the environment variables
+**/
 void		env(t_env_var **env_list);
 
 /********** UTILS **********/

@@ -6,34 +6,56 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 12:04:24 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/01/05 21:17:19 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/01/23 21:20:42 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "minishell.h"
 #include <readline/history.h>
+#include <readline/readline.h>
 
-// TODO: Refactor all functions that use env_list to use the global `g_minish`
-void	repl(void)
+static char			*prompt(t_env_var **env_list);
+static t_pipeline	*read_input(char *input, t_env_var **env_list);
+
+void	repl(t_env_var **env_list)
 {
 	char		*input;
 	t_pipeline	*pipeline;
 
 	while (1)
 	{
-		input = readline(">$ ");
+		input = prompt(env_list);
 		if (input == NULL)
-		{
-			clear_env_list(g_minish.env_list);
 			break ;
-		}
-		add_history(input);
-		pipeline = parse_input(input, g_minish.env_list);
-		free(input);
+		pipeline = read_input(input, env_list);
 		if (pipeline == NULL)
 			continue ;
-		exec_pipeline(pipeline, g_minish.env_list);
+		execute(pipeline, env_list);
 		clear_pipeline(pipeline);
 	}
+}
+
+// TODO: Do a prettier prompt
+static char	*prompt(t_env_var **env_list)
+{
+	char	*input;
+
+	input = readline("$> ");
+	if (input == NULL)
+	{
+		clear_env_list(env_list);
+		return (NULL);
+	}
+	add_history(input);
+	return (input);
+}
+
+static t_pipeline	*read_input(char *input, t_env_var **env_list)
+{
+	t_pipeline	*pipeline;
+
+	pipeline = parse_input(input, env_list);
+	free(input);
+	return (pipeline);
 }
