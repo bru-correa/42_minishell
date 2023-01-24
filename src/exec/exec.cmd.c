@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 21:46:28 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/01/16 13:19:24 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/01/23 23:33:06 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,47 @@
 #include "minishell.h"
 #include <unistd.h>
 
+static void	clear_envp(char **envp);
+static void	clear_memory(char **envp, t_env_var **env_list,
+	t_pipeline *pipeline);
+
 void	exec_cmd(t_cmd *cmd, t_env_var **env_list, t_pipeline *pipeline)
 {
 	char	**envp;	
 	char	*cmd_path;
-	int		pid;
 
-	pid = fork();
-	if (pid == -1)
-		return ;
-	if (pid != CHILD_ID)
-		return;
 	envp = get_env_array(env_list);
 	cmd_path = get_cmd_path(cmd->args[0], envp);
 	if (cmd_path == NULL)
 	{
-		// TODO: Create function exit_invalid_cmd
-		print_invalid_cmd(cmd);
-		exit(127);
+		clear_envp(envp);
+		exit_invalid_cmd(cmd, env_list, pipeline);
 	}
 	execve(cmd_path, cmd->args, envp);
+	clear_memory(envp, env_list, pipeline);
+	free(cmd_path);
+	exit(EXIT_FAILURE);
+}
+
+static void	clear_memory(char **envp, t_env_var **env_list,
+	t_pipeline *pipeline)
+{
 	clear_env_list(env_list);
 	clear_pipeline(pipeline);
-	exit(1);
-	// TODO: exit perror
+	clear_envp(envp);
+}
+
+static void	clear_envp(char **envp)
+{
+	int	i;
+
+	if (envp == NULL)
+		return ;
+	i = 0;
+	while (envp[i] != NULL)
+	{
+		free(envp[i]);
+		i++;
+	}
+	free(envp);
 }

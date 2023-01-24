@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bcorrea->                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:33:19 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/01/23 21:17:28 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/01/23 23:32:11 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -367,7 +367,8 @@ char	*get_cmd_path(char *cmd, char **envp);
 void	exec_cmd(t_cmd *cmd, t_env_var **env_list, t_pipeline *pipeline);
 
 // TODO: Document
-void	print_invalid_cmd(t_cmd *cmd);
+void	exit_invalid_cmd(t_cmd *cmd, t_env_var **env_list,
+			t_pipeline *pipeline);
 
 /**
  * Get the `rdir` type and do the proper redirect based on that type.

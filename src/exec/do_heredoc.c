@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 11:59:37 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/01/19 12:00:27 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/01/23 21:51:05 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	do_heredoc(char *delimiter)
 	int		heredoc;
 	int		pid;
 
+	// WARNING: Provisory measury just for testing
+	return ;
 	if (delimiter == NULL)
 		return ;
 	pid = fork();

@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 12:40:06 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/01/23 21:22:48 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/01/23 21:35:04 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ void	redirect_list(t_slist **rdirs)
 {
 	t_slist	*rdir;
 
-	// WARNING: Provisory measure just for testing!!!
-	return ;
 	if (rdirs == NULL)
 		return ;
 	rdir = *rdirs;

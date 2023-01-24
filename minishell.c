@@ -6,11 +6,12 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 20:12:39 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/01/23 21:19:18 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/01/23 22:59:16 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <readline/history.h>
 
 static int	check_invalid_args(int argc, char **argv);
 
@@ -25,6 +26,7 @@ int	main(int argc, char *argv[], char *envp[])
 	env_list = create_env_with_envp(envp);
 	g_exit_status = 0;
 	repl(env_list);
+	clear_env_list(env_list);
 	return (0);
 }
 
