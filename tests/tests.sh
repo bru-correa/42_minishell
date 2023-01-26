@@ -8,70 +8,134 @@ mini_prompt=$(echo -e "\nexit\n" | $minishell | head -n 1 | tr -d '\n')
 valgrind_flags="valgrind --leak-check=full --show-leak-kinds=all --quiet"
 valgrind_flags="$valgrind_flags --track-origins=yes"
 valgrind_flags="$valgrind_flags --suppressions=readline.supp "
-sh_outfile="./tests/sh_output.txt"
-bash_outfile="./tests/bash_output.txt"
+outfile="./tests/outfile.txt"
 
 function display_banner() {
-  echo -e "\033[0;31m"
+  echo -en "\033[0;31m"
   cat ./tests/banner.txt
-  echo -e "                    Press ENTER to continue"
-  echo -e "\033[0m"
+  echo "                    Press ENTER to continue"
+  echo -en "\033[0m"
   read END
   clear
 }
 
-function display_test_name() {
-  echo -e "\033[0;35m"
-  echo 🧪 "$1"
+function display_diff_output() {
+  local mini_ouput="$1"
+  local expected="$2"
+  local diff_output=$(diff <(echo "$1") <(echo "$2"))
+  if [[ -n "$diff_output" ]]; then
+    echo -en "\033[0;34m"
+    echo "OUTPUT DIFF:"
+    echo -en "\033[0;31m"
+    echo "$diff_output"
+    echo -en "\033[0m"
+  fi
+}
+
+function display_diff_outfile() {
+  local mini_ouput="$1"
+  local expected="$2"
+  local diff_output=$(diff <(echo "$1") <(echo "$2"))
+  if [[ -n "$diff_output" ]]; then
+    echo -en "\033[0;34m"
+    echo "OUTFILE DIFF:"
+    echo -en "\033[0;31m"
+    echo "$diff_output"
+    echo -en "\033[0m"
+  fi
+}
+
+function display_passed() {
+  echo -en "\033[0;32m"
+  echo "🟢 PASSED"
+  echo -en "\033[0m"
+}
+
+function display_leaked() {
+  echo -en "\033[1;33m"
+  echo "🟡 LEAKED"
+  echo -en "\033[0m"
+}
+
+function display_failed() {
+  echo -en "\033[0;31m"
+  echo "🔴 FAILED"
+  echo -en "\033[0m"
+}
+
+function display_test_suite() {
+  local suite_name="$1"
+  echo -en "\033[0;35m"
+  echo 🧪 "$suite_name"
   echo "<--------------------------------------------------------------------->"
-  echo -e "\033[0m"
+  echo -en "\033[0m"
 } 
 
+function reset_outfile() {
+  > $outfile
+}
+
 # TODO: Check exit signal
-# Reset $sh_outfile and $bash_outfile every time
 function run_test() {
   local test_name="$1"
   local cmd="$2"
-  display_test_name "$test_name"
+  echo "$test_name"
+  reset_outfile
   local mini_output=$(echo -e "$cmd\nexit" | $minishell 2>/dev/null | grep -v "$mini_prompt")
+  local mini_outfile=$(cat $outfile)
+  reset_outfile
   local bash_output=$(echo -e "$cmd" | bash 2> /dev/null)
+  local bash_outfile=$(cat $outfile)
   local leak=$(echo -e "$cmd\nexit" | $valgrind_flags $minishell 2>&1 1>/dev/null)
   if [[ -n "$leak"  && "${leak:0:2}" == "==" ]]; then
-    echo "🟡 LEAKED"
+    display_leaked
     echo "$leak"
     exit 1
-  elif [[ "$mini_output" == "$bash_output" ]]; then
-    echo "🟢 PASSED"
+  elif [[ "$mini_output" == "$bash_output" && "$mini_outfile" == "$bash_outfile" ]]; then
+    display_passed
   else
-    diff <(echo "$mini_output") <(echo "$bash_output")
-    echo "🔴 FAILED"
+    display_failed
+    display_diff_output "$mini_output" "$bash_output"
+    display_diff_outfile "$mini_outfile" "$mini_outfile"
     exit 1
   fi
 }
 
-function display_section() {
-  echo -e "\033[0;31m"
-  echo "########## 😈 $1 😈 ##########"
-  echo -e "\033[0m"
+test_basic() {
+  display_test_suite "Basic Tests"
+  run_test "echo Hello World" "echo Hello World"
+  run_test "cat file" "cat ./minishell.c"
+  run_test "invalid cmd" "ekko hello world"
+  run_test "full path cat" "/bin/cat ./minishell.c"
+  run_test "empty line" ""
+  run_test "expand var" "echo $SHELL"
+  run_test "double quotes" "echo \"$USER\""
+  run_test "single quotes" "echo '$USER'"
+  run_test "multiple quotes" "echo \"Hello '$USER'\""
+  run_test "multiple quotes strings" "echo \"Hello\"'There'\"$USER\"'$USER'"
+  run_test "multiple strings inside each other" "echo \"Hello '$USER'\" 'Hello \"$USER\"'"
+  run_test "quoteception" "echo \"'''\"'\"\"\"\'"
+}
+
+test_redirections() {
+  display_test_suite "Redirections Tests"
+  run_test "redirect output" "ls > $outfile"
+  run_test "redirect input" "cat < Makefile"
+  run_test "append output" "ls >> $outfile"
+  run_test "redirect output to directory" "echo Hello > ."
+  run_test "redirect input to incorrect file" "cat < i_do_not_exist.txt"
 }
 
 ########### MAIN ###########
 
 # display_banner
 
-run_test "echo Hello World" "echo Hello World"
-run_test "cat file" "cat ./minishell.c"
-run_test "invalid cmd" "ekko hello world"
-run_test "full path cat" "/bin/cat ./minishell.c"
-run_test "empty line" ""
-run_test "redirect output" "ls > file.txt"
+reset_outfile
+# test_basic
+test_redirections
 
 # TODO: IDEAS:
 # * Put all tests in a list, so you can target a test by passing it's index
-# * 🟢 PASS, 🔴 FAILED, or 🟡 LEAK after the test (on the next line)
-# * Print Received in RED with the output of minishell
-# * Print Expected in GREEN with the output of bash
-# * Save the bash outputs in a file
 # * Test entire section at a time, and you can target sections too
 # * Options inside the test script to load sections or specific tests
 # * Doomslayer helmet in green at the end if pass on all tests (maybe sections too?)

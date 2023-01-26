@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 13:21:16 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/01/23 21:21:19 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/01/26 11:56:30 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ void	exec_single_cmd(t_cmd *cmd, t_env_var **env_list, t_pipeline *pipeline)
 	int	status;
 
 	backup_std_fd(std_fd);
-	redirect_list(cmd->rdir_list);
+	if (redirect_list(cmd->rdir_list) == ERROR)
+		return;
 	if (is_builtin(cmd->args[0]) == TRUE)
 	{
 		exec_builtin(cmd, env_list, pipeline);

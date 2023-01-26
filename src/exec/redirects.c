@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 12:40:06 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/01/23 21:35:04 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/01/26 11:55:28 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,46 +15,63 @@
 #include <fcntl.h>
 #include <readline/readline.h>
 #include <unistd.h>
+#include "string.h"
 
-static void	rdir_file_to_fd(char *filename, int o_flag, int fd);
+static int	rdir_file_to_fd(char *filename, int o_flag, int fd);
 
-void	redirect_list(t_slist **rdirs)
+int	redirect_list(t_slist **rdirs)
 {
 	t_slist	*rdir;
+	int		status;
 
 	if (rdirs == NULL)
-		return ;
+		return (0);
 	rdir = *rdirs;
 	while (rdir != NULL)
 	{
-		redirect(rdir);
+		status = redirect(rdir);
+		if (status == ERROR)
+		{
+			g_exit_status = 1;
+			return (ERROR);
+		}
 		rdir = rdir->next;
 	}
+	return (0);
 }
 
-void	redirect(t_slist *rdir)
+int	redirect(t_slist *rdir)
 {
+	int	status;
+
+	status = 0;
 	if (rdir == NULL)
-		return ;
+		return (status);
 	else if (rdir->type == T_RDIR_IN)
-		rdir_file_to_fd(rdir->data, O_RDONLY, STDIN_FILENO);
+		status = rdir_file_to_fd(rdir->data, O_RDONLY, STDIN_FILENO);
 	else if (rdir->type == T_RDIR_OUT)
-		rdir_file_to_fd(rdir->data,
+		status = rdir_file_to_fd(rdir->data,
 				O_WRONLY | O_TRUNC | O_CREAT, STDOUT_FILENO);
 	else if (rdir->type == T_RDIR_APPEND)
-		rdir_file_to_fd(rdir->data,
+		status = rdir_file_to_fd(rdir->data,
 				O_WRONLY | O_APPEND | O_CREAT, STDOUT_FILENO);
 	else if (rdir->type == T_RDIR_HERE)
-		do_heredoc(rdir->data);
+		status = do_heredoc(rdir->data);
+	return (status);
 }
 
-static void	rdir_file_to_fd(char *filename, int o_flag, int fd)
+// TODO: Need to cancel the current command execution if it fails
+static int	rdir_file_to_fd(char *filename, int o_flag, int fd)
 {
-	int	file;
+	int		file;
 
 	file = open(filename, o_flag, 0644);
 	if (file == ERROR)
-		exit_perror(filename, 1);
+	{
+		print_invalid_open(filename);
+		return (ERROR);
+	}
 	dup2(file, fd);
 	close(file);
+	return (0);
 }

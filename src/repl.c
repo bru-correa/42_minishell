@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 12:04:24 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/01/23 22:59:30 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/01/24 14:26:45 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	repl(t_env_var **env_list)
 		execute(pipeline, env_list);
 		clear_pipeline(pipeline);
 	}
-	clear_history();
+	rl_clear_history();
 }
 
 // TODO: Do a prettier prompt

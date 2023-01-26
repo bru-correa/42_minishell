@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bcorrea->                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:33:19 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/01/23 23:32:11 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/01/26 11:49:13 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <signal.h>
 # include <wait.h>
 # include "libft.h"
+# include "errno.h"
 
 /********** MACROS **********/
 
@@ -376,15 +377,15 @@ void	exit_invalid_cmd(t_cmd *cmd, t_env_var **env_list,
  * with the new file, except for heredoc,
  * that creates a .heredoc file in the current folder.
 **/
-void	redirect(t_slist *rdir);
+int		redirect(t_slist *rdir);
 
 /**
  * Apply the 'redirect' function to all elements of `rdirs`
 **/
-void	redirect_list(t_slist **rdirs);
+int		redirect_list(t_slist **rdirs);
 
 // TODO: Document
-void	do_heredoc(char *delimiter);
+int		do_heredoc(char *delimiter);
 
 // TODO: Document
 void	execute(t_pipeline *pipeline, t_env_var **env_list);
@@ -442,5 +443,11 @@ void		update_quote_state(char c, int *squote, int *dquote);
 
 // TODO: Document
 void		exit_perror(char *msg, int error_code);
+
+/**
+ * Get errno and print the error message,
+ * caused by trying to open `filename`
+**/
+void	print_invalid_open(char *filename);
 
 #endif

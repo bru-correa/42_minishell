@@ -6,31 +6,31 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 11:59:37 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/01/23 21:51:05 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/01/26 11:47:09 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	do_heredoc(char *delimiter)
+int	do_heredoc(char *delimiter)
 {
 	char	*line;
 	int		heredoc;
 	int		pid;
 
 	// WARNING: Provisory measury just for testing
-	return ;
+	return (0);
 	if (delimiter == NULL)
-		return ;
+		return (0);
 	pid = fork();
 	if (pid == ERROR)
-		return ;
+		return (ERROR);
 	// TODO: run heredoc in child process and waitpid in the end
 	// TODO: remove (unlink) .heredoc file
 	// TODO: Heredoc signals
 	heredoc = open(".heredoc", O_WRONLY | O_TRUNC | O_CREAT);
 	if (heredoc == ERROR)
-		return ;
+		return (ERROR);
 	line = readline("> ");
 	while (ft_strncmp(delimiter, line, ft_strlen(delimiter) + 1) != 0)
 	{
@@ -40,4 +40,5 @@ void	do_heredoc(char *delimiter)
 	}
 	free(line);
 	close(heredoc);
+	return (0);
 }
