@@ -6,12 +6,15 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 13:21:16 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/01/26 11:56:30 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/01/27 10:56:28 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <sys/wait.h>
+
+static void	exec_in_child(t_cmd *cmd, t_env_var **env_list,
+			t_pipeline *pipeline);
 
 /* TODO: exec_single_cmd
  * Exec single cmd will handle redirections (it won't deal with pipes),
@@ -21,31 +24,27 @@
  * and set the g_exit_status after the execution.
 */
 
-// WIFEXITED return true if the child process terminated normally
 void	exec_single_cmd(t_cmd *cmd, t_env_var **env_list, t_pipeline *pipeline)
 {
-	int	std_fd[2];
+	if (redirect_list(cmd->rdir_list, pipeline, env_list) == ERROR)
+		return;
+	if (is_builtin(cmd->args[0]) == TRUE)
+		exec_builtin(cmd, env_list, pipeline);
+	else
+		exec_in_child(cmd, env_list, pipeline);
+}
+
+// WIFEXITED return true if the child process terminated normally
+static void	exec_in_child(t_cmd *cmd, t_env_var **env_list,
+			t_pipeline *pipeline)
+{
 	int	pid;
 	int	status;
 
-	backup_std_fd(std_fd);
-	if (redirect_list(cmd->rdir_list) == ERROR)
-		return;
-	if (is_builtin(cmd->args[0]) == TRUE)
-	{
-		exec_builtin(cmd, env_list, pipeline);
-		return ;
-	}
 	pid = fork();
 	if (pid == CHILD_ID)
-	{
 		exec_cmd(cmd, env_list, pipeline);
-		clear_env_list(env_list);
-		clear_pipeline(pipeline);
-		exit(EXIT_FAILURE);
-	}
-	waitpid(pid, &status, WNOHANG);
+	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 		g_exit_status = WEXITSTATUS(status);
-	restore_std_fd(std_fd);
 }

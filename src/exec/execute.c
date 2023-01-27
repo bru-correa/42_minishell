@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 13:19:13 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/01/23 21:02:40 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/01/27 10:12:04 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,9 @@
 void	execute(t_pipeline *pipeline, t_env_var **env_list)
 {
 	t_cmd	*first_cmd;
+	int		std_fd[2];
 
+	backup_std_fd(std_fd);
 	if (pipeline->cmds == NULL)
 		return ;
 	first_cmd = pipeline->cmds[0];
@@ -55,4 +57,5 @@ void	execute(t_pipeline *pipeline, t_env_var **env_list)
 		exec_single_cmd(first_cmd, env_list, pipeline);
 	else
 		exec_pipeline(pipeline, env_list);
+	restore_std_fd(std_fd);
 }

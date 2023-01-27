@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 12:40:06 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/01/26 11:55:28 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/01/26 12:40:25 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,9 @@
 #include "string.h"
 
 static int	rdir_file_to_fd(char *filename, int o_flag, int fd);
+static int	redirect(t_slist *rdir, t_pipeline *pipeline, t_env_var **env_list);
 
-int	redirect_list(t_slist **rdirs)
+int	redirect_list(t_slist **rdirs, t_pipeline *pipeline, t_env_var **env_list)
 {
 	t_slist	*rdir;
 	int		status;
@@ -29,7 +30,7 @@ int	redirect_list(t_slist **rdirs)
 	rdir = *rdirs;
 	while (rdir != NULL)
 	{
-		status = redirect(rdir);
+		status = redirect(rdir, pipeline, env_list);
 		if (status == ERROR)
 		{
 			g_exit_status = 1;
@@ -40,7 +41,7 @@ int	redirect_list(t_slist **rdirs)
 	return (0);
 }
 
-int	redirect(t_slist *rdir)
+static int	redirect(t_slist *rdir, t_pipeline *pipeline, t_env_var **env_list)
 {
 	int	status;
 
@@ -56,7 +57,7 @@ int	redirect(t_slist *rdir)
 		status = rdir_file_to_fd(rdir->data,
 				O_WRONLY | O_APPEND | O_CREAT, STDOUT_FILENO);
 	else if (rdir->type == T_RDIR_HERE)
-		status = do_heredoc(rdir->data);
+		status = do_heredoc(rdir->data, pipeline, env_list);
 	return (status);
 }
 

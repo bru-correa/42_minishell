@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/27 10:02:22 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/01/19 12:27:43 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/01/26 12:59:02 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,13 @@ void	exec_pipeline(t_pipeline *pipeline, t_env_var **env_list)
 	{
 		rdir_prev_pipe(&pipe_in);
 		create_new_pipe(&pipe_in);
-		redirect_list(pipeline->cmds[i]->rdir_list);
+		redirect_list(pipeline->cmds[i]->rdir_list, pipeline, env_list);
 		exec_cmd(pipeline->cmds[i], env_list, pipeline);
 		i++;
 	}
 	rdir_prev_pipe(&pipe_in);
 	dup2(std_fd[OUT], STDOUT_FILENO);
-	redirect_list(pipeline->cmds[i]->rdir_list);
+	redirect_list(pipeline->cmds[i]->rdir_list, pipeline, env_list);
 	exec_cmd(pipeline->cmds[i], env_list, pipeline);
 	restore_std_fd(std_fd);
 }

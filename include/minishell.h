@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bcorrea->                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:33:19 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/01/26 11:49:13 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/01/27 09:36:20 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -372,20 +372,15 @@ void	exit_invalid_cmd(t_cmd *cmd, t_env_var **env_list,
 			t_pipeline *pipeline);
 
 /**
- * Get the `rdir` type and do the proper redirect based on that type.
+ * Iterate though all `rdirs` and do the proper redirect based on `rdir` types.
  * All the redirects replace the standard input/output file number
  * with the new file, except for heredoc,
  * that creates a .heredoc file in the current folder.
 **/
-int		redirect(t_slist *rdir);
-
-/**
- * Apply the 'redirect' function to all elements of `rdirs`
-**/
-int		redirect_list(t_slist **rdirs);
+int		redirect_list(t_slist **rdirs, t_pipeline *pipeline, t_env_var **env_list);
 
 // TODO: Document
-int		do_heredoc(char *delimiter);
+int	do_heredoc(char *delimiter, t_pipeline *pipeline, t_env_var **env_list);
 
 // TODO: Document
 void	execute(t_pipeline *pipeline, t_env_var **env_list);
@@ -426,6 +421,9 @@ void		repl_exit(t_pipeline *pipeline, t_env_var **env_list);
  * Print all the environment variables
 **/
 void		env(t_env_var **env_list);
+
+// TODO: Document
+void	echo(t_cmd *cmd);
 
 /********** UTILS **********/
 

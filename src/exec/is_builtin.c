@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 20:50:17 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/01/23 20:55:43 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/01/27 09:35:03 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	is_builtin(char *cmd_name)
 	if (cmd_name == NULL)
 		return (FALSE);
 	else if (ft_strncmp(cmd_name, "exit", 5) == 0)
+		return (TRUE);
+	else if (ft_strncmp(cmd_name, "echo", 5) == 0)
 		return (TRUE);
 	return (FALSE);
 }
