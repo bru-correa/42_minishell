@@ -107,6 +107,17 @@ test_basic() {
   run_test "cat file" "cat ./minishell.c"
   run_test "invalid cmd" "ekko hello world"
   run_test "full path cat" "/bin/cat ./minishell.c"
+}
+
+test_parser() {
+  display_test_suite "Parser Test"
+  run_test "> at the end" "ls >"
+  run_test "< at the end" "ls <"
+  run_test ">> at the end" "ls >>"
+  run_test "<< at the end" "ls <<"
+  run_test "<< without delimiter" "cat <<"
+  run_test "> without file" "ls >"
+  run_test "< without file" "cat <"
   run_test "empty line" ""
   run_test "expand var" "echo $SHELL"
   run_test "double quotes" "echo \"$USER\""
@@ -128,13 +139,20 @@ test_redirections() {
   run_test "multiple redirects with error" "cat < Makefile < . < minishell.c"
 }
 
+test_hardmode() {
+  display_test_suite "Final Boss"
+  run_test "quoted redirection" "echo Hello '>' $outfile" 
+}
+
 ########### MAIN ###########
 
 # display_banner
 
 reset_outfile
-# test_basic
+test_basic
+test_parser
 test_redirections
+test_hardmode
 
 # TODO: IDEAS:
 # * Put all tests in a list, so you can target a test by passing it's index

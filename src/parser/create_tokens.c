@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 21:03:49 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/12/26 12:15:04 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/01/28 13:41:07 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ t_slist	**create_token_list(char *input, t_env_var **env_list)
 	tokens = get_tokens(input);
 	if (tokens == NULL)
 		return (NULL);
-	else if (check_syntax_errors(tokens) == FAILURE)
+	clear_empty_tokens(tokens);
+	if (check_syntax_errors(tokens) == FAILURE)
 	{
 		clear_slist(tokens);
 		return (NULL);
