@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bcorrea->                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:33:19 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/01/27 09:36:20 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/01/28 12:44:17 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ typedef struct s_cmd
 
 typedef struct s_pipeline
 {
+	int		std_fd[2];
 	int		cmd_count;
 	int		cmd_index;
 	t_cmd	**cmds;

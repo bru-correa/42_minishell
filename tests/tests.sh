@@ -124,6 +124,8 @@ test_redirections() {
   run_test "append output" "ls >> $outfile"
   run_test "redirect output to directory" "echo Hello > ."
   run_test "redirect input to incorrect file" "cat < i_do_not_exist.txt"
+  run_test "multiple redirects" "cat < Makefile < minishell.c < readline.supp"
+  run_test "multiple redirects with error" "cat < Makefile < . < minishell.c"
 }
 
 ########### MAIN ###########

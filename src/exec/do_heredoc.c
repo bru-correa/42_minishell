@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 11:59:37 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/01/26 12:49:53 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/01/28 13:24:01 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,69 +14,96 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-static int	open_heredoc(int *pid);
-static void	prompt_heredoc(int heredoc, char *delimiter);
-static void	exit_heredoc(int heredoc, t_pipeline *pipeline,
+static int	open_hdoc(int *pid);
+static void	prompt_hdoc(int hdoc, char *delimiter);
+static void	exit_hdoc(int hdoc, t_pipeline *pipeline,
 			t_env_var **env_list);
-
+static void	setup_std_fds(int hdoc, int std_out);
+static void	set_hdoc_to_in(void);
 // TODO:
 // Handle heredoc signals
 // Run heredoc in child process and waitpid in the end
 // Open .heredoc file and redirect to stdin when the child process exits
 // Unlink (remove) .heredoc after being used
 // Free pipeline and env_var in child process
+
+// FIX: POSSIBLE SOLUTION FOR HEREDOC:
+// Create an std_fd in pipeline, so you can restore input and output,
+// and then, after the heredoc, restore the previous output and redirect
+// heredoc to input
 int	do_heredoc(char *delimiter, t_pipeline *pipeline, t_env_var **env_list)
 {
-	int	heredoc;
+	int	hdoc;
+	int	std_out;
 	int	pid;
 
 	if (delimiter == NULL)
 		return (0);
-	heredoc = open_heredoc(&pid);
-	if (heredoc == ERROR)
+	std_out = dup(STDOUT_FILENO);
+	dup2(pipeline->std_fd[IN], STDIN_FILENO);
+	dup2(pipeline->std_fd[OUT], STDOUT_FILENO);
+	hdoc = open_hdoc(&pid);
+	if (hdoc == ERROR)
 		return (ERROR);
 	if (pid == CHILD_ID)
 	{
-		prompt_heredoc(heredoc, delimiter);
-		exit_heredoc(heredoc, pipeline, env_list);
+		prompt_hdoc(hdoc, delimiter);
+		exit_hdoc(hdoc, pipeline, env_list);
 	}
-	// waitpid(pid, NULL, WNOHANG);
-	wait(NULL);
-	dup2(heredoc, STDIN_FILENO);
-	close(heredoc);
+	waitpid(pid, NULL, 0);
+	setup_std_fds(hdoc,std_out);
 	return (0);
 }
 
-static int	open_heredoc(int *pid)
+static int	open_hdoc(int *pid)
 {
-	int	heredoc;
+	int	hdoc;
 
 	*pid = fork();
 	if (*pid == ERROR)
 		return (ERROR);
-	heredoc = open(".heredoc", O_RDWR | O_TRUNC | O_CREAT, 0644);
-	return (heredoc);
+	hdoc = open(".heredoc", O_WRONLY | O_TRUNC | O_CREAT, 0600);
+	return (hdoc);
 }
 
-static void	prompt_heredoc(int heredoc, char *delimiter)
+static void	prompt_hdoc(int hdoc, char *delimiter)
 {
 	char	*line;
 
 	line = readline("> ");
 	while (ft_strncmp(delimiter, line, ft_strlen(delimiter) + 1) != 0)
 	{
-		ft_putstr_fd(line, heredoc);
+		ft_putendl_fd(line, hdoc);
 		free(line);
 		line = readline("> ");
 	}
 	free(line);
 }
 
-static void	exit_heredoc(int heredoc, t_pipeline *pipeline,
+static void	exit_hdoc(int hdoc, t_pipeline *pipeline,
 			t_env_var **env_list)
 {
-		clear_pipeline(pipeline);
-		clear_env_list(env_list);
-		close(heredoc);
-		exit(0);
+	clear_pipeline(pipeline);
+	clear_env_list(env_list);
+	close(hdoc);
+	exit(0);
 }
+
+static void	setup_std_fds(int hdoc, int std_out)
+{
+	close(hdoc);
+	set_hdoc_to_in();
+	dup2(std_out, STDOUT_FILENO);
+	close(std_out);
+}
+
+static void	set_hdoc_to_in(void)
+{
+	int	hdoc;
+
+	hdoc = open(".heredoc", O_RDONLY);
+	unlink(".heredoc");
+	dup2(hdoc, STDIN_FILENO);
+	close(hdoc);
+}
+
