@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcorrea- <bcorrea->                        +#+  +:+       +#+        */
+/*   By: jramondo <jramondo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:33:19 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/12/08 19:53:03 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/01/04 23:15:15 by jramondo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft.h"
+# include <limits.h>
+# include <string.h>
 
 /********** MACROS **********/
 
@@ -272,4 +274,8 @@ int			toggle_quote_state(int quote_state, char c, char quote_char);
 **/
 void		update_quote_state(char c, int *squote, int *dquote);
 
+/**
+ * Handle the prompt if changed the cwd
+*/
+char		*handle_prompt();
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
+/*   By: jramondo <jramondo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 20:12:39 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/12/06 18:22:41 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/01/28 14:16:53 by jramondo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,11 @@ int	main(int argc, char *argv[], char *envp[])
 	env_list = create_env_with_envp(envp);
 	while (1)
 	{
-		input = readline(">$ ");
+		//signal(SIGINT, sig_handle);
+		//signal(SIGSEGV, sig_exit);
+		input = readline(handle_prompt());
+		if (input != NULL)
+			add_history(input);
 		if (strcmp(input, "exit") == 0)
 			simple_exit(input, env_list);
 		else if (strcmp(input, "env") == 0)
