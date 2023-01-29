@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bcorrea->                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:33:19 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/01/28 12:44:17 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/01/29 04:03:07 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,11 @@ extern int	g_exit_status;
 
 /********** PROTOTYPES **********/
 
-// TODO: Document
+/**
+ * Prompt the user for input, add it to to readline history,
+ * parse the given input and try to execute the created pipeline.
+ * After executing the pipeline, it will redisplay the prompt.
+**/
 void		repl(t_env_var **env_list);
 
 /********** SINGLY LINKED LIST **********/
@@ -249,7 +253,7 @@ t_env_var	**create_env_with_envp(char **envp);
  * Convert `env_list` into an array of strings.
  * Return NULL in case of error
 **/
-char	**get_env_array(t_env_var **env_list);
+char		**get_env_array(t_env_var **env_list);
 
 /********** EXPANSOR **********/
 
@@ -359,18 +363,30 @@ void		clear_pipeline(t_pipeline *pipeline);
 
 /********** EXECUTE **********/
 
-// TODO: Document
-void	exec_pipeline(t_pipeline *pipeline, t_env_var **env_list);
+/**
+ * Handle the redirections and execute the command pipeline.
+ * All the commands will be executed in child processes asynchronously.
+**/
+void		exec_pipeline(t_pipeline *pipeline, t_env_var **env_list);
 
-// TODO: Document
-char	*get_cmd_path(char *cmd, char **envp);
+/**
+ * Read $PATH and check if `cmd` executable exists.
+ * If found, return the command path,
+ * otherwise return NULL
+**/
+char		*get_cmd_path(char *cmd, char **envp);
 
-// TODO: Document
-void	exec_cmd(t_cmd *cmd, t_env_var **env_list, t_pipeline *pipeline);
+/**
+ * Execute `cmd` in a child process
+**/
+void		exec_cmd(t_cmd *cmd, t_env_var **env_list, t_pipeline *pipeline);
 
-// TODO: Document
-void	exit_invalid_cmd(t_cmd *cmd, t_env_var **env_list,
-			t_pipeline *pipeline);
+/**
+ * Set `exit_status` to 127,
+ * print the invalid cmd to stderr and exit the process
+**/
+void		exit_invalid_cmd(t_cmd *cmd, t_env_var **env_list,
+				t_pipeline *pipeline);
 
 /**
  * Iterate though all `rdirs` and do the proper redirect based on `rdir` types.
@@ -378,32 +394,49 @@ void	exit_invalid_cmd(t_cmd *cmd, t_env_var **env_list,
  * with the new file, except for heredoc,
  * that creates a .heredoc file in the current folder.
 **/
-int		redirect_list(t_slist **rdirs, t_pipeline *pipeline, t_env_var **env_list);
+int			redirect_list(t_slist **rdirs, t_pipeline *pipeline, t_env_var **env_list);
 
-// TODO: Document
-int	do_heredoc(char *delimiter, t_pipeline *pipeline, t_env_var **env_list);
+/**
+ * Create a temporary file called .heredoc, then create a child process and run
+ * readline, until the user input `delimiter`.
+**/
+int			do_heredoc(char *delimiter, t_pipeline *pipeline, t_env_var **env_list);
 
-// TODO: Document
-void	execute(t_pipeline *pipeline, t_env_var **env_list);
+/**
+ * Free `pipeline` and `env_list` and exit the process
+**/
+void	exit_hdoc_process(int hdoc, t_pipeline *pipeline,
+			t_env_var **env_list);
 
-// TODO: Document
-void	exec_single_cmd(t_cmd *cmd, t_env_var **env_list, t_pipeline *pipeline);
+/**
+ * Execute the command pipeline. If `pipeline` contains only one command,
+ * it will run the builtin functions in the main process,
+ * otherwise execute the commands in child processes asynchronously.
+**/
+void		execute(t_pipeline *pipeline, t_env_var **env_list);
+
+/**
+ * Handle all the redirections and execute `cmd`.
+ * If `cmd` is a builtin function, run in the main process,
+ * otherwise execute `cmd` in a child process
+**/
+void		exec_single_cmd(t_cmd *cmd, t_env_var **env_list, t_pipeline *pipeline);
 
 /**
  * Check if the `cmd` is a valid builtin, if it is,
  * execute builtin and return 1, else return 0
 **/
-void	exec_builtin(t_cmd *cmd, t_env_var **env_list, t_pipeline *pipeline);
+void		exec_builtin(t_cmd *cmd, t_env_var **env_list, t_pipeline *pipeline);
 
 /**
  * Save STDIN and STDOUT in `std_fd`
 **/
-void	backup_std_fd(int *std_fd);
+void		backup_std_fd(int *std_fd);
 
 /**
  * Replace STDIN and STDOUT with `std_fd`
 **/
-void	restore_std_fd(int *std_fd);
+void		restore_std_fd(int *std_fd);
 
 /********** BUILTINS **********/
 
@@ -411,7 +444,7 @@ void	restore_std_fd(int *std_fd);
  * Check if the `cmd_name` is one of the builtin functions.
  * Return 1 if true, 0 if false
 **/
-int	is_builtin(char *cmd_name);
+int			is_builtin(char *cmd_name);
 
 /**
  * Free `pipeline`, `env_list` and exit with code 0
@@ -423,8 +456,24 @@ void		repl_exit(t_pipeline *pipeline, t_env_var **env_list);
 **/
 void		env(t_env_var **env_list);
 
-// TODO: Document
-void	echo(t_cmd *cmd);
+/**
+ * Print `cmd` args to stdout.
+ * In case of flag -n,
+ * print `cmd` args without a newline at the end
+**/
+void		echo(t_cmd *cmd);
+
+/********** SIGNALS **********/
+
+/**
+ * Set exit status to 130 send an empty line to stdout
+**/
+void		interrupt_hdoc(int signum);
+
+/**
+ * Print error message when heredoc receives CTRL+D
+**/
+void	print_heredoc_interrupt(char *delimiter);
 
 /********** UTILS **********/
 
@@ -440,13 +489,15 @@ int			toggle_quote_state(int quote_state, char c, char quote_char);
 **/
 void		update_quote_state(char c, int *squote, int *dquote);
 
-// TODO: Document
+/**
+ * Prints a message describing the value of errno and exit
+**/
 void		exit_perror(char *msg, int error_code);
 
 /**
  * Get errno and print the error message,
  * caused by trying to open `filename`
 **/
-void	print_invalid_open(char *filename);
+void		print_invalid_open(char *filename);
 
 #endif

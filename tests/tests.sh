@@ -65,6 +65,7 @@ function display_failed() {
 
 function display_test_suite() {
   local suite_name="$1"
+  echo
   echo -en "\033[0;35m"
   echo 🧪 "$suite_name"
   echo "<--------------------------------------------------------------------->"

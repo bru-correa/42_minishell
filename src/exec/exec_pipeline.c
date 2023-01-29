@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/27 10:02:22 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/01/26 12:59:02 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/01/29 04:10:20 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,10 @@
 #include <stdio.h>
 #include <unistd.h>
 
-/* TODO: exec_pipeline
- * Exec pipeline handle redirections and deal with all the pipes. It checks
- * if the cmd is a builtin or not.
- * If it is, execute and get the return status from the builtin,
- * and set  g_exit_status. If itsn't, fork and exec the cmd,
- * and set the g_exit_status after the execution.
-*/
-
 static void	rdir_prev_pipe(int *pipe_in);
 static void	create_new_pipe(int *pipe_in);
 static int	is_last_cmd(int cmd_index, int cmd_count);
 
-// TODO: Fork is in exec_cmd but needs to be in here
 void	exec_pipeline(t_pipeline *pipeline, t_env_var **env_list)
 {
 	int	i;

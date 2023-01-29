@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 18:40:00 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/12/08 19:45:24 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/01/29 04:08:16 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,13 @@ static int	get_var_length(char *data)
 }
 
 // Return "$" if $ is not followed by valid chars
-// TODO: Return the exit status if the var name is $?
 static char	*get_var_data(char *data, int length, t_env_var **envl)
 {
 	char	*var_name;
 	char	*var_data;
 
 	if (data[1] == '?')
-		return (ft_strdup("0"));
+		return (ft_itoa(g_exit_status));
 	else if (length == 1)
 		return (ft_strdup("$"));
 	var_name = ft_substr(data, 1, length - 1);

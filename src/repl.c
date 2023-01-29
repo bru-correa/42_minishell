@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 12:04:24 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/01/27 09:09:27 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/01/29 04:06:10 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ void	repl(t_env_var **env_list)
 	rl_clear_history();
 }
 
-// TODO: Do a prettier prompt
 static char	*prompt(t_env_var **env_list)
 {
 	char	*input;

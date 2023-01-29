@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 13:21:16 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/01/27 10:56:28 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/01/29 04:10:57 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,6 @@
 
 static void	exec_in_child(t_cmd *cmd, t_env_var **env_list,
 			t_pipeline *pipeline);
-
-/* TODO: exec_single_cmd
- * Exec single cmd will handle redirections (it won't deal with pipes),
- * and then, it checks if the cmd is a builtin or not.
- * If it is, execute and get the return status from the builtin,
- * and set  g_exit_status. If itsn't, fork and exec the cmd,
- * and set the g_exit_status after the execution.
-*/
 
 void	exec_single_cmd(t_cmd *cmd, t_env_var **env_list, t_pipeline *pipeline)
 {

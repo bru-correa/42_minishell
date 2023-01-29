@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 11:59:37 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/01/28 13:24:01 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/01/29 04:01:52 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,9 @@
 
 static int	open_hdoc(int *pid);
 static void	prompt_hdoc(int hdoc, char *delimiter);
-static void	exit_hdoc(int hdoc, t_pipeline *pipeline,
-			t_env_var **env_list);
 static void	setup_std_fds(int hdoc, int std_out);
 static void	set_hdoc_to_in(void);
-// TODO:
-// Handle heredoc signals
-// Run heredoc in child process and waitpid in the end
-// Open .heredoc file and redirect to stdin when the child process exits
-// Unlink (remove) .heredoc after being used
-// Free pipeline and env_var in child process
 
-// FIX: POSSIBLE SOLUTION FOR HEREDOC:
-// Create an std_fd in pipeline, so you can restore input and output,
-// and then, after the heredoc, restore the previous output and redirect
-// heredoc to input
 int	do_heredoc(char *delimiter, t_pipeline *pipeline, t_env_var **env_list)
 {
 	int	hdoc;
@@ -47,8 +35,9 @@ int	do_heredoc(char *delimiter, t_pipeline *pipeline, t_env_var **env_list)
 		return (ERROR);
 	if (pid == CHILD_ID)
 	{
+		signal(SIGINT, interrupt_hdoc);
 		prompt_hdoc(hdoc, delimiter);
-		exit_hdoc(hdoc, pipeline, env_list);
+		exit_hdoc_process(hdoc, pipeline, env_list);
 	}
 	waitpid(pid, NULL, 0);
 	setup_std_fds(hdoc,std_out);
@@ -73,20 +62,16 @@ static void	prompt_hdoc(int hdoc, char *delimiter)
 	line = readline("> ");
 	while (ft_strncmp(delimiter, line, ft_strlen(delimiter) + 1) != 0)
 	{
+		if (line == NULL)
+		{
+			print_heredoc_interrupt(delimiter);
+			return ;
+		}
 		ft_putendl_fd(line, hdoc);
 		free(line);
 		line = readline("> ");
 	}
 	free(line);
-}
-
-static void	exit_hdoc(int hdoc, t_pipeline *pipeline,
-			t_env_var **env_list)
-{
-	clear_pipeline(pipeline);
-	clear_env_list(env_list);
-	close(hdoc);
-	exit(0);
 }
 
 static void	setup_std_fds(int hdoc, int std_out)
@@ -106,4 +91,3 @@ static void	set_hdoc_to_in(void)
 	dup2(hdoc, STDIN_FILENO);
 	close(hdoc);
 }
-

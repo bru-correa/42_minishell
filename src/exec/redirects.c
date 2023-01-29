@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 12:40:06 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/01/26 12:40:25 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/01/29 04:09:53 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ static int	redirect(t_slist *rdir, t_pipeline *pipeline, t_env_var **env_list)
 	return (status);
 }
 
-// TODO: Need to cancel the current command execution if it fails
 static int	rdir_file_to_fd(char *filename, int o_flag, int fd)
 {
 	int		file;
