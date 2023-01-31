@@ -140,6 +140,16 @@ test_redirections() {
   run_test "multiple redirects with error" "cat < Makefile < . < minishell.c"
 }
 
+test_pipes() {
+  display_test_suite "Test Pipes"
+  run_test "multiple pipes" "ls | cat | wc -l"
+  run_test "first cmd invalid" "ekko | ls | cat"
+  run_test "last cmd invalid" "ls | cat | ekko"
+  run_test "redirect input priority" "ls | cat < Makefile | cat > $outfile"
+  run_test "redirect output priority" "ls > $outfile | cat"
+  run_test "redirect ignoring pipes" "ls > $outfile | cat | cat < Makefile"
+}
+
 test_hardmode() {
   display_test_suite "Final Boss"
   run_test "quoted redirection" "echo Hello '>' $outfile" 
@@ -153,6 +163,7 @@ reset_outfile
 test_basic
 test_parser
 test_redirections
+test_pipes
 test_hardmode
 
 # TODO: IDEAS:

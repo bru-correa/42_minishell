@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bcorrea->                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:33:19 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/01/29 04:03:07 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/01/31 12:31:24 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -368,6 +368,12 @@ void		clear_pipeline(t_pipeline *pipeline);
  * All the commands will be executed in child processes asynchronously.
 **/
 void		exec_pipeline(t_pipeline *pipeline, t_env_var **env_list);
+
+/**
+ * Execute the last `cmd` in `pipeline`.
+ * If `cmd` is not a builtin, it will set the exit signal.
+**/
+void	exec_last_cmd(t_cmd *cmd, t_pipeline *pipeline, t_env_var **env_list);
 
 /**
  * Read $PATH and check if `cmd` executable exists.
