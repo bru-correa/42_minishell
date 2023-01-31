@@ -1,24 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_signals.c                                   :+:      :+:    :+:   */
+/*   clean_process.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jramondo <jramondo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/04 23:28:30 by jramondo          #+#    #+#             */
-/*   Updated: 2023/01/31 13:55:40 by jramondo         ###   ########.fr       */
+/*   Created: 2023/01/31 14:37:48 by jramondo          #+#    #+#             */
+/*   Updated: 2023/01/31 15:01:58 by jramondo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    set_signal(void (*handler)(int), int signal)
+void    clean_process(void)
 {
-    struct sigaction    action;
+    int fd;
 
-    ft_memset(&action, 0, sizeof(struct sigaction));
-    action.sa_handler = handler;
-    action.sa_flags = SA_RESTART;
-    sigemptyset(&action.sa_mask);
-    sigaction(signal, &action, NULL);
+    fd = open(HDOC_TMPFILE, O_RDONLY | O_CREAT);
+    if (fd < 0)
+        return ;
+    while (fd > STDERR_FILENO)
+        close(fd--);
+    unlink(HDOC_TMPFILE);
 }

@@ -6,7 +6,7 @@
 /*   By: jramondo <jramondo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 20:12:39 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/01/28 14:16:53 by jramondo         ###   ########.fr       */
+/*   Updated: 2023/01/31 12:00:53 by jramondo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ int	main(int argc, char *argv[], char *envp[])
 	env_list = create_env_with_envp(envp);
 	while (1)
 	{
-		//signal(SIGINT, sig_handle);
-		//signal(SIGSEGV, sig_exit);
+		set_signal(signal_prompt, SIGINT);
+		set_signal(SIG_IGN, SIGQUIT);
 		input = readline(handle_prompt());
 		if (input != NULL)
 			add_history(input);

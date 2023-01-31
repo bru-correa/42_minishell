@@ -6,7 +6,7 @@
 /*   By: jramondo <jramondo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:33:19 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/01/04 23:15:15 by jramondo         ###   ########.fr       */
+/*   Updated: 2023/01/31 14:54:07 by jramondo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -278,4 +278,19 @@ void		update_quote_state(char c, int *squote, int *dquote);
  * Handle the prompt if changed the cwd
 */
 char		*handle_prompt();
+
+void    	set_signal(void (*handler)(int), int signal);
+
+void    	sig_prompt(int signal);
+
+void		sig_parent(int signal);
+
+void 	   sig_child(int signal);
+
+void		sig_heredoc_child(int signal);
+
+void		sig_heredoc_parent(int signal);
+
+void	    clean_process(void);
+
 #endif

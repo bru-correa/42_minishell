@@ -1,24 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_signals.c                                   :+:      :+:    :+:   */
+/*   sig_heredoc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jramondo <jramondo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/04 23:28:30 by jramondo          #+#    #+#             */
-/*   Updated: 2023/01/31 13:55:40 by jramondo         ###   ########.fr       */
+/*   Created: 2023/01/31 14:45:10 by jramondo          #+#    #+#             */
+/*   Updated: 2023/01/31 14:52:55 by jramondo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    set_signal(void (*handler)(int), int signal)
+void	sig_heredoc_child(int signal)
 {
-    struct sigaction    action;
+	if (signal == SIGINT)
+	{
+		cleanup_process();
+		printf("\n"):
+		exit(signal);
+	}
+}
 
-    ft_memset(&action, 0, sizeof(struct sigaction));
-    action.sa_handler = handler;
-    action.sa_flags = SA_RESTART;
-    sigemptyset(&action.sa_mask);
-    sigaction(signal, &action, NULL);
+void	sig_heredoc_parent(int signal)
+{
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	cleanup_process();
+	(void)signal;
 }

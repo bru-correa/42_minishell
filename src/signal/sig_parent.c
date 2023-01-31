@@ -1,24 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_signals.c                                   :+:      :+:    :+:   */
+/*   sig_parent.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jramondo <jramondo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/04 23:28:30 by jramondo          #+#    #+#             */
-/*   Updated: 2023/01/31 13:55:40 by jramondo         ###   ########.fr       */
+/*   Created: 2023/01/31 14:40:42 by jramondo          #+#    #+#             */
+/*   Updated: 2023/01/31 14:44:19 by jramondo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    set_signal(void (*handler)(int), int signal)
+void	sig_parent(int signal)
 {
-    struct sigaction    action;
-
-    ft_memset(&action, 0, sizeof(struct sigaction));
-    action.sa_handler = handler;
-    action.sa_flags = SA_RESTART;
-    sigemptyset(&action.sa_mask);
-    sigaction(signal, &action, NULL);
+	if (signal == SIGINT)
+		printf("\n");
+	else if (signal == SIGQUIT)
+		ft_putstr_fd("Quit\n", STDERR_FILENO);
+	cleanup_process();
 }
