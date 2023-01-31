@@ -6,7 +6,7 @@
 /*   By: jramondo <jramondo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:33:19 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/01/31 14:54:07 by jramondo         ###   ########.fr       */
+/*   Updated: 2023/01/31 19:51:03 by jramondo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include "libft.h"
 # include <limits.h>
 # include <string.h>
+# include <signal.h>
 
 /********** MACROS **********/
 
@@ -37,6 +38,9 @@
 // Used for error checking
 # define SUCCESS 1
 # define FAILURE 0
+
+// Heredoc path
+# define HDOC_TMPFILE "/tmp/heredoc"
 
 /********** STRUCTS **********/
 
