@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 12:28:31 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/01/31 12:29:26 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/01 21:15:56 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	exec_last_cmd(t_cmd *cmd, t_pipeline *pipeline, t_env_var **env_list)
 	int	pid;
 	int	status;
 
+	if (cmd->args == NULL)
+		return ;
 	pid = fork();
 	if (pid == CHILD_ID)
 	{

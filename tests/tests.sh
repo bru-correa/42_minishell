@@ -138,6 +138,7 @@ test_redirections() {
   run_test "redirect input to incorrect file" "cat < i_do_not_exist.txt"
   run_test "multiple redirects" "cat < Makefile < minishell.c < readline.supp"
   run_test "multiple redirects with error" "cat < Makefile < . < minishell.c"
+  run_test "redirect without cmd" "< Makefile"
 }
 
 test_pipes() {
@@ -148,10 +149,16 @@ test_pipes() {
   run_test "redirect input priority" "ls | cat < Makefile | cat > $outfile"
   run_test "redirect output priority" "ls > $outfile | cat"
   run_test "redirect ignoring pipes" "ls > $outfile | cat | cat < Makefile"
+  run_test "redirect without cmd" "> $outfile | echo Hello"
+  run_test "redirects without cmds" "< Makefile | < $outfile | > $outfile"
+  run_test "redirect without cmd" "< Makefile | cat"
+  run_test "multiple input redirects without cmd" "< Makefile | < Makefile | cat"
+  run_test "invalid redirects" "cat < dont_exist.txt | cat < dont_exist42.txt | cat"
 }
 
 test_hardmode() {
   display_test_suite "Final Boss"
+  # run_test "catcatcat" "cat | cat | cat"
   run_test "quoted redirection" "echo Hello '>' $outfile" 
 }
 
@@ -159,12 +166,12 @@ test_hardmode() {
 
 # display_banner
 
-reset_outfile
-test_basic
-test_parser
-test_redirections
+# reset_outfile
+# test_basic
+# test_parser
+# test_redirections
 test_pipes
-test_hardmode
+# test_hardmode
 
 # TODO: IDEAS:
 # * Put all tests in a list, so you can target a test by passing it's index

@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 21:46:28 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/01/27 09:02:06 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/01 11:14:40 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	exec_cmd(t_cmd *cmd, t_env_var **env_list, t_pipeline *pipeline)
 	char	**envp;	
 	char	*cmd_path;
 
+	if (cmd == NULL || cmd->args == NULL)
+		exit(0);
 	envp = get_env_array(env_list);
 	cmd_path = get_cmd_path(cmd->args[0], envp);
 	if (cmd_path == NULL)

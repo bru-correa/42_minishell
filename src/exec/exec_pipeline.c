@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 12:08:42 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/01/31 12:32:56 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/01 11:25:42 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ static void	exec_in_child(t_cmd *cmd, t_pipeline *pipeline,
 {
 	int	pid;
 
+	if (cmd->args == NULL)
+		return ;
 	pid = fork();
 	if (pid == CHILD_ID)
 	{

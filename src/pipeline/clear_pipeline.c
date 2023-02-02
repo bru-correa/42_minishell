@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 12:02:26 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/12/23 13:33:15 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/01/31 13:16:06 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ static void	clear_args(char **args)
 {
 	int	i;
 
+	if (args == NULL)
+		return ;
 	i = 0;
 	while (args[i] != NULL)
 	{

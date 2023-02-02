@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 10:29:46 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/01/05 10:52:20 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/01 11:14:05 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ char	*get_cmd_path(char *cmd, char **envp)
 	char	*cmd_path;
 	char	**path;
 
+	if (cmd == NULL)
+		return (NULL);
 	if (access(cmd, X_OK) == 0)
 		return (cmd);
 	path = get_path(envp);

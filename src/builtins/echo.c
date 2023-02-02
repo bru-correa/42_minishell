@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 09:26:22 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/01/27 10:09:59 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/01 21:40:55 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,12 @@
 #include "minishell.h"
 
 static void	print_args(char **args);
+static int	check_newline_flag(char **args, int *newline);
 
-void	echo(t_cmd *cmd)
+int	echo(t_cmd *cmd)
 {
 	print_args(cmd->args);
-	g_exit_status = 0;
+	return (0);
 }
 
 static void	print_args(char **args)
@@ -26,12 +27,9 @@ static void	print_args(char **args)
 	int	i;
 	int	newline;
 
-	newline = TRUE;
-	i = 1;
+	i = check_newline_flag(args, &newline);
 	while (args[i] != NULL)
 	{
-		if (ft_strncmp(args[i], "-n", 3) == 0)
-			newline = FALSE;
 		ft_printf("%s", args[i]);
 		if (args[i + 1] != NULL)
 			ft_printf(" ");
@@ -39,4 +37,20 @@ static void	print_args(char **args)
 	}
 	if (newline == TRUE)
 		ft_printf("\n");
+}
+
+// Return the start index
+static int	check_newline_flag(char **args, int *newline)
+{
+	int	start;
+
+	start = 1;
+	if (args[start] != NULL && ft_strncmp(args[start], "-n", 3) == 0)
+	{
+		*newline = FALSE;
+		start++;
+	}
+	else
+		*newline = TRUE;
+	return (start);
 }

@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bcorrea->                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:33:19 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/01/31 12:31:24 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/01 21:28:27 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -455,19 +455,20 @@ int			is_builtin(char *cmd_name);
 /**
  * Free `pipeline`, `env_list` and exit with code 0
 **/
-void		repl_exit(t_pipeline *pipeline, t_env_var **env_list);
+int			repl_exit(t_pipeline *pipeline, t_env_var **env_list);
 
 /**
- * Print all the environment variables
+ * Print all the environment variables and return the status_code
 **/
-void		env(t_env_var **env_list);
+int			env(t_env_var **env_list);
 
 /**
  * Print `cmd` args to stdout.
  * In case of flag -n,
- * print `cmd` args without a newline at the end
+ * print `cmd` args without a newline at the end.
+ * Return the status_code
 **/
-void		echo(t_cmd *cmd);
+int			echo(t_cmd *cmd);
 
 /********** SIGNALS **********/
 

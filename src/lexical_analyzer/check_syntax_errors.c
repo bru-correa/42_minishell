@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 16:27:59 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/01/28 13:43:06 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/01 20:53:16 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static int	check_pipe(t_slist *token)
 			print_syntax_error("newline");
 			return (FAILURE);
 		}
-		else if (check_next_token(token) == FAILURE)
+		else if (ft_strncmp(token->next->data, "|", 1) == 0)
 		{
 			print_syntax_error(token->next->data);
 			return (FAILURE);
