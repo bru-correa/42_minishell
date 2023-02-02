@@ -13,9 +13,9 @@ COMPILING_MSG		= "$(YELLOW)Compiling...$(NOCOLOR)"
 CLEANING_MSG		= "$(RED)Cleaning up...$(NOCOLOR)"
 
 NAME				= minishell
-CC					= gcc
-CFLAGS				= -Wall -Wextra -Werror -I$(LIBFT_DIR) -I$(INCLUDE_DIR)
-CFLAGS_LIB			= -lft -L $(LIBFT_DIR) -lreadline
+CC					= cc
+CFLAGS				= -Wall -Wextra -Werror -O0 -g3 -I$(LIBFT_DIR) -I$(INCLUDE_DIR)
+CFLAGS_LIB			= -lft -L $(LIBFT_DIR) -lreadline 
 
 INCLUDE_DIR			= include
 SRC_DIR				= src

@@ -6,7 +6,7 @@
 #    By: jramondo <jramondo@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/25 17:50:16 by bcorrea-          #+#    #+#              #
-#    Updated: 2023/01/04 23:12:32 by jramondo         ###   ########.fr        #
+#    Updated: 2023/02/02 19:48:14 by jramondo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,8 +14,8 @@ ifndef VERBOSE
 .SILENT:
 endif
 NAME				= libft.a
-CFLAGS				= -Wall -Werror -Wextra $(INCLUDE)
-CC					= gcc
+CFLAGS				= -Wall -Werror -Wextra -O0 -g3 $(INCLUDE)
+CC					= cc
 INCLUDE				= -I ./ -I ./include
 
 # Main files

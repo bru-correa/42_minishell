@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipeline.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
+/*   By: jramondo <jramondo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 12:08:42 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/01 22:08:31 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/02 20:26:47 by jramondo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	exec_pipeline(t_pipeline *pipeline, t_env_var **env_list)
 	int		pipe_in;
 	t_cmd	*cmd;
 
+	set_signal(sig_parent, SIGINT);
+	set_signal(sig_parent, SIGQUIT);
 	pipe_in = dup(STDIN_FILENO);
 	i = 0;
 	cmd = pipeline->cmds[i];
@@ -56,6 +58,8 @@ static void	exec_in_child(t_cmd *cmd, t_pipeline *pipeline,
 {
 	int	pid;
 
+	set_signal(sig_child, SIGINT);
+	set_signal(sig_child, SIGQUIT);
 	if (cmd->args == NULL)
 		return ;
 	pid = fork();
