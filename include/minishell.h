@@ -6,7 +6,7 @@
 /*   By: jramondo <jramondo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:33:19 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/01 21:28:27 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/02 12:05:05 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <wait.h>
 # include "libft.h"
 # include "errno.h"
+# include "limits.h"
 
 /********** MACROS **********/
 
