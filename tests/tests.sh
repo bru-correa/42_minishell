@@ -166,12 +166,11 @@ test_hardmode() {
 
 # display_banner
 
-# reset_outfile
-# test_basic
-# test_parser
-# test_redirections
+test_basic
+test_parser
+test_redirections
 test_pipes
-# test_hardmode
+test_hardmode
 
 # TODO: IDEAS:
 # * Put all tests in a list, so you can target a test by passing it's index

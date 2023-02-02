@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 12:08:42 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/01 11:25:42 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/01 22:08:31 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,24 @@ static void	rdir_last_pipe(int pipe_in, t_pipeline *pipeline);
 
 void	exec_pipeline(t_pipeline *pipeline, t_env_var **env_list)
 {
-	int	i;
-	int	pipe_in;
+	int		i;
+	int		pipe_in;
+	t_cmd	*cmd;
 
 	pipe_in = dup(STDIN_FILENO);
 	i = 0;
+	cmd = pipeline->cmds[i];
 	while (i < pipeline->cmd_count - 1)
 	{
 		pipe_in = open_new_pipe(pipe_in);
-		redirect_list(pipeline->cmds[i]->rdir_list, pipeline, env_list);
-		exec_in_child(pipeline->cmds[i], pipeline, env_list);
+		if (redirect_list(cmd->rdir_list, pipeline, env_list) == 0)
+			exec_in_child(cmd, pipeline, env_list);
 		i++;
+		cmd = pipeline->cmds[i];
 	}
 	rdir_last_pipe(pipe_in, pipeline);
-	redirect_list(pipeline->cmds[i]->rdir_list, pipeline, env_list);
-	exec_last_cmd(pipeline->cmds[i], pipeline, env_list);
+	if (redirect_list(cmd->rdir_list, pipeline, env_list) == 0)
+		exec_last_cmd(cmd, pipeline, env_list);
 }
 
 static int	open_new_pipe(int prev_pipe)
