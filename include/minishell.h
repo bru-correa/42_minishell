@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcorrea- <bcorrea->                        +#+  +:+       +#+        */
+/*   By: jramondo <jramondo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:33:19 by bcorrea-          #+#    #+#             */
 /*   Updated: 2023/02/01 21:28:27 by bcorrea-         ###   ########.fr       */
@@ -53,6 +53,8 @@
 # define T_RDIR_HERE 4
 # define T_PIPE 5
 # define T_ARG 6
+// Heredoc path
+# define HDOC_TMPFILE "/tmp/heredoc"
 
 /********** STRUCTS **********/
 
@@ -411,8 +413,8 @@ int			do_heredoc(char *delimiter, t_pipeline *pipeline, t_env_var **env_list);
 /**
  * Free `pipeline` and `env_list` and exit the process
 **/
-void	exit_hdoc_process(int hdoc, t_pipeline *pipeline,
-			t_env_var **env_list);
+void		exit_hdoc_process(int hdoc, t_pipeline *pipeline,
+				t_env_var **env_list);
 
 /**
  * Execute the command pipeline. If `pipeline` contains only one command,
@@ -480,7 +482,7 @@ void		interrupt_hdoc(int signum);
 /**
  * Print error message when heredoc receives CTRL+D
 **/
-void	print_heredoc_interrupt(char *delimiter);
+void		print_heredoc_interrupt(char *delimiter);
 
 /********** UTILS **********/
 
@@ -506,5 +508,26 @@ void		exit_perror(char *msg, int error_code);
  * caused by trying to open `filename`
 **/
 void		print_invalid_open(char *filename);
+
+/**
+ * Handle the prompt if changed the cwd
+**/
+char		*handle_prompt();
+
+/********** SIGNALS **********/
+
+void		set_signal(void (*handler)(int), int signal);
+
+void		sig_prompt(int signal);
+
+void		sig_parent(int signal);
+
+void		sig_child(int signal);
+
+void		sig_heredoc_child(int signal);
+
+void		sig_heredoc_parent(int signal);
+
+void		clean_process(void);
 
 #endif
