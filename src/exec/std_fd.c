@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 12:11:24 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/01/27 09:06:35 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/11 15:09:07 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,13 @@
 void	backup_std_fd(int *std_fd)
 {
 	std_fd[IN] = dup(STDIN_FILENO);
-	std_fd[OUT] = dup(STDOUT_FILENO); }
+	std_fd[OUT] = dup(STDOUT_FILENO);
+}
 
 void	restore_std_fd(int *std_fd)
 {
 	dup2(std_fd[IN], STDIN_FILENO);
 	dup2(std_fd[OUT], STDOUT_FILENO);
-	close(std_fd[IN]);
-	close(std_fd[OUT]);
+	// close(std_fd[IN]);
+	// close(std_fd[OUT]);
 }

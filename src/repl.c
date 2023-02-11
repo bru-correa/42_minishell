@@ -6,7 +6,7 @@
 /*   By: jramondo <jramondo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 12:04:24 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/02 21:03:12 by jramondo         ###   ########.fr       */
+/*   Updated: 2023/02/10 16:49:42 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	repl(t_env_var **env_list)
 	rl_clear_history();
 }
 
+// TODO: Remove input == NULL condition
 static char	*prompt(t_env_var **env_list)
 {
 	char	*input;

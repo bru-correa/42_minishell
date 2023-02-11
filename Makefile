@@ -15,7 +15,7 @@ CLEANING_MSG		= "$(RED)Cleaning up...$(NOCOLOR)"
 NAME				= minishell
 CC					= cc
 CFLAGS				= -Wall -Wextra -Werror -O0 -g3 -I$(LIBFT_DIR) -I$(INCLUDE_DIR)
-CFLAGS_LIB			= -lft -L $(LIBFT_DIR) -lreadline 
+CFLAGS_LIB			= -lft -L $(LIBFT_DIR) -lreadline
 
 INCLUDE_DIR			= include
 SRC_DIR				= src

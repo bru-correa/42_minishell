@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 14:35:52 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/01 22:00:35 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/11 15:08:20 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	exit_invalid_cmd(t_cmd *cmd, t_env_var **env_list, t_pipeline *pipeline)
 	ft_putstr_fd(cmd->args[0], STDERR_FILENO);
 	ft_putstr_fd(": command not found\n", STDERR_FILENO);
 	g_exit_status = 127;
+	// close(pipeline->std_fd[IN]);
+	// close(pipeline->std_fd[OUT]);
 	clear_pipeline(pipeline);
 	clear_env_list(env_list);
 	exit(127);

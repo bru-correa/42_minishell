@@ -6,7 +6,7 @@
 /*   By: jramondo <jramondo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 12:08:42 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/02 20:26:47 by jramondo         ###   ########.fr       */
+/*   Updated: 2023/02/10 11:59:34 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	open_new_pipe(int prev_pipe);
 static void	exec_in_child(t_cmd *cmd, t_pipeline *pipeline,
-							t_env_var **env_list);
+							t_env_var **env_list, int pipe_in);
 static void	rdir_last_pipe(int pipe_in, t_pipeline *pipeline);
 
 void	exec_pipeline(t_pipeline *pipeline, t_env_var **env_list)
@@ -25,14 +25,14 @@ void	exec_pipeline(t_pipeline *pipeline, t_env_var **env_list)
 
 	set_signal(sig_parent, SIGINT);
 	set_signal(sig_parent, SIGQUIT);
-	pipe_in = dup(STDIN_FILENO);
+	pipe_in = STDIN_FILENO;
 	i = 0;
 	cmd = pipeline->cmds[i];
 	while (i < pipeline->cmd_count - 1)
 	{
 		pipe_in = open_new_pipe(pipe_in);
 		if (redirect_list(cmd->rdir_list, pipeline, env_list) == 0)
-			exec_in_child(cmd, pipeline, env_list);
+			exec_in_child(cmd, pipeline, env_list, pipe_in);
 		i++;
 		cmd = pipeline->cmds[i];
 	}
@@ -45,8 +45,11 @@ static int	open_new_pipe(int prev_pipe)
 {
 	int	pipe_fd[2];
 
-	dup2(prev_pipe, STDIN_FILENO);
-	close(prev_pipe);
+	if (prev_pipe != STDIN_FILENO)
+	{
+		dup2(prev_pipe, STDIN_FILENO);
+		close(prev_pipe);
+	}
 	pipe(pipe_fd);
 	dup2(pipe_fd[OUT], STDOUT_FILENO);
 	close(pipe_fd[OUT]);
@@ -54,7 +57,7 @@ static int	open_new_pipe(int prev_pipe)
 }
 
 static void	exec_in_child(t_cmd *cmd, t_pipeline *pipeline,
-							t_env_var **env_list)
+							t_env_var **env_list, int pipe_in)
 {
 	int	pid;
 
@@ -65,6 +68,7 @@ static void	exec_in_child(t_cmd *cmd, t_pipeline *pipeline,
 	pid = fork();
 	if (pid == CHILD_ID)
 	{
+		close(pipe_in);
 		if (is_builtin(cmd->args[0]))
 			exec_builtin(cmd, env_list, pipeline);
 		else

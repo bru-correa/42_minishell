@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 10:29:46 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/01 11:14:05 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/10 12:41:39 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ char	*get_cmd_path(char *cmd, char **envp)
 	if (access(cmd, X_OK) == 0)
 		return (cmd);
 	path = get_path(envp);
+	if (path == NULL)
+		return (NULL);
 	cmd_path = add_path_prefix(cmd, path);
 	free_path(path);
 	if (cmd_path == NULL)
@@ -74,7 +76,10 @@ static char	**get_path(char **envp)
 
 	path_str = get_path_line(envp);
 	if (path_str == NULL)
-		exit_perror("ERROR: Path not found!\n", 1);
+	{
+		ft_putstr_fd("ERROR: Path not found!\n", STDERR_FILENO);
+		return NULL;
+	}
 	path = ft_split(path_str, ':');
 	free(path_str);
 	return (path);
