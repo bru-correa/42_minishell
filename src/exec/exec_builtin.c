@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
+/*   By: jramondo <jramondo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 13:03:26 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/01 21:29:41 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/12 00:54:46 by jramondo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	exec_builtin(t_cmd *cmd, t_env_var **env_list, t_pipeline *pipeline)
 		status = repl_exit(pipeline, env_list);
 	else if (ft_strncmp(cmd->args[0], "echo", 5) == 0)
 		status = echo(cmd);
+	else if (ft_strncmp(cmd->args[0], "cd", 3) == 0)
+		status = cd(cmd->args, env_list);
 	g_exit_status = status;
 	if (pipeline->cmd_count > 1)
 	{

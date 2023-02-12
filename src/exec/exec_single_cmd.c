@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_single_cmd.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
+/*   By: jramondo <jramondo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 13:21:16 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/01 13:57:06 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/02 21:41:24 by jramondo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,11 @@ void	exec_single_cmd(t_cmd *cmd, t_env_var **env_list, t_pipeline *pipeline)
 	else if (is_builtin(cmd->args[0]) == TRUE)
 		exec_builtin(cmd, env_list, pipeline);
 	else
+	{
+		set_signal(sig_parent, SIGINT);
+		set_signal(sig_parent, SIGQUIT);
 		exec_in_child(cmd, env_list, pipeline);
+	}
 }
 
 // WIFEXITED return true if the child process terminated normally
@@ -37,7 +41,11 @@ static void	exec_in_child(t_cmd *cmd, t_env_var **env_list,
 
 	pid = fork();
 	if (pid == CHILD_ID)
+	{
+		set_signal(sig_child, SIGINT);
+		set_signal(sig_child, SIGQUIT);
 		exec_cmd(cmd, env_list, pipeline);
+	}
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 		g_exit_status = WEXITSTATUS(status);

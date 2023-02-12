@@ -6,7 +6,7 @@
 /*   By: jramondo <jramondo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:33:19 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/02 12:05:05 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/12 00:54:59 by jramondo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 # include <stdlib.h>
 # include <unistd.h>
+# include <stdio.h>
 # include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -25,6 +26,7 @@
 # include "libft.h"
 # include "errno.h"
 # include "limits.h"
+# include <error.h>
 
 /********** MACROS **********/
 
@@ -530,5 +532,7 @@ void		sig_heredoc_child(int signal);
 void		sig_heredoc_parent(int signal);
 
 void		clean_process(void);
+
+int			cd(char **args, t_env_var **env_list);
 
 #endif
