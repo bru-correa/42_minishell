@@ -6,7 +6,7 @@
 /*   By: jramondo <jramondo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 12:08:42 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/10 11:59:34 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/13 00:23:52 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ void	exec_pipeline(t_pipeline *pipeline, t_env_var **env_list)
 	int		pipe_in;
 	t_cmd	*cmd;
 
-	set_signal(sig_parent, SIGINT);
-	set_signal(sig_parent, SIGQUIT);
 	pipe_in = STDIN_FILENO;
 	i = 0;
 	cmd = pipeline->cmds[i];
@@ -56,19 +54,20 @@ static int	open_new_pipe(int prev_pipe)
 	return (pipe_fd[IN]);
 }
 
+// WARNING: Provisory function clean_process()
 static void	exec_in_child(t_cmd *cmd, t_pipeline *pipeline,
 							t_env_var **env_list, int pipe_in)
 {
 	int	pid;
 
-	set_signal(sig_child, SIGINT);
-	set_signal(sig_child, SIGQUIT);
 	if (cmd->args == NULL)
 		return ;
 	pid = fork();
+	sig_setup_exec(pid);
 	if (pid == CHILD_ID)
 	{
 		close(pipe_in);
+		clean_process();
 		if (is_builtin(cmd->args[0]))
 			exec_builtin(cmd, env_list, pipeline);
 		else

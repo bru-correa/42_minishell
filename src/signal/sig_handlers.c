@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sig_prompt.c                                       :+:      :+:    :+:   */
+/*   sig_handlers.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jramondo <jramondo@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/31 12:07:17 by jramondo          #+#    #+#             */
-/*   Updated: 2023/02/11 18:37:12 by bcorrea-         ###   ########.fr       */
+/*   Created: 2023/02/11 18:08:31 by bcorrea-          #+#    #+#             */
+/*   Updated: 2023/02/12 16:36:19 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    sig_prompt(int signal)
+void	sig_handle_prompt(int signal)
 {
-    if(signal == SIGINT)
-    {
-		ft_putchar_fd('\n', 1);
-        rl_replace_line("", 1);
-        rl_on_new_line();
-        rl_redisplay();
-    }
+	(void)signal;
+	clean_process();
+	g_exit_status = 130;
+	ft_putchar_fd('\n', 1);
+	rl_replace_line("", 1);
+	rl_on_new_line();
+	rl_redisplay();
 }

@@ -6,7 +6,7 @@
 /*   By: jramondo <jramondo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:33:19 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/02 12:05:05 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/12 16:51:06 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -530,5 +530,23 @@ void		sig_heredoc_child(int signal);
 void		sig_heredoc_parent(int signal);
 
 void		clean_process(void);
+
+// NEW ONES
+
+void	sig_setup_prompt(void);
+
+void	sig_setup_child(void);
+
+void	sig_handle_prompt(int signal);
+
+void	sig_handle_child(int signal);
+
+void	sig_setup_parent(void);
+
+void	sig_handle_parent(int signal);
+
+void	sig_setup_exec(int pid);
+
+void	sig_setup_heredoc(int pid);
 
 #endif

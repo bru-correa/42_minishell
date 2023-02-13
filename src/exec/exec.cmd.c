@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 21:46:28 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/11 15:08:46 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/11 15:36:21 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,6 @@ void	exec_cmd(t_cmd *cmd, t_env_var **env_list, t_pipeline *pipeline)
 static void	clear_memory(char **envp, t_env_var **env_list,
 	t_pipeline *pipeline)
 {
-	// close(pipeline->std_fd[IN]);
-	// close(pipeline->std_fd[OUT]);
 	clear_env_list(env_list);
 	clear_pipeline(pipeline);
 	clear_envp(envp);
