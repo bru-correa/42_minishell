@@ -6,7 +6,7 @@
 /*   By: jramondo <jramondo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 12:04:24 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/11 19:22:18 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/13 05:33:49 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ void	repl(t_env_var **env_list)
 
 	while (1)
 	{
-		// set_signal(sig_prompt, SIGINT);
-		// set_signal(SIG_IGN, SIGQUIT);
 		sig_setup_prompt();
 		input = prompt(env_list);
 		if (input == NULL)
@@ -40,7 +38,7 @@ void	repl(t_env_var **env_list)
 	rl_clear_history();
 }
 
-// TODO: Create a new input
+// TODO: Create a new prompt
 static char	*prompt(t_env_var **env_list)
 {
 	char	*input;
