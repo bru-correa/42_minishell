@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   do_heredoc.c                                       :+:      :+:    :+:   */
+/*   handle_heredoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 11:59:37 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/12 18:30:00 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/13 03:57:57 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	prompt_hdoc(int hdoc, char *delimiter);
 static void	setup_std_fds(int hdoc, int std_out);
 static void	set_hdoc_to_in(void);
 
-int	do_heredoc(char *delimiter, t_pipeline *pipeline, t_env_var **env_list)
+int	handle_heredoc(char *delimiter, t_pipeline *pipeline, t_env_var **env_list)
 {
 	int	hdoc;
 	int	std_out;
@@ -26,8 +26,8 @@ int	do_heredoc(char *delimiter, t_pipeline *pipeline, t_env_var **env_list)
 	if (delimiter == NULL)
 		return (0);
 	std_out = dup(STDOUT_FILENO);
-	dup2(pipeline->std_fd[IN], STDIN_FILENO);
-	dup2(pipeline->std_fd[OUT], STDOUT_FILENO);
+	dup2(pipeline->default_fd[IN], STDIN_FILENO);
+	dup2(pipeline->default_fd[OUT], STDOUT_FILENO);
 	hdoc = open_hdoc(&pid);
 	sig_setup_heredoc(pid);
 	if (hdoc == ERROR)
@@ -54,7 +54,7 @@ static int	open_hdoc(int *pid)
 	// 	clear_pipeline(pipeline);
 	// 	clear_env_list(env_list);
 	// }
-	hdoc = open(".heredoc", O_WRONLY | O_TRUNC | O_CREAT, 0600);
+	hdoc = open(HDOC_TMPFILE, O_WRONLY | O_TRUNC | O_CREAT, 0600);
 	return (hdoc);
 }
 
@@ -72,7 +72,7 @@ static void	prompt_hdoc(int hdoc, char *delimiter)
 	}
 	if (line == NULL)
 	{
-		print_heredoc_interrupt(delimiter);
+		print_hdoc_warning(delimiter);
 		return ;
 	}
 	free(line);
@@ -90,8 +90,8 @@ static void	set_hdoc_to_in(void)
 {
 	int	hdoc;
 
-	hdoc = open(".heredoc", O_RDONLY);
-	unlink(".heredoc");
+	hdoc = open(HDOC_TMPFILE, O_RDONLY);
+	unlink(HDOC_TMPFILE);
 	dup2(hdoc, STDIN_FILENO);
 	close(hdoc);
 }

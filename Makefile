@@ -30,7 +30,7 @@ MAIN				= minishell.c
 
 VALGRIND			= valgrind --leak-check=full --show-leak-kinds=all
 VALGRIND			+= --track-origins=yes --quiet --tool=memcheck
-VALGRIND			+= --suppressions=readline.supp
+VALGRIND			+= --suppressions=readline.supp --track-fds=yes
 
 # ********** RULES ********** #
 

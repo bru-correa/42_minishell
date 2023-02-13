@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 18:08:31 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/12 16:36:19 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/13 04:02:38 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	sig_handle_prompt(int signal)
 {
 	(void)signal;
-	clean_process();
+	clear_fds();
 	g_exit_status = 130;
 	ft_putchar_fd('\n', 1);
 	rl_replace_line("", 1);

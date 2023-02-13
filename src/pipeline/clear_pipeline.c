@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 12:02:26 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/11 15:06:19 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/13 04:02:49 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@ void	clear_pipeline(t_pipeline *pipeline)
 
 	if (pipeline == NULL)
 		return ;
-	close(pipeline->std_fd[IN]);
-	close(pipeline->std_fd[OUT]);
+	clear_fds();
 	i = 0;
 	while (pipeline->cmds[i] != NULL)
 	{

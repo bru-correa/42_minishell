@@ -1,31 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sig_heredoc.c                                      :+:      :+:    :+:   */
+/*   clear_fds.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jramondo <jramondo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/31 14:45:10 by jramondo          #+#    #+#             */
-/*   Updated: 2023/01/31 19:41:31 by jramondo         ###   ########.fr       */
+/*   Created: 2023/01/31 14:37:48 by jramondo          #+#    #+#             */
+/*   Updated: 2023/02/13 05:15:15 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	sig_heredoc_child(int signal)
+void    clear_fds(void)
 {
-	if (signal == SIGINT)
-	{
-		clean_process();
-		ft_printf("\n");
-		exit(signal);
-	}
-}
+    int fd;
 
-void	sig_heredoc_parent(int signal)
-{
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	clean_process();
-	(void)signal;
+    fd = open("/tmp/tmpfile", O_RDONLY | O_CREAT);
+    if (fd < 0)
+        return ;
+    while (fd > STDERR_FILENO)
+        close(fd--);
+    unlink("/tmp/tmpfile");
 }

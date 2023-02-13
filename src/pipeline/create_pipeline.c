@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 11:52:15 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/12/26 12:15:26 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/13 04:04:10 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ t_pipeline	*create_pipeline(t_slist **tokens)
 		return (NULL);
 	pipeline->cmd_count = get_cmd_count(tokens);
 	pipeline->cmds = create_cmds(tokens, pipeline->cmd_count);
-	pipeline->cmd_index = 0;
 	return (pipeline);
 }
 

@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sig_child.c                                        :+:      :+:    :+:   */
+/*   clear_all.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jramondo <jramondo@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/31 14:27:45 by jramondo          #+#    #+#             */
-/*   Updated: 2023/01/31 14:52:40 by jramondo         ###   ########.fr       */
+/*   Created: 2023/02/13 05:17:47 by bcorrea-          #+#    #+#             */
+/*   Updated: 2023/02/13 05:18:56 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    sig_child(int signal)
+void	clear_all(t_pipeline *pipeline, t_env_var **env_list)
 {
-    clean_process();
-    exit(signal);
+	clear_pipeline(pipeline);
+	clear_env_list(env_list);
 }

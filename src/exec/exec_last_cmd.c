@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 12:28:31 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/13 00:48:39 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/13 04:02:40 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	exec_last_cmd(t_cmd *cmd, t_pipeline *pipeline, t_env_var **env_list)
 	sig_setup_exec(pid);
 	if (pid == CHILD_ID)
 	{
-		clean_process();
+		clear_fds();
 		if (is_builtin(cmd->args[0]))
 			exec_builtin(cmd, env_list, pipeline);
 		else

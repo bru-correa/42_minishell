@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 12:40:06 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/01/29 04:09:53 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/13 04:57:31 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 static int	rdir_file_to_fd(char *filename, int o_flag, int fd);
 static int	redirect(t_slist *rdir, t_pipeline *pipeline, t_env_var **env_list);
 
+// TODO: Exit here in case of error, remember to clear the memory before
 int	redirect_list(t_slist **rdirs, t_pipeline *pipeline, t_env_var **env_list)
 {
 	t_slist	*rdir;
@@ -57,7 +58,7 @@ static int	redirect(t_slist *rdir, t_pipeline *pipeline, t_env_var **env_list)
 		status = rdir_file_to_fd(rdir->data,
 				O_WRONLY | O_APPEND | O_CREAT, STDOUT_FILENO);
 	else if (rdir->type == T_RDIR_HERE)
-		status = do_heredoc(rdir->data, pipeline, env_list);
+		status = handle_heredoc(rdir->data, pipeline, env_list);
 	return (status);
 }
 

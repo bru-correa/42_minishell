@@ -6,7 +6,7 @@
 /*   By: jramondo <jramondo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:33:19 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/12 16:51:06 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/13 05:22:06 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@
 # define T_RDIR_HERE 4
 # define T_PIPE 5
 # define T_ARG 6
+
 // Heredoc path
 # define HDOC_TMPFILE "/tmp/heredoc"
 
@@ -75,9 +76,8 @@ typedef struct s_cmd
 
 typedef struct s_pipeline
 {
-	int		std_fd[2];
+	int		default_fd[2];
 	int		cmd_count;
-	int		cmd_index;
 	t_cmd	**cmds;
 }	t_pipeline;
 
@@ -376,7 +376,7 @@ void		exec_pipeline(t_pipeline *pipeline, t_env_var **env_list);
  * Execute the last `cmd` in `pipeline`.
  * If `cmd` is not a builtin, it will set the exit signal.
 **/
-void	exec_last_cmd(t_cmd *cmd, t_pipeline *pipeline, t_env_var **env_list);
+void		exec_last_cmd(t_cmd *cmd, t_pipeline *pipeline, t_env_var **env_list);
 
 /**
  * Read $PATH and check if `cmd` executable exists.
@@ -409,7 +409,7 @@ int			redirect_list(t_slist **rdirs, t_pipeline *pipeline, t_env_var **env_list)
  * Create a temporary file called .heredoc, then create a child process and run
  * readline, until the user input `delimiter`.
 **/
-int			do_heredoc(char *delimiter, t_pipeline *pipeline, t_env_var **env_list);
+int			handle_heredoc(char *delimiter, t_pipeline *pipeline, t_env_var **env_list);
 
 /**
  * Free `pipeline` and `env_list` and exit the process
@@ -438,14 +438,17 @@ void		exec_single_cmd(t_cmd *cmd, t_env_var **env_list, t_pipeline *pipeline);
 void		exec_builtin(t_cmd *cmd, t_env_var **env_list, t_pipeline *pipeline);
 
 /**
- * Save STDIN and STDOUT in `std_fd`
+ * Save STDIN and STDOUT in `default_fd`
 **/
-void		backup_std_fd(int *std_fd);
+void		backup_default_fd(int *default_fd);
 
 /**
- * Replace STDIN and STDOUT with `std_fd`
+ * Replace STDIN and STDOUT with `default_fd`
 **/
-void		restore_std_fd(int *std_fd);
+void		restore_default_fd(int *default_fd);
+
+// TODO: Document
+void	set_pipe(int cmd_index, int cmd_count, int default_out);
 
 /********** BUILTINS **********/
 
@@ -481,9 +484,9 @@ int			echo(t_cmd *cmd);
 void		interrupt_hdoc(int signum);
 
 /**
- * Print error message when heredoc receives CTRL+D
+ * Print warning message when heredoc receives CTRL+D
 **/
-void		print_heredoc_interrupt(char *delimiter);
+void		print_hdoc_warning(char *delimiter);
 
 /********** UTILS **********/
 
@@ -515,38 +518,20 @@ void		print_invalid_open(char *filename);
 **/
 char		*handle_prompt();
 
+// TODO: Document
+void		clear_all(t_pipeline *pipeline, t_env_var **env_list);
+
+// TODO: Document
+void		clear_fds(void);
+
 /********** SIGNALS **********/
 
-void		set_signal(void (*handler)(int), int signal);
-
-void		sig_prompt(int signal);
-
-void		sig_parent(int signal);
-
-void		sig_child(int signal);
-
-void		sig_heredoc_child(int signal);
-
-void		sig_heredoc_parent(int signal);
-
-void		clean_process(void);
-
-// NEW ONES
-
 void	sig_setup_prompt(void);
-
-void	sig_setup_child(void);
-
-void	sig_handle_prompt(int signal);
-
-void	sig_handle_child(int signal);
-
-void	sig_setup_parent(void);
-
-void	sig_handle_parent(int signal);
 
 void	sig_setup_exec(int pid);
 
 void	sig_setup_heredoc(int pid);
+
+void	sig_handle_prompt(int signal);
 
 #endif

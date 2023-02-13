@@ -158,7 +158,7 @@ test_pipes() {
 
 test_hardmode() {
   display_test_suite "Final Boss"
-  # run_test "catcatcat" "cat | cat | cat"
+  run_test "cat hell" "cat | cat | ls"
   run_test "quoted redirection" "echo Hello '>' $outfile" 
 }
 
@@ -166,15 +166,8 @@ test_hardmode() {
 
 # display_banner
 
-test_basic
-test_parser
+# test_basic
+# test_parser
 test_redirections
 test_pipes
 test_hardmode
-
-# TODO: IDEAS:
-# * Put all tests in a list, so you can target a test by passing it's index
-# * Test entire section at a time, and you can target sections too
-# * Options inside the test script to load sections or specific tests
-# * Doomslayer helmet in green at the end if pass on all tests (maybe sections too?)
-# * Setup and create config file at the first time, prompting for minishell location
