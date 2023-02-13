@@ -6,7 +6,7 @@
 /*   By: jramondo <jramondo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 12:08:42 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/13 05:20:55 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/13 05:38:54 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,10 @@
 
 static void	exec_in_child(t_cmd *cmd, t_pipeline *pipeline,
 				t_env_var **env_list);
-static void	wait_for_children(int *children_pid);
 static int	*init_children_pid(int cmd_count);
-static int	wait_for_child(int child_pid);
 static void	handle_redirects(t_slist **rdir_list, t_pipeline *pipeline,
 				t_env_var **env_list);
 
-// TODO: New execution pipeline
-// * Exit inside redirect list, in case of error in redirect
-// * Clean all the unnecessary file descriptors in child process, after
-// opening the pipe
 void	exec_pipeline(t_pipeline *pipeline, t_env_var **env_list)
 {
 	int		*children_pid;
@@ -77,32 +71,6 @@ static int	*init_children_pid(int cmd_count)
 		return (NULL);
 	ft_bzero(children_pid, length);
 	return (children_pid);
-}
-
-static int	wait_for_child(int child_pid)
-{
-	int	status;
-
-	status = 0;
-	waitpid(child_pid, &status, 0);
-	if (WIFSIGNALED(status))
-		return (status + 128);
-	if (WIFEXITED(status))
-		return (WEXITSTATUS(status));
-	return (EXIT_FAILURE);
-}
-
-static void	wait_for_children(int *children_pid)
-{
-	int	i;
-
-	i = 0;
-	while(children_pid[i] != 0)
-	{
-		g_exit_status = wait_for_child(children_pid[i]);
-		i++;
-	}
-	free(children_pid);
 }
 
 static void	handle_redirects(t_slist **rdir_list, t_pipeline *pipeline,

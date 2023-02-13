@@ -6,7 +6,7 @@
 /*   By: jramondo <jramondo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:33:19 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/13 05:22:06 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/13 05:38:43 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -448,7 +448,13 @@ void		backup_default_fd(int *default_fd);
 void		restore_default_fd(int *default_fd);
 
 // TODO: Document
-void	set_pipe(int cmd_index, int cmd_count, int default_out);
+void		set_pipe(int cmd_index, int cmd_count, int default_out);
+
+// TODO: Document
+int			wait_for_child(int child_pid);
+
+// TODO: Document
+void		wait_for_children(int *children_pid);
 
 /********** BUILTINS **********/
 

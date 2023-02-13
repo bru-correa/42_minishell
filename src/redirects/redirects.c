@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 12:40:06 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/13 04:57:31 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/13 05:40:21 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 static int	rdir_file_to_fd(char *filename, int o_flag, int fd);
 static int	redirect(t_slist *rdir, t_pipeline *pipeline, t_env_var **env_list);
 
-// TODO: Exit here in case of error, remember to clear the memory before
 int	redirect_list(t_slist **rdirs, t_pipeline *pipeline, t_env_var **env_list)
 {
 	t_slist	*rdir;
