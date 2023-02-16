@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 12:02:26 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/13 04:02:49 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/15 21:52:58 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	clear_pipeline(t_pipeline *pipeline)
 	if (pipeline == NULL)
 		return ;
 	clear_fds();
+	if (pipeline->children_pids != NULL)
+		free(pipeline->children_pids);
 	i = 0;
 	while (pipeline->cmds[i] != NULL)
 	{

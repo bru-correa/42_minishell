@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 11:59:37 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/13 03:57:57 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/14 01:48:26 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	handle_heredoc(char *delimiter, t_pipeline *pipeline, t_env_var **env_list)
 	int	hdoc;
 	int	std_out;
 	int	pid;
+	int	status;
 
 	if (delimiter == NULL)
 		return (0);
@@ -34,12 +35,13 @@ int	handle_heredoc(char *delimiter, t_pipeline *pipeline, t_env_var **env_list)
 		return (ERROR);
 	if (pid == CHILD_ID)
 	{
+		g_exit_status = 0;
 		prompt_hdoc(hdoc, delimiter);
-		exit_hdoc_process(hdoc, pipeline, env_list);
+		exit_hdoc_process(pipeline, env_list);
 	}
-	waitpid(pid, NULL, 0);
+	status = wait_for_child(pid);
 	setup_std_fds(hdoc, std_out);
-	return (0);
+	return (status);
 }
 
 static int	open_hdoc(int *pid)
@@ -49,11 +51,6 @@ static int	open_hdoc(int *pid)
 	*pid = fork();
 	if (*pid == ERROR)
 		return (ERROR);
-	// else if (*pid == CHILD_ID)
-	// {
-	// 	clear_pipeline(pipeline);
-	// 	clear_env_list(env_list);
-	// }
 	hdoc = open(HDOC_TMPFILE, O_WRONLY | O_TRUNC | O_CREAT, 0600);
 	return (hdoc);
 }
@@ -68,11 +65,11 @@ static void	prompt_hdoc(int hdoc, char *delimiter)
 		ft_putendl_fd(line, hdoc);
 		free(line);
 		line = readline("> ");
-		ft_printf("After readline\n");
 	}
 	if (line == NULL)
 	{
-		print_hdoc_warning(delimiter);
+		if (g_exit_status != 130)
+			print_hdoc_warning(delimiter);
 		return ;
 	}
 	free(line);

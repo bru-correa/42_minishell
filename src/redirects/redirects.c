@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 12:40:06 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/13 05:40:21 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/15 00:13:38 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,11 @@ int	redirect_list(t_slist **rdirs, t_pipeline *pipeline, t_env_var **env_list)
 		{
 			g_exit_status = 1;
 			return (ERROR);
+		}
+		else if (status == INTERRUPT)
+		{
+			g_exit_status = 130;
+			return(INTERRUPT);
 		}
 		rdir = rdir->next;
 	}

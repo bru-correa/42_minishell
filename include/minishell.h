@@ -6,7 +6,7 @@
 /*   By: jramondo <jramondo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:33:19 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/13 05:38:43 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/15 21:33:13 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@
 # define IN 0
 # define OUT 1
 # define ERROR -1
+# define INTERRUPT 130
 
 // Token types
 # define T_UNDEFINED 0
@@ -77,6 +78,7 @@ typedef struct s_cmd
 typedef struct s_pipeline
 {
 	int		default_fd[2];
+	int		*children_pids;
 	int		cmd_count;
 	t_cmd	**cmds;
 }	t_pipeline;
@@ -414,8 +416,7 @@ int			handle_heredoc(char *delimiter, t_pipeline *pipeline, t_env_var **env_list
 /**
  * Free `pipeline` and `env_list` and exit the process
 **/
-void		exit_hdoc_process(int hdoc, t_pipeline *pipeline,
-				t_env_var **env_list);
+void		exit_hdoc_process(t_pipeline *pipeline, t_env_var **env_list);
 
 /**
  * Execute the command pipeline. If `pipeline` contains only one command,
@@ -532,6 +533,8 @@ void		clear_fds(void);
 
 /********** SIGNALS **********/
 
+// TODO: Document all the signal functions
+
 void	sig_setup_prompt(void);
 
 void	sig_setup_exec(int pid);
@@ -539,5 +542,9 @@ void	sig_setup_exec(int pid);
 void	sig_setup_heredoc(int pid);
 
 void	sig_handle_prompt(int signal);
+
+void	sig_handle_heredoc(int signal);
+
+void	sig_reset_interrupt(void);
 
 #endif
