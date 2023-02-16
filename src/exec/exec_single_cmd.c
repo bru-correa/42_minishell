@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 13:21:16 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/14 17:12:31 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/15 23:16:41 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,7 @@ static void	exec_in_child(t_cmd *cmd, t_env_var **env_list,
 			t_pipeline *pipeline)
 {
 	int	pid;
-	int	status;
 
-	status = 0;
 	pid = fork();
 	sig_setup_exec(pid);
 	if (pid == CHILD_ID)
@@ -43,12 +41,5 @@ static void	exec_in_child(t_cmd *cmd, t_env_var **env_list,
 		clear_fds();
 		exec_cmd(cmd, env_list, pipeline);
 	}
-	waitpid(pid, &status, 0);
-	if (WIFEXITED(status))
-		g_exit_status = WEXITSTATUS(status);
-	if (WIFSIGNALED(status))
-	{
-		ft_printf("\n");
-		g_exit_status = status + 128;
-	}
+	g_exit_status = wait_for_child(pid);
 }
