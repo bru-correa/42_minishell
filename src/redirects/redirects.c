@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 12:40:06 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/15 00:13:38 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/15 22:25:07 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include <fcntl.h>
 #include <readline/readline.h>
 #include <unistd.h>
-#include "string.h"
 
 static int	rdir_file_to_fd(char *filename, int o_flag, int fd);
 static int	redirect(t_slist *rdir, t_pipeline *pipeline, t_env_var **env_list);

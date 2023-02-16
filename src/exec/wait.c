@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 05:37:10 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/15 21:56:16 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/15 23:06:14 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,15 @@ int	wait_for_child(int child_pid)
 	return (EXIT_FAILURE);
 }
 
-void	wait_for_children(int *children_pid)
+void	wait_for_children(int *children_pid, int cmd_count)
 {
 	int	i;
 
 	i = 0;
-	while(children_pid[i] != 0)
+	while(i < cmd_count)
 	{
-		g_exit_status = wait_for_child(children_pid[i]);
+		if (children_pid[i] != 0)
+			g_exit_status = wait_for_child(children_pid[i]);
 		i++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: jramondo <jramondo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 12:08:42 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/15 21:58:25 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/15 23:12:42 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,19 +29,21 @@ void	exec_pipeline(t_pipeline *pipeline, t_env_var **env_list)
 		cmd = pipeline->cmds[i];
 		set_pipe(i, pipeline->cmd_count, pipeline->default_fd[OUT]);
 		status = handle_redirects(cmd->rdir_list, pipeline, env_list);
-		if (status == ERROR) continue;
-		else if (status == INTERRUPT)
+		if (status == ERROR)
 		{
-			restore_default_fd(pipeline->default_fd);
-			return ;
+			i++;
+			continue;
 		}
+		else if (status == INTERRUPT)
+			return ;
 		pipeline->children_pids[i] = fork();
 		sig_setup_exec(pipeline->children_pids[i]);
 		if (pipeline->children_pids[i] == CHILD_ID)
 			exec_in_child(cmd, pipeline, env_list);
 		i++;
 	}
-	wait_for_children(pipeline->children_pids);
+	restore_default_fd(pipeline->default_fd);
+	wait_for_children(pipeline->children_pids, pipeline->cmd_count);
 }
 
 static void	exec_in_child(t_cmd *cmd, t_pipeline *pipeline,
@@ -67,13 +69,10 @@ static int	handle_redirects(t_slist **rdir_list, t_pipeline *pipeline,
 	status = redirect_list(rdir_list, pipeline, env_list);
 	if (status == 0)
 		return (0);
+	restore_default_fd(pipeline->default_fd);
 	if (status == ERROR)
-	{
 		return (ERROR);
-	}
 	else if (status == INTERRUPT)
-	{
 		return (INTERRUPT);
-	}
 	return (0);
 }

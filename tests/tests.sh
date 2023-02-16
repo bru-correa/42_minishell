@@ -160,14 +160,21 @@ test_hardmode() {
   display_test_suite "Final Boss"
   run_test "cat hell" "cat | cat | ls"
   run_test "quoted redirection" "echo Hello '>' $outfile" 
+  run_test "infinite ping" "ping google | ls"
 }
 
 ########### MAIN ###########
 
 # display_banner
 
-# test_basic
-# test_parser
+test_basic
+test_parser
 test_redirections
 test_pipes
 test_hardmode
+
+# MANUAL TESTS
+# cat << END | cat
+# cat << END << EOF | ls
+# Check signals
+# cat | ls

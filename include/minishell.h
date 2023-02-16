@@ -6,7 +6,7 @@
 /*   By: jramondo <jramondo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:33:19 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/15 21:33:13 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/15 22:24:22 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -455,7 +455,7 @@ void		set_pipe(int cmd_index, int cmd_count, int default_out);
 int			wait_for_child(int child_pid);
 
 // TODO: Document
-void		wait_for_children(int *children_pid);
+void		wait_for_children(int *children_pid, int cmd_count);
 
 /********** BUILTINS **********/
 
