@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 12:08:50 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/17 05:04:01 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/17 05:34:26 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	repl_exit(t_pipeline *pipeline, t_env_var **env_list)
 		else
 			g_exit_status = get_exit_code(exit_arg);
 	}
+	goodbye(env_list);
 	clear_env_list(env_list);
 	clear_pipeline(pipeline);
 	rl_clear_history();

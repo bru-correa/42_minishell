@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 02:59:25 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/17 04:47:14 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/17 06:00:18 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,19 +51,22 @@ static int	change_dir_to_home(t_env_var **env_list)
 
 static int	change_dir_to_path(char *dir_path, t_env_var **env_list)
 {
-	char	buffer[2048];
+	char	*buffer;
 	char	*new_pwd;
 	char	*old_pwd;
 
-	old_pwd = getcwd(buffer, 2048);
+	buffer = NULL;
+	old_pwd = getcwd(buffer, 0);
 	add_var_to_env(env_list, "OLDPWD", old_pwd);
+	free(old_pwd);
 	if (chdir(dir_path) == ERROR)
 	{
 		print_error(dir_path, strerror(errno));
 		return (errno);
 	}
-	new_pwd = getcwd(buffer, 2048);
+	new_pwd = getcwd(buffer, 0);
 	add_var_to_env(env_list, "PWD", new_pwd);
+	free(new_pwd);
 	return (0);
 }
 

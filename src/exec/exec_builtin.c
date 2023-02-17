@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 13:03:26 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/17 03:52:34 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/17 05:44:14 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void	exec_builtin(t_cmd *cmd, t_env_var **env_list, t_pipeline *pipeline)
 		status = echo(cmd);
 	else if (ft_strncmp(cmd->args[0], "cd", 3) == 0)
 		status = builtin_cd(cmd, env_list);
+	else if (ft_strncmp(cmd->args[0], "env", 4) == 0)
+		status = env(env_list);
 	g_exit_status = status;
 	if (pipeline->cmd_count > 1)
 	{

@@ -6,7 +6,7 @@
 /*   By: jramondo <jramondo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:33:19 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/17 03:52:15 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/17 05:55:50 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -535,11 +535,25 @@ void		print_invalid_open(char *filename);
 **/
 char		*handle_prompt(void);
 
-// TODO: Document
+/**
+ * Free all the process memory
+**/
 void		clear_all(t_pipeline *pipeline, t_env_var **env_list);
 
-// TODO: Document
+/**
+ * Close all non standard file descriptors open
+**/
 void		clear_fds(void);
+
+/**
+ * Display welcome message
+**/
+void		welcome(t_env_var **env_list);
+
+/**
+ * Display goodbye message
+**/
+void		goodbye(t_env_var **env_list);
 
 /********** SIGNALS **********/
 
