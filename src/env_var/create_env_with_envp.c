@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 14:03:48 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/11/23 20:39:02 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/17 04:12:19 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ t_env_var	**create_env_with_envp(char **envp)
 		key = get_key(envp[i]);
 		value = get_value(envp[i]);
 		env_list = add_var_to_env(env_list, key, value);
+		free(key);
+		free(value);
 		i++;
 	}
 	return (env_list);

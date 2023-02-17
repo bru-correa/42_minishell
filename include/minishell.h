@@ -6,7 +6,7 @@
 /*   By: jramondo <jramondo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:33:19 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/16 23:40:00 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/17 03:52:15 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,8 +229,8 @@ t_env_var	**create_env_list(void);
 t_env_var	*create_env_var(char *key, char *value);
 
 /**
- * Create an ev_var and append it to the end of list
- * Is the variable already existis, update its value with the new one
+ * Create an `env_var` and append it to the end of list.
+ * If the variable already exists, update its value with the new one
 **/
 t_env_var	**add_var_to_env(t_env_var **env_list, char *key, char *value);
 
@@ -489,6 +489,9 @@ int			env(t_env_var **env_list);
  * Return the status_code
 **/
 int			echo(t_cmd *cmd);
+
+// TODO: Document
+int			builtin_cd(t_cmd *cmd, t_env_var **env_list);
 
 /********** SIGNALS **********/
 

@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 23:43:22 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/11/18 18:17:56 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/17 04:05:31 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static int	update_existing_var(t_env_var *env_var, char *key, char *value)
 	if (ft_strncmp(key, env_var->key, ft_strlen(key) + 1) == 0)
 	{
 		free(env_var->value);
-		env_var->value = value;
+		env_var->value = ft_strdup(value);
 		return (SUCCESS);
 	}
 	return (FAILURE);

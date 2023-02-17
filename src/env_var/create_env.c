@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 18:16:44 by bcorrea-          #+#    #+#             */
-/*   Updated: 2022/11/18 18:22:23 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/17 04:04:36 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ t_env_var	*create_env_var(char *key, char *value)
 	env_var = malloc(sizeof(t_env_var));
 	if (env_var == NULL)
 		return (NULL);
-	env_var->key = key;
-	env_var->value = value;
+	env_var->key = ft_strdup(key);
+	env_var->value = ft_strdup(value);
 	env_var->next = NULL;
 	return (env_var);
 }

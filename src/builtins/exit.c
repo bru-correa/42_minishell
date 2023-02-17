@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 12:08:50 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/16 23:33:28 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/17 05:04:01 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int	repl_exit(t_pipeline *pipeline, t_env_var **env_list)
 {
 	char	*exit_arg;
 
-	ft_printf("exit\n");
 	exit_arg = pipeline->cmds[0]->args[1];
 	if (exit_arg != NULL)
 	{
