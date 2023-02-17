@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 13:21:16 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/16 23:46:03 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/17 18:39:19 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	exec_in_child(t_cmd *cmd, t_env_var **env_list,
 
 void	exec_single_cmd(t_cmd *cmd, t_env_var **env_list, t_pipeline *pipeline)
 {
-	if (redirect_list(cmd->rdir_list, pipeline, env_list) == ERROR)
+	if (redirect_list(cmd->rdir_list, pipeline, env_list) != 0)
 		return ;
 	if (cmd->args == NULL)
 		return ;
