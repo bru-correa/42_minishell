@@ -6,7 +6,7 @@
 /*   By: jramondo <jramondo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:33:19 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/17 05:55:50 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/17 06:13:39 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,12 @@
 # define T_RDIR_HERE 4
 # define T_PIPE 5
 # define T_ARG 6
+
+// Colors
+# define COLOR_RED "\033[0;31m"
+# define COLOR_GREEN "\033[0;32m"
+# define COLOR_YELLOW "\033[0;33m"
+# define COLOR_RESET "\033[0m"
 
 // Heredoc path
 # define HDOC_TMPFILE "/tmp/heredoc"

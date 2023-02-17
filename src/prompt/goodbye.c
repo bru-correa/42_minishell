@@ -6,15 +6,12 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 05:30:09 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/17 05:34:45 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/17 06:15:31 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	set_color_red(void);
-static void	set_color_green(void);
-static void	reset_color(void);
 static void	print_div(void);
 
 void	goodbye(t_env_var **env_list)
@@ -23,30 +20,18 @@ void	goodbye(t_env_var **env_list)
 
 	user = search_env_var(env_list, "USER");
 	if (ft_strncmp(user, "", 1) == 0)
-		user = "UNKNOWN";
-	set_color_red();
+	{
+		free(user);
+		user = ft_strdup("UNKNOWN");
+	}
+	ft_printf(COLOR_RED);
 	print_div();
-	set_color_green();
+	ft_printf(COLOR_GREEN);
 	ft_printf("   %s escaped from $HELL... for now\n", user);
-	set_color_red();
+	ft_printf(COLOR_RED);
 	print_div();
-	reset_color();
+	ft_printf(COLOR_RESET);
 	free(user);
-}
-
-static void	set_color_red(void)
-{
-	ft_printf("\033[0;31m");
-}
-
-static void	set_color_green(void)
-{
-	ft_printf("\033[0;32m");
-}
-
-static void	reset_color(void)
-{
-	ft_printf("\033[0m");
 }
 
 static void	print_div(void)
