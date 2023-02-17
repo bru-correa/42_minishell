@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 11:52:15 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/15 21:58:43 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/16 23:41:40 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static int	*init_children_pids(int cmd_count)
 	int	length;
 
 	if (cmd_count <= 1)
-		return NULL;
+		return (NULL);
 	length = sizeof(int) * (cmd_count + 1);
 	children_pid = malloc(length);
 	if (children_pid == NULL)

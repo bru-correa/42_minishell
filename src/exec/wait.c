@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 05:37:10 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/15 23:16:50 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/16 23:47:30 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	wait_for_children(int *children_pid, int cmd_count)
 	int	i;
 
 	i = 0;
-	while(i < cmd_count)
+	while (i < cmd_count)
 	{
 		if (children_pid[i] != 0)
 			g_exit_status = wait_for_child(children_pid[i]);

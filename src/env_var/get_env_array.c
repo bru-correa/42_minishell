@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 12:28:04 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/01/05 13:58:56 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/16 23:45:39 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	**get_env_array(t_env_var **env_list)
 	if (env_list == NULL)
 		return (NULL);
 	length = get_env_count(env_list);
-	env = malloc(sizeof(char*) * (length + 1));
+	env = malloc(sizeof(char *) * (length + 1));
 	if (env == NULL)
 		return (NULL);
 	set_env_vars(env, env_list);

@@ -6,7 +6,7 @@
 /*   By: jramondo <jramondo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 12:04:24 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/13 05:33:49 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/16 23:41:09 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	repl(t_env_var **env_list)
 static char	*prompt(t_env_var **env_list)
 {
 	char	*input;
-	
+
 	(void)env_list;
 	input = readline("/-> ");
 	if (input == NULL)

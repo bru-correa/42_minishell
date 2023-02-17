@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 17:53:02 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/13 23:02:47 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/16 23:48:13 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	sig_setup_heredoc(int pid)
 	sigemptyset(&act_int.sa_mask);
 	sigemptyset(&act_quit.sa_mask);
 	act_int.sa_flags = 0;
-	act_quit.sa_flags =0;
+	act_quit.sa_flags = 0;
 	if (pid == CHILD_ID)
 		act_int.sa_handler = sig_handle_heredoc;
 	else

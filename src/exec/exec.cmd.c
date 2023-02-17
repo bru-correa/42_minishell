@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 21:46:28 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/11 15:36:21 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/16 23:49:04 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 static void	clear_envp(char **envp);
 static void	clear_memory(char **envp, t_env_var **env_list,
-	t_pipeline *pipeline);
+				t_pipeline *pipeline);
 
 void	exec_cmd(t_cmd *cmd, t_env_var **env_list, t_pipeline *pipeline)
 {

@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 10:29:46 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/10 12:41:39 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/16 23:46:33 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static char	**get_path(char **envp)
 	if (path_str == NULL)
 	{
 		ft_putstr_fd("ERROR: Path not found!\n", STDERR_FILENO);
-		return NULL;
+		return (NULL);
 	}
 	path = ft_split(path_str, ':');
 	free(path_str);

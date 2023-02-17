@@ -6,7 +6,7 @@
 /*   By: jramondo <jramondo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 12:08:42 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/15 23:12:42 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/16 23:46:59 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	exec_pipeline(t_pipeline *pipeline, t_env_var **env_list)
 		if (status == ERROR)
 		{
 			i++;
-			continue;
+			continue ;
 		}
 		else if (status == INTERRUPT)
 			return ;

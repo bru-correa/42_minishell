@@ -6,7 +6,7 @@
 /*   By: jramondo <jramondo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:33:19 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/15 23:50:47 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/16 23:40:00 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -380,7 +380,8 @@ void		exec_pipeline(t_pipeline *pipeline, t_env_var **env_list);
  * Execute the last `cmd` in `pipeline`.
  * If `cmd` is not a builtin, it will set the exit signal.
 **/
-void		exec_last_cmd(t_cmd *cmd, t_pipeline *pipeline, t_env_var **env_list);
+void		exec_last_cmd(t_cmd *cmd, t_pipeline *pipeline,
+				t_env_var **env_list);
 
 /**
  * Read $PATH and check if `cmd` executable exists.
@@ -407,13 +408,15 @@ void		exit_invalid_cmd(t_cmd *cmd, t_env_var **env_list,
  * with the new file, except for heredoc,
  * that creates a .heredoc file in the current folder.
 **/
-int			redirect_list(t_slist **rdirs, t_pipeline *pipeline, t_env_var **env_list);
+int			redirect_list(t_slist **rdirs, t_pipeline *pipeline,
+				t_env_var **env_list);
 
 /**
  * Create a temporary file called .heredoc, then create a child process and run
  * readline, until the user input `delimiter`.
 **/
-int			handle_heredoc(char *delimiter, t_pipeline *pipeline, t_env_var **env_list);
+int			handle_heredoc(char *delimiter, t_pipeline *pipeline,
+				t_env_var **env_list);
 
 /**
  * Free `pipeline` and `env_list` and exit the process
@@ -432,13 +435,15 @@ void		execute(t_pipeline *pipeline, t_env_var **env_list);
  * If `cmd` is a builtin function, run in the main process,
  * otherwise execute `cmd` in a child process
 **/
-void		exec_single_cmd(t_cmd *cmd, t_env_var **env_list, t_pipeline *pipeline);
+void		exec_single_cmd(t_cmd *cmd, t_env_var **env_list,
+				t_pipeline *pipeline);
 
 /**
  * Check if the `cmd` is a valid builtin, if it is,
  * execute builtin and return 1, else return 0
 **/
-void		exec_builtin(t_cmd *cmd, t_env_var **env_list, t_pipeline *pipeline);
+void		exec_builtin(t_cmd *cmd, t_env_var **env_list,
+				t_pipeline *pipeline);
 
 /**
  * Save STDIN and STDOUT in `default_fd`
@@ -525,7 +530,7 @@ void		print_invalid_open(char *filename);
 /**
  * Handle the prompt if changed the cwd
 **/
-char		*handle_prompt();
+char		*handle_prompt(void);
 
 // TODO: Document
 void		clear_all(t_pipeline *pipeline, t_env_var **env_list);
@@ -537,16 +542,16 @@ void		clear_fds(void);
 
 // TODO: Document all the signal functions
 
-void	sig_setup_prompt(void);
+void		sig_setup_prompt(void);
 
-void	sig_setup_exec(int pid);
+void		sig_setup_exec(int pid);
 
-void	sig_setup_heredoc(int pid);
+void		sig_setup_heredoc(int pid);
 
-void	sig_handle_prompt(int signal);
+void		sig_handle_prompt(int signal);
 
-void	sig_handle_heredoc(int signal);
+void		sig_handle_heredoc(int signal);
 
-void	sig_reset_interrupt(void);
+void		sig_reset_interrupt(void);
 
 #endif
