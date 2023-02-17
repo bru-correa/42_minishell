@@ -6,7 +6,7 @@
 /*   By: jramondo <jramondo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:33:19 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/15 22:24:22 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/15 23:50:47 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@
 
 // Heredoc path
 # define HDOC_TMPFILE "/tmp/heredoc"
+
+# define SHELL_NAME "mini$HELL"
 
 /********** STRUCTS **********/
 
