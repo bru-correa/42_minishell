@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 05:06:13 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/17 06:16:19 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/17 11:57:17 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	welcome(t_env_var **env_list)
 	ft_printf(COLOR_RED);
 	print_div();
 	ft_printf(COLOR_RESET);
+	ft_printf("\n");
 	free(user);
 }
 

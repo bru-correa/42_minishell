@@ -6,7 +6,7 @@
 /*   By: jramondo <jramondo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:33:19 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/17 06:13:39 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/17 14:08:16 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,11 @@
 # define COLOR_GREEN "\033[0;32m"
 # define COLOR_YELLOW "\033[0;33m"
 # define COLOR_RESET "\033[0m"
+
+# define RL_COLOR_RED "\001\033[1;31m\002"
+# define RL_COLOR_GREEN "\001\033[1;32m\002"
+# define RL_COLOR_YELLOW "\001\033[1;33m\002"
+# define RL_COLOR_RESET "\001\033[0m\002"
 
 // Heredoc path
 # define HDOC_TMPFILE "/tmp/heredoc"
@@ -561,6 +566,16 @@ void		welcome(t_env_var **env_list);
 **/
 void		goodbye(t_env_var **env_list);
 
+/**
+ * Prompt the user for input, with readline,
+ * and return the input
+**/
+char		*prompt_input(t_env_var **env_list);
+
+/**
+ * Create the input string to be used by readline
+**/
+char		*get_prompt_str(char *user, char *pwd);
 /********** SIGNALS **********/
 
 // TODO: Document all the signal functions
