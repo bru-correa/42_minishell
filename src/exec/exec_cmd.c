@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 21:46:28 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/18 13:50:59 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/18 19:52:45 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void	exec_cmd(t_cmd *cmd, t_env_var **env_list, t_pipeline *pipeline)
 	}
 	execve(cmd_path, cmd->args, envp);
 	clear_memory(envp, env_list, pipeline);
-	free(cmd_path);
 	exit(EXIT_FAILURE);
 }
 

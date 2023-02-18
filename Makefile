@@ -1,20 +1,6 @@
-# ********** MUTE MAKEFILE ********** #
-ifndef VERBOSE
-.SILENT:
-endif
-
-# ********** VARIABLES ********** #
-RED					= \033[1;31m
-YELLOW				= \033[1;33m
-GREEN				= \033[1;32m
-NOCOLOR				= \033[0m
-DONE_MSG			= "$(GREEN)Done!$(NOCOLOR)"
-COMPILING_MSG		= "$(YELLOW)Compiling...$(NOCOLOR)"
-CLEANING_MSG		= "$(RED)Cleaning up...$(NOCOLOR)"
-
 NAME				= minishell
 CC					= cc
-CFLAGS				= -Wall -Wextra -Werror -O0 -g3 -I$(LIBFT_DIR) -I$(INCLUDE_DIR)
+CFLAGS				= -Wall -Wextra -Werror -I$(LIBFT_DIR) -I$(INCLUDE_DIR)
 CFLAGS_LIB			= -lft -L $(LIBFT_DIR) -lreadline
 
 INCLUDE_DIR			= include
@@ -66,16 +52,10 @@ VALGRIND			+= --suppressions=readline.supp
 
 all:				$(NAME)
 
-$(NAME):			required
+$(NAME):			$(OBJ_DIR) $(OBJ_FILES) 
+					$(MAKE) -C $(LIBFT_DIR)
 					$(CC) $(MAIN) $(OBJ_FILES) $(CFLAGS) $(CFLAGS_LIB) \
 						-o $(NAME)
-					echo $(DONE_MSG)
-
-# Compile required src files
-required:			compile_message $(OBJ_DIR) $(OBJ_FILES) libft
-
-libft:
-					$(MAKE) -C $(LIBFT_DIR)
 
 $(OBJ_DIR):
 					mkdir -p $@
@@ -96,10 +76,6 @@ fclean:				clean
 re:					fclean all
 
 re_bonus:			fclean bonus
-
-compile_message:
-					echo $(COMPILING_MSG)
-
 
 # Add -g flag and change output to debug
 setup_debug:
