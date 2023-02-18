@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 12:28:31 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/13 04:02:40 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/18 10:50:13 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static void	set_exit_status(int status);
 
-// WARNING: Provisory function clean_process()
 void	exec_last_cmd(t_cmd *cmd, t_pipeline *pipeline, t_env_var **env_list)
 {
 	int	pid;
