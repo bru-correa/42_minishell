@@ -4,7 +4,7 @@
 
 # GLOBAL VARIABLES #
 minishell="./minishell"
-mini_prompt=$(echo -e "\nexit\n" | $minishell | head -n 1 | tr -d '\n')
+mini_prompt=$(echo -e "\nexit\n" | $minishell | sed -n '5p' | tr -d '\n')
 valgrind_flags="valgrind --leak-check=full --show-leak-kinds=all --quiet"
 valgrind_flags="$valgrind_flags --track-origins=yes"
 valgrind_flags="$valgrind_flags --suppressions=readline.supp "

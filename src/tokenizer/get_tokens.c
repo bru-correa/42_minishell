@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 16:27:45 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/01/02 11:14:23 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/18 09:33:31 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,14 @@ static int	skip_spaces(char *cmdline, int start)
 	int	i;
 
 	i = start;
-	while (cmdline[i] != '\0' && cmdline[i] == ' ')
+	while (cmdline[i] != '\0')
+	{
+		if (cmdline[i] != ' ' && cmdline[i] != '\t'
+			&& cmdline[i] != '\r' && cmdline[i] != '\n'
+			&& cmdline[i] != '\v')
+			break ;
 		i++;
+	}
 	return (i);
 }
 
