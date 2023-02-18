@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 09:26:22 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/01 21:40:55 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/18 16:12:24 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,11 @@ static int	check_newline_flag(char **args, int *newline)
 	int	start;
 
 	start = 1;
-	if (args[start] != NULL && ft_strncmp(args[start], "-n", 3) == 0)
+	*newline = TRUE;
+	while (args[start] != NULL && ft_strncmp(args[start], "-n", 3) == 0)
 	{
 		*newline = FALSE;
 		start++;
 	}
-	else
-		*newline = TRUE;
 	return (start);
 }
