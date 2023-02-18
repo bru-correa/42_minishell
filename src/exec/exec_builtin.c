@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 13:03:26 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/17 22:03:35 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/18 01:36:39 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,10 @@ void	exec_builtin(t_cmd *cmd, t_env_var **env_list, t_pipeline *pipeline)
 		status = env(env_list);
 	else if (ft_strncmp(cmd->args[0], "export", 7) == 0)
 		status = builtin_export(cmd, env_list);
+	else if (ft_strncmp(cmd->args[0], "unset", 6) == 0)
+		status = builtin_unset(cmd, env_list);
+	else if (ft_strncmp(cmd->args[0], "pwd", 4) == 0)
+		status = builtin_pwd();
 	exit_builtin(status, pipeline, env_list);
 }
 

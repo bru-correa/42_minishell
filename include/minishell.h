@@ -6,7 +6,7 @@
 /*   By: jramondo <jramondo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:33:19 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/18 00:36:47 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/18 01:36:27 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -509,6 +509,12 @@ int			builtin_export(t_cmd *cmd, t_env_var **env_list);
 
 // TODO: Document
 void		print_export(t_env_var **env_list);
+
+// TODO: Document
+int			builtin_unset(t_cmd *cmd, t_env_var **env_list);
+
+// TODO: Document
+int			builtin_pwd(void);
 
 /********** SIGNALS **********/
 
