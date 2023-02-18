@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 05:37:10 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/16 23:47:30 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/18 02:00:52 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ int	wait_for_child(int child_pid)
 	waitpid(child_pid, &status, 0);
 	if (WIFSIGNALED(status))
 	{
-		ft_printf("\n");
+		if (status == SIGINT || status == SIGQUIT)
+			ft_printf("\n");
 		return (status + 128);
 	}
 	if (WIFEXITED(status))
