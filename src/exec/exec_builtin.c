@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 13:03:26 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/17 05:44:14 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/17 22:03:35 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include "minishell.h"
 
 static int	is_cmd_valid(t_cmd *cmd);
+static void	exit_builtin(int status, t_pipeline *pipeline,
+				t_env_var **env_list);
 
 void	exec_builtin(t_cmd *cmd, t_env_var **env_list, t_pipeline *pipeline)
 {
@@ -30,13 +32,9 @@ void	exec_builtin(t_cmd *cmd, t_env_var **env_list, t_pipeline *pipeline)
 		status = builtin_cd(cmd, env_list);
 	else if (ft_strncmp(cmd->args[0], "env", 4) == 0)
 		status = env(env_list);
-	g_exit_status = status;
-	if (pipeline->cmd_count > 1)
-	{
-		clear_pipeline(pipeline);
-		clear_env_list(env_list);
-		exit(status);
-	}
+	else if (ft_strncmp(cmd->args[0], "export", 7) == 0)
+		status = builtin_export(cmd, env_list);
+	exit_builtin(status, pipeline, env_list);
 }
 
 static int	is_cmd_valid(t_cmd *cmd)
@@ -46,4 +44,16 @@ static int	is_cmd_valid(t_cmd *cmd)
 	else if (cmd->args[0] == NULL)
 		return (FALSE);
 	return (TRUE);
+}
+
+static void	exit_builtin(int status, t_pipeline *pipeline,
+				t_env_var **env_list)
+{
+	g_exit_status = status;
+	if (pipeline->cmd_count > 1)
+	{
+		clear_pipeline(pipeline);
+		clear_env_list(env_list);
+		exit(status);
+	}
 }

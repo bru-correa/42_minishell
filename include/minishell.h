@@ -6,7 +6,7 @@
 /*   By: jramondo <jramondo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 21:33:19 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/17 14:08:16 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/18 00:36:47 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -504,6 +504,12 @@ int			echo(t_cmd *cmd);
 // TODO: Document
 int			builtin_cd(t_cmd *cmd, t_env_var **env_list);
 
+// TODO: Document
+int			builtin_export(t_cmd *cmd, t_env_var **env_list);
+
+// TODO: Document
+void		print_export(t_env_var **env_list);
+
 /********** SIGNALS **********/
 
 /**
@@ -576,6 +582,12 @@ char		*prompt_input(t_env_var **env_list);
  * Create the input string to be used by readline
 **/
 char		*get_prompt_str(char *user, char *pwd);
+
+/**
+ * Check if `name` is a valid environment variable name
+**/
+int			check_var_name(char *name);
+
 /********** SIGNALS **********/
 
 // TODO: Document all the signal functions
