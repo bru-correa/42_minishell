@@ -23,11 +23,41 @@ OBJ_DIR				= obj
 LIB_DIR				= lib
 LIBFT_DIR			= lib/libft
 
-SRC_FILES			= $(shell find src/ -type f -name '*.c')
+FILENAMES			= builtins/env builtins/export builtins/echo
+FILENAMES			+= builtins/exit builtins/cd builtins/pwd
+FILENAMES			+= builtins/print_export builtins/unset
+FILENAMES			+= parser/parse_input parser/set_tokens_types
+FILENAMES			+= parser/create_tokens prompt/get_prompt_str
+FILENAMES			+= prompt/goodbye prompt/prompt_input
+FILENAMES			+= prompt/welcome prompt/repl
+FILENAMES			+= pipeline/create_cmds pipeline/clear_pipeline
+FILENAMES			+= pipeline/create_pipeline pipeline/extract_next_cmd
+FILENAMES			+= tokenizer/get_delimiter tokenizer/get_tokens
+FILENAMES			+= env_var/get_env_array env_var/add_var_to_env
+FILENAMES			+= env_var/create_env_with_envp env_var/create_env
+FILENAMES			+= env_var/delete_env env_var/search_env_var
+FILENAMES			+= utils/toggle_quote utils/clear_all utils/clear_fds
+FILENAMES			+= utils/check_var_name utils/exit_error utils/print_errno
+FILENAMES			+= exec/exec_single_cmd exec/exec_builtin exec/execute
+FILENAMES			+= exec/exec_last_cmd exec/is_builtin exec/get_cmd_path
+FILENAMES			+= exec/exec_pipeline exec/default_fd exec/wait
+FILENAMES			+= exec/exec_cmd lexical_analyzer/check_special
+FILENAMES			+= lexical_analyzer/print_syntax_error
+FILENAMES			+= lexical_analyzer/check_quotes
+FILENAMES			+= lexical_analyzer/check_syntax_errors
+FILENAMES			+= heredoc/exit_heredoc heredoc/print_hdoc_warning
+FILENAMES			+= heredoc/handle_heredoc expansor/remove_quotes_utils
+FILENAMES			+= expansor/expand_variables expansor/expand_variables_utils
+FILENAMES			+= expansor/expand_tokens expansor/remove_quotes
+FILENAMES			+= expansor/clear_empty_tokens slist/slist
+FILENAMES			+= slist/slist_to_str_array slist/join_list
+FILENAMES			+= slist/slist_utils signal/sig_setup signal/sig_handlers
+FILENAMES			+= redirects/redirects redirects/set_pipe
+
+# SRC_FILES			= $(shell find src/ -type f -name '*.c')
+SRC_FILES			= $(foreach filename,$(FILENAMES),$(SRC_DIR)/$(filename).c)
 OBJ_FILES			= $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC_FILES))
-
 MAIN				= minishell.c
-
 VALGRIND			= valgrind --leak-check=full --show-leak-kinds=all
 VALGRIND			+= --track-origins=yes --quiet --tool=memcheck
 VALGRIND			+= --suppressions=readline.supp --track-fds=yes
