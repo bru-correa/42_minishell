@@ -6,7 +6,7 @@
 /*   By: bcorrea- <bruuh.cor@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 16:27:59 by bcorrea-          #+#    #+#             */
-/*   Updated: 2023/02/01 20:53:16 by bcorrea-         ###   ########.fr       */
+/*   Updated: 2023/02/26 18:29:08 by bcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,14 @@
 static int	check_redirection(t_slist *token, char *operator);
 static int	check_pipe(t_slist *token);
 static int	check_next_token(t_slist *token);
+static int	check_first_token(t_slist *token);
 
 int	check_syntax_errors(t_slist **tokens)
 {
 	t_slist	*current_token;
 
+	if (check_first_token(*tokens) == FAILURE)
+		return (FAILURE);
 	current_token = *tokens;
 	while (current_token != NULL)
 	{
@@ -83,5 +86,15 @@ static int	check_next_token(t_slist *token)
 		return (FAILURE);
 	else if (ft_strncmp(token->next->data, "|", 1) == 0)
 		return (FAILURE);
+	return (SUCCESS);
+}
+
+static int	check_first_token(t_slist *token)
+{
+	if (ft_strncmp(token->data, "|", 2) == 0)
+	{
+		print_syntax_error("|");
+		return (FAILURE);
+	}
 	return (SUCCESS);
 }
